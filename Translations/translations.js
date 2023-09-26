@@ -33,6 +33,7 @@ const translations = {
 		'scavenger.createHunt': 'Create Hunt',
 		'scavenger.failedToRegister':
 			'Failed to Register New Hunt. Please try again.',
+		'scavenger.huntCreated': 'Hunt created successfully!',
 		'huntDetailScreen.editHunt': 'Edit Hunt',
 		'huntDetailScreen.huntName': 'Hunt Name',
 		'huntDetailScreen.editHuntButton': 'Edit Hunt',

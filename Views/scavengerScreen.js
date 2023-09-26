@@ -49,6 +49,13 @@ const ScavengerScreen = ({ navigation }) => {
 					if (data.huntid) {
 						fetchData();
 						setNewHuntName('');
+						setSnackbarMessage(
+							intl.formatMessage({
+								id: 'scavenger.huntCreated',
+								defaultMessage: 'Hunter Created Successfully!',
+							})
+						);
+						setSnackbarVisible(true);
 					}
 				} else if (data.status === 'error') {
 					setSnackbarMessage(data.error[0]);
@@ -112,12 +119,6 @@ const ScavengerScreen = ({ navigation }) => {
 			/>
 			<ScrollView>
 				<View style={styles.container}>
-					<Snackbar
-						visible={snackbarVisible}
-						onDismiss={() => setSnackbarVisible(false)}
-						duration={Snackbar.DURATION_SHORT}>
-						{snackbarMessage}
-					</Snackbar>
 					<Card style={styles.card}>
 						{/* Translated title using FormattedMessage component */}
 						<Card.Title
@@ -173,29 +174,12 @@ const ScavengerScreen = ({ navigation }) => {
 					})}
 				</Card>
 			</ScrollView>
-			<SafeAreaView style={{ backgroundColor: 'white', borderRadius: 20 }}>
-				{/* <SegmentedButtons
-					value={value}
-					onValueChange={setValue}
-					buttons={[
-						{
-							value: 'walk',
-							label: 'Not Implemented',
-							onPress: () => navigation.navigate('Authentication'),
-						},
-						{
-							value: 'ScavengerScreen',
-							label: 'Hunt',
-							onPress: () => navigation.navigate('ScavengerScreen'),
-						},
-						{
-							value: 'editHunt',
-							label: 'Edit Hunt',
-							onPress: () => navigation.navigate('Hunt Details'),
-						},
-					]}
-				/> */}
-			</SafeAreaView>
+			<Snackbar
+				visible={snackbarVisible}
+				onDismiss={() => setSnackbarVisible(false)}
+				duration={Snackbar.DURATION_SHORT}>
+				{snackbarMessage}
+			</Snackbar>
 		</KeyboardAvoidingView>
 	);
 };
