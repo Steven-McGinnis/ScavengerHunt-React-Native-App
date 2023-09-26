@@ -1,9 +1,9 @@
 const translations = {
 	en: {
 		'initializeScreen.welcome': 'Welcome to the App!',
-		'Logout': 'Logout', // Translation for 'Logout' button
-		'ScavengerScreen': 'Scavenger Screen', // Translation for the title of ScavengerScreen
-		'CreateAccount': 'Create Account', // Translation for the subtitle of ScavengerScreen
+		'Logout': 'Logout',
+		'ScavengerScreen': 'New Scavenger Hunt Screen',
+		'CreateAccount': 'Create Account',
 		'screen.splash': 'Splash',
 		'screen.authentication': 'Authentication',
 		'screen.register': 'Register',
@@ -19,29 +19,31 @@ const translations = {
 			'Registration failed. Please try again',
 		'authentication.loginError': 'Login failed. Please try again',
 		'register.title': 'Register',
+		'register.registerButton': 'Register',
 		'register.subtitle': 'Create Account',
 		'register.enterUsernameAndPassword': 'Please enter a username and password',
 		'register.passwordMismatch': 'Passwords do not match',
 		'register.failedRegistration': 'Failed to register. Please try again.',
-		'navigation': {
-			authentication: 'Authentication',
-			register: 'Register',
-			scavenger: 'Scavenger Screen',
-		},
-	},
-	es: {
-		'initializeScreen.welcome': '¡Bienvenido a la aplicación!',
-		'Logout': 'Cerrar sesión', // Spanish Translation for 'Logout' button
-		'ScavengerScreen': 'Pantalla de Búsqueda', // Spanish Translation for the title of ScavengerScreen
-		'CreateAccount': 'Crear Cuenta', // Spanish Translation for the subtitle of ScavengerScreen,
-		'authentication.title': 'Autenticación',
-		'authentication.subtitle': 'Iniciar sesión',
-		'authentication.usernameLabel': 'Nombre de usuario',
-		'authentication.passwordLabel': 'Contraseña',
-		'authentication.loginButton': 'Iniciar sesión',
-		'authentication.registerButton': 'Registrar',
-		'authentication.emptyFieldsError':
-			'Por favor, introduzca un nombre de usuario y una contraseña',
+		'register.reenterPasswordLabel': 'Re-enter Password',
+		'register.passwordLabel': 'Password',
+		'register.usernameLabel': 'Username',
+		'networkError': 'Network or other error',
+		'scavenger.newHuntName': 'Hunt Name',
+		'scavenger.newHunt': 'Create A New Hunt',
+		'scavenger.createHunt': 'Create Hunt',
+		'scavenger.failedToRegister':
+			'Failed to Register New Hunt. Please try again.',
+		'huntDetailScreen.editHunt': 'Edit Hunt',
+		'huntDetailScreen.huntName': 'Hunt Name',
+		'huntDetailScreen.editHuntButton': 'Edit Hunt',
+		'huntDetailScreen.deleteHuntButton': 'Delete Hunt',
+		'huntDetailScreen.huntID': 'Hunt ID:',
+		'huntDetailScreen.active': 'Active:',
+		'huntDetailScreen.newHuntNameError': 'Please Enter a New Hunt Name',
+		'huntDetailScreen.huntUpdated': 'Hunt updated successfully!',
+		'huntDetailScreen.huntDeleted': 'Hunt deleted successfully!',
+		'huntDetailScreen.deleteHuntConfirm':
+			'Are you sure you want to delete this hunt?',
 	},
 };
 

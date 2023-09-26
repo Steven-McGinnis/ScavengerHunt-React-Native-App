@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { styles } from '../Styles/styles';
 import { useDispatch } from 'react-redux';
 import { addAuthToken } from '../Model/Slices/authSlice';
+import { clearHunts } from '../Model/Slices/HuntSlice';
 
 const InitializeScreen = ({ navigation }) => {
 	const authTokenValue = useSelector((state) => state.authSlice.authToken);

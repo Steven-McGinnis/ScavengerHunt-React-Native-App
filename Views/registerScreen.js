@@ -10,7 +10,7 @@ import { useIntl, FormattedMessage } from 'react-intl'; // Added
 
 const Register = ({ navigation }) => {
 	const dispatch = useDispatch();
-	const intl = useIntl(); // Initialized
+	const intl = useIntl();
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');

@@ -12,6 +12,7 @@ import InitializeScreen from './Views/initializeScreen';
 import Authentication from './Views/authenticationScreen';
 import Register from './Views/registerScreen';
 import ScavengerScreen from './Views/scavengerScreen';
+import HuntDetailScreen from './Views/huntDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const persistor = persistStore(store);
@@ -58,6 +59,10 @@ export default function App() {
 							<Stack.Screen
 								name='ScavengerScreen'
 								component={ScavengerScreen}
+							/>
+							<Stack.Screen
+								name='Hunt Details'
+								component={HuntDetailScreen}
 							/>
 							{/* My Other screens */}
 						</Stack.Navigator>

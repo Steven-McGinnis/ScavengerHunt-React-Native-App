@@ -17,7 +17,10 @@ const LogoutButton = ({ dispatch, intl }) => {
 						mode='contained'
 						onPress={() => {
 							dispatch(addAuthToken(null));
-							navigation.replace('Authentication');
+							navigation.reset({
+								index: 0,
+								routes: [{ name: 'Authentication' }],
+							});
 						}}
 						buttonColor='green'>
 						{intl.formatMessage({ id: 'Logout' })}

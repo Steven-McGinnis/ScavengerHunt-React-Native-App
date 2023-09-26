@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import huntSlice from './Slices/huntSlice';
+import huntSlice from './Slices/HuntSlice';
 import authSlice from './Slices/authSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 import {
@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import logger from 'redux-logger';
 
 const reducers = combineReducers({
-	huntItems: huntSlice,
+	huntSlice: huntSlice,
 	authSlice: authSlice,
 });
 
@@ -34,5 +34,5 @@ export const store = configureStore({
 			serializableCheck: {
 				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 			},
-		}).concat(logger),
+		}),
 });
