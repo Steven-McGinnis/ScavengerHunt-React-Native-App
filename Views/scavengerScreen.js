@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { List } from 'react-native-paper';
 import { clearHunts } from '../Model/Slices/HuntSlice';
 import { useFocusEffect } from '@react-navigation/native';
+import { ProgressBar } from 'react-native-paper';
 
 const ScavengerScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const ScavengerScreen = ({ navigation }) => {
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 	const intl = useIntl();
+	const [loading, setLoading] = useState(false);
+
 	const [newHuntName, setNewHuntName] = useState('');
 
 	const createHunt = () => {
@@ -75,6 +78,7 @@ const ScavengerScreen = ({ navigation }) => {
 	};
 
 	const fetchData = () => {
+		setLoading(true);
 		let formData = new FormData();
 		formData.append('token', authTokenValue);
 
@@ -99,6 +103,9 @@ const ScavengerScreen = ({ navigation }) => {
 				console.error('Network or other error:', error);
 				setSnackbarMessage('Failed to Register New Hunt. Please try again.');
 				setSnackbarVisible(true);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
@@ -117,6 +124,13 @@ const ScavengerScreen = ({ navigation }) => {
 				dispatch={dispatch}
 				intl={intl}
 			/>
+			{loading && (
+				<ProgressBar
+					indeterminate={true}
+					color='#00FF00'
+					visible={loading}
+				/>
+			)}
 			<ScrollView>
 				<View style={styles.container}>
 					<Card style={styles.card}>

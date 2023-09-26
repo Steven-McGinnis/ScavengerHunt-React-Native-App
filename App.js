@@ -13,6 +13,7 @@ import Authentication from './Views/authenticationScreen';
 import Register from './Views/registerScreen';
 import ScavengerScreen from './Views/scavengerScreen';
 import HuntDetailScreen from './Views/huntDetailScreen';
+import { customTheme } from './Styles/paperTheme';
 
 const Stack = createNativeStackNavigator();
 const persistor = persistStore(store);
@@ -22,7 +23,9 @@ export default function App() {
 	const messages = translations[locale] || translations['en'];
 
 	return (
-		<Provider store={store}>
+		<Provider
+			store={store}
+			theme={customTheme}>
 			<PersistGate
 				loading={<ActivityIndicator />}
 				persistor={persistor}>
