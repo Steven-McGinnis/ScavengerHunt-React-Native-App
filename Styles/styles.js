@@ -4,10 +4,15 @@ export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#444654',
-		justifyContent: 'center',
+		justifyContent: 'space-around',
 		alignItems: 'stretch',
 		paddingTop: 10,
 		paddingBottom: 10,
+	},
+	navigation: {
+		position: 'absolute', // Added this line
+		bottom: 0, // Added this line
+		width: '100%',
 	},
 	splash: {
 		flex: 1,
@@ -23,7 +28,7 @@ export const styles = StyleSheet.create({
 		height: '100%',
 	},
 	spacer: {
-		height: 80,
+		height: 30,
 	},
 	spacer2: {
 		height: 20,

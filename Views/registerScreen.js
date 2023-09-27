@@ -6,7 +6,8 @@ import { Avatar, Button, Card, Text, TextInput } from 'react-native-paper';
 import { Snackbar } from 'react-native-paper';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { addAuthToken } from '../Model/Slices/authSlice';
-import { useIntl, FormattedMessage } from 'react-intl'; // Added
+import { useIntl, FormattedMessage } from 'react-intl';
+import apiCall from '../Helper/apiCall';
 
 const Register = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Register = ({ navigation }) => {
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 
-	const handleRegister = () => {
+	const handleRegister = async () => {
 		if (!username || !password || !password2) {
 			setSnackbarMessage(
 				intl.formatMessage({
@@ -41,32 +42,22 @@ const Register = ({ navigation }) => {
 			return;
 		}
 
-		let formData = new FormData();
-		formData.append('userid', username);
-		formData.append('password', password);
+		const response = await apiCall({
+			endpointSuffix: 'register.php',
+			data: {
+				userid: username,
+				password: password,
+			},
+			onSuccessMessageId: null,
+			onFailureMessageId: 'Failed to register. Please try again.',
+			intl,
+		});
 
-		fetch('https://cpsc345sh.jayshaffstall.com/register.php', {
-			method: 'POST',
-			body: formData,
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.status === 'okay') {
-					console.log('Registered successfully!', data);
-					dispatch(addAuthToken(data.token));
-					navigation.navigate('ScavengerScreen');
-				} else if (data.status === 'error') {
-					console.error('Registration error:', data.error);
-
-					setSnackbarMessage(data.error[0]);
-					setSnackbarVisible(true);
-				}
-			})
-			.catch((error) => {
-				console.error('Network or other error:', error);
-				setSnackbarMessage('Failed to register. Please try again.');
-				setSnackbarVisible(true);
-			});
+		if (response.success) {
+			console.log('Registered successfully!', response.data);
+			dispatch(addAuthToken(response.data.token));
+			navigation.navigate('ScavengerScreen');
+		}
 	};
 
 	return (

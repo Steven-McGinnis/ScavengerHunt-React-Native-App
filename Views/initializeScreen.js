@@ -1,44 +1,37 @@
 import React, { useEffect } from 'react';
 import { View, Image } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { styles } from '../Styles/styles';
-import { useDispatch } from 'react-redux';
 import { addAuthToken } from '../Model/Slices/authSlice';
-import { clearHunts } from '../Model/Slices/HuntSlice';
+import apiCall from '../Helper/apiCall';
+import { useIntl } from 'react-intl';
 
 const InitializeScreen = ({ navigation }) => {
 	const authTokenValue = useSelector((state) => state.authSlice.authToken);
 	const dispatch = useDispatch();
+	const intl = useIntl();
 
 	useEffect(() => {
-		setTimeout(() => {
+		setTimeout(async () => {
 			if (!authTokenValue) {
 				navigation.replace('Authentication');
 			} else {
-				// Validate Token
-				let formData = new FormData();
-				formData.append('token', authTokenValue);
+				const response = await apiCall({
+					endpointSuffix: 'verifyToken.php',
+					data: { token: authTokenValue },
+					onFailureMessageId: 'networkError',
+					intl,
+				});
 
-				fetch('https://cpsc345sh.jayshaffstall.com/verifyToken.php', {
-					method: 'POST',
-					body: formData,
-				})
-					.then((response) => response.json())
-					.then((data) => {
-						if (data.status === 'okay') {
-							console.log('Token is valid!', data);
-							navigation.replace('ScavengerScreen');
-						} else if (data.status === 'error') {
-							dispatch(addAuthToken(null));
-						}
-					})
-					.catch((error) => {
-						dispatch(addAuthToken(null));
-						console.error('Network or other error:', error);
-					});
+				if (response.success) {
+					navigation.replace('ScavengerScreen');
+				} else {
+					dispatch(addAuthToken(null));
+					navigation.replace('Authentication');
+				}
 			}
 		}, 3000);
-	}, [authTokenValue, navigation]);
+	}, [authTokenValue, navigation, dispatch, intl]);
 
 	return (
 		<View style={styles.splash}>

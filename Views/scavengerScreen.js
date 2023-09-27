@@ -15,6 +15,7 @@ import { List } from 'react-native-paper';
 import { clearHunts } from '../Model/Slices/HuntSlice';
 import { useFocusEffect } from '@react-navigation/native';
 import { ProgressBar } from 'react-native-paper';
+import apiCall from '../Helper/apiCall';
 
 const ScavengerScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const ScavengerScreen = ({ navigation }) => {
 
 	const [newHuntName, setNewHuntName] = useState('');
 
-	const createHunt = () => {
+	const createHunt = async () => {
 		if (!newHuntName) {
 			setSnackbarMessage(
 				intl.formatMessage({
@@ -38,75 +39,55 @@ const ScavengerScreen = ({ navigation }) => {
 			setSnackbarVisible(true);
 			return;
 		}
-		let formData = new FormData();
-		formData.append('name', newHuntName);
-		formData.append('token', authTokenValue);
 
-		fetch('https://cpsc345sh.jayshaffstall.com/addHunt.php', {
-			method: 'POST',
-			body: formData,
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.status === 'okay') {
-					if (data.huntid) {
-						fetchData();
-						setNewHuntName('');
-						setSnackbarMessage(
-							intl.formatMessage({
-								id: 'scavenger.huntCreated',
-								defaultMessage: 'Hunter Created Successfully!',
-							})
-						);
-						setSnackbarVisible(true);
-					}
-				} else if (data.status === 'error') {
-					setSnackbarMessage(data.error[0]);
-					setSnackbarVisible(true);
-				}
-			})
-			.catch((error) => {
-				console.error('Network or other error:', error);
+		const response = await apiCall({
+			endpointSuffix: 'addHunt.php',
+			data: {
+				name: newHuntName,
+				token: authTokenValue,
+			},
+			onSuccessMessageId: null,
+			onFailureMessageId: 'scavenger.failedToRegister',
+			intl,
+		});
+
+		if (response.success) {
+			if (response.data.huntid) {
+				fetchData();
+				setNewHuntName('');
 				setSnackbarMessage(
 					intl.formatMessage({
-						id: 'scavenger.failedToRegister',
-						defaultMessage: 'Failed to Register New Hunt. Please try again.',
+						id: 'scavenger.huntCreated',
+						defaultMessage: 'Hunter Created Successfully!',
 					})
 				);
 				setSnackbarVisible(true);
-			});
+			}
+		}
 	};
 
-	const fetchData = () => {
+	const fetchData = async () => {
 		setLoading(true);
-		let formData = new FormData();
-		formData.append('token', authTokenValue);
 
-		fetch('https://cpsc345sh.jayshaffstall.com/getMyHunts.php', {
-			method: 'POST',
-			body: formData,
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.status === 'okay') {
-					dispatch(clearHunts());
-					let hunts = data.hunts;
-					hunts.forEach((element) => {
-						dispatch(addHunt(element));
-					});
-				} else if (data.status === 'error') {
-					setSnackbarMessage(data.error[0]);
-					setSnackbarVisible(true);
-				}
-			})
-			.catch((error) => {
-				console.error('Network or other error:', error);
-				setSnackbarMessage('Failed to Register New Hunt. Please try again.');
-				setSnackbarVisible(true);
-			})
-			.finally(() => {
-				setLoading(false);
+		const response = await apiCall({
+			endpointSuffix: 'getMyHunts.php',
+			data: {
+				token: authTokenValue,
+			},
+			onSuccessMessageId: null,
+			onFailureMessageId: 'scavenger.failedToRegister',
+			intl,
+		});
+
+		if (response.success) {
+			dispatch(clearHunts());
+			let hunts = response.data.hunts;
+			hunts.forEach((element) => {
+				dispatch(addHunt(element));
 			});
+		}
+
+		setLoading(false);
 	};
 
 	useFocusEffect(
