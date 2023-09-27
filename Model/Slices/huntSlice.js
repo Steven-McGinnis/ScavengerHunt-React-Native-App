@@ -14,11 +14,12 @@ const huntSlice = createSlice({
 			state.huntItems = [];
 		},
 		addHuntLocations: (state, action) => {
-			state.huntItems.forEach((hunt) => {
-				if (hunt.huntid === action.payload.huntid) {
-					hunt.locations = action.payload.locations;
-				}
-			});
+			const huntToUpdate = state.huntItems.find(
+				(hunt) => hunt.huntid === action.payload.huntid
+			);
+			if (huntToUpdate) {
+				huntToUpdate.locations = action.payload.locations;
+			}
 		},
 		clearHuntLocations: (state, action) => {
 			state.huntItems.forEach((hunt) => {

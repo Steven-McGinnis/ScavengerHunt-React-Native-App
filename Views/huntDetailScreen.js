@@ -8,19 +8,32 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import LogoutButton from '../Components/logoutButton';
 import apiCall from '../Helper/apiCall';
 import { useSelector } from 'react-redux';
+import { ProgressBar } from 'react-native-paper';
+import {
+	clearHuntLocations,
+	addHuntLocations,
+} from '../Model/Slices/HuntSlice';
+import { useFocusEffect } from '@react-navigation/native';
+import { List } from 'react-native-paper';
 
 const HuntDetailScreen = ({ navigation, route }) => {
-	const { active, huntid, name, locations } = route.params;
+	const { active, huntid, name } = route.params;
+	const hunt = useSelector((state) =>
+		state.huntSlice.huntItems.find((h) => h.huntid === huntid)
+	);
+
 	const authTokenValue = useSelector((state) => state.authSlice.authToken);
 
 	// State Management for Hunt Name
 	const [currentName, setCurrentName] = useState('');
 	const [newHuntName, setNewHuntName] = useState('');
 	const [newHuntLocations, setNewHuntLocations] = useState('');
-
+	const [locations, setLocations] = useState([]);
 	// State Management for Snackbar
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
+
+	const [loading, setLoading] = useState(false);
 
 	// Edit Hunt State
 	const [openEditHunt, setOpenEditHunt] = useState(false);
@@ -123,14 +136,16 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		});
 
 		if (response.success) {
-			setCurrentName(newHuntName);
+			fetchLocations();
 			setOpenEditHunt(false);
 		}
-		if (response.error) {
-			setSnackbarMessage(response.error);
-			setSnackbarVisible(true);
-		}
 	};
+
+	useEffect(() => {
+		if (hunt) {
+			setLocations(hunt.locations);
+		}
+	}, [hunt]);
 
 	const deleteHunt = async () => {
 		const response = await apiCall({
@@ -148,6 +163,37 @@ const HuntDetailScreen = ({ navigation, route }) => {
 			navigation.navigate('ScavengerScreen');
 		}
 	};
+
+	const fetchLocations = async () => {
+		setLoading(true);
+
+		const response = await apiCall({
+			endpointSuffix: 'getHuntLocations.php',
+			data: {
+				huntid: huntid,
+				token: authTokenValue,
+			},
+			onSuccessMessageId: null,
+			onFailureMessageId: 'networkError',
+		});
+
+		if (response.success) {
+			// Clear locations for the specific hunt
+			dispatch(clearHuntLocations({ huntid: huntid }));
+
+			const locations = response.data.locations;
+			// Add locations to the specific hunt
+			dispatch(addHuntLocations({ huntid: huntid, locations: locations }));
+		}
+		setLoading(false);
+	};
+
+	useFocusEffect(
+		React.useCallback(() => {
+			fetchLocations();
+			return () => {};
+		}, [])
+	);
 
 	return (
 		<KeyboardAvoidingView
@@ -168,8 +214,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 					<Card style={styles.card}>
 						<Card.Content>
 							<Text>
-								<FormattedMessage id='huntDetailScreen.huntName' />{' '}
-								{currentName}
+								<FormattedMessage id='huntDetailScreen.huntName' /> {currentName}
 							</Text>
 							<Text>
 								<FormattedMessage id='huntDetailScreen.huntID' /> {huntid}
@@ -234,7 +279,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 								<View style={styles.spacer2} />
 								<Button
 									mode='contained'
-									// skip onpress
+									onPress={addLocationToTheHunt}
 									style={styles.loginButton}
 									buttonColor='green'>
 									{intl.formatMessage({
@@ -247,33 +292,38 @@ const HuntDetailScreen = ({ navigation, route }) => {
 					</View>
 				)}
 
-				{locations &&
-					Array.isArray(locations) &&
-					locations.length > 0 &&
-					locations.map((location, index) => {
-						return (
-							<Card>
-								<Card.Title
-									title='Locations in this Hunt'
-									subtitle='Select a Location to Edit It'
-								/>
-								<List.Item
-									key={index}
-									title={location.name}
-									description={`Active: ${location.active.toString()}`}
-									left={(props) => (
-										<List.Icon
-											{...props}
-											icon='map-marker-radius'
-										/>
-									)}
-									onPress={() => {
-										navigation.navigate('location Details', location);
-									}}
-								/>
-							</Card>
-						);
-					})}
+				{loading && (
+					<ProgressBar
+						indeterminate={true}
+						color='#00FF00'
+						visible={loading}
+						style={{ marginBottom: 10 }}
+					/>
+				)}
+
+				{locations && Array.isArray(locations) && locations.length > 0 && (
+					<Card>
+						<Card.Title
+							title='Locations in this Hunt'
+							subtitle='Select a Location to Edit It'
+						/>
+						{locations.map((location, index) => (
+							<List.Item
+								key={index}
+								title={location.name}
+								left={(props) => (
+									<List.Icon
+										{...props}
+										icon='map-marker-radius'
+									/>
+								)}
+								onPress={() => {
+									navigation.navigate('location Details', location);
+								}}
+							/>
+						))}
+					</Card>
+				)}
 			</ScrollView>
 			<View style={styles.navigation}>
 				<Card style={styles.card}>
