@@ -1,7 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+// Third-party libraries
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+
+// Redux slices
 import huntSlice from './Slices/HuntSlice';
 import authSlice from './Slices/authSlice';
-import { combineReducers } from '@reduxjs/toolkit';
+
 import {
 	persistReducer,
 	FLUSH,
@@ -34,5 +37,6 @@ export const store = configureStore({
 			serializableCheck: {
 				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 			},
-		}).concat(logger),
+		}),
+	// .concat(logger),
 });

@@ -1,20 +1,37 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Alert } from 'react-native';
-import { styles } from '../Styles/styles';
-import { useDispatch } from 'react-redux';
-import { Button, Card, Text, TextInput, Snackbar } from 'react-native-paper';
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+// Core
+import React, { useState, useEffect } from 'react';
+import {
+	View,
+	Alert,
+	KeyboardAvoidingView,
+	Platform,
+	ScrollView,
+} from 'react-native';
+
+// Third-party libraries
+import { useDispatch, useSelector } from 'react-redux';
 import { useIntl, FormattedMessage } from 'react-intl';
+import { useFocusEffect } from '@react-navigation/native';
+import {
+	Button,
+	Card,
+	Text,
+	TextInput,
+	Snackbar,
+	ProgressBar,
+	List,
+} from 'react-native-paper';
+
+// Custom components and utilities
+import { styles } from '../Styles/styles';
 import LogoutButton from '../Components/logoutButton';
 import apiCall from '../Helper/apiCall';
-import { useSelector } from 'react-redux';
-import { ProgressBar } from 'react-native-paper';
+
+// Redux slices
 import {
 	clearHuntLocations,
 	addHuntLocations,
 } from '../Model/Slices/HuntSlice';
-import { useFocusEffect } from '@react-navigation/native';
-import { List } from 'react-native-paper';
 
 const HuntDetailScreen = ({ navigation, route }) => {
 	const { active, huntid, name } = route.params;
@@ -46,6 +63,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		setCurrentName(name);
 	}, [name]);
 
+	// Submit Edit Hunt
 	const submitEditHunt = async () => {
 		if (!newHuntName || newHuntName === '') {
 			setSnackbarMessage(
@@ -76,6 +94,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
+	// Confirm Delete Hunt
 	const showConfirmDialog = () => {
 		if (Platform.OS === 'web') {
 			const isConfirmed = window.confirm(
@@ -111,6 +130,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
+	// Add on Location to the Hunt
 	const addLocationToTheHunt = async () => {
 		if (!newHuntLocations || newHuntLocations === '') {
 			setSnackbarMessage(
@@ -164,6 +184,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
+	// Fetch Locations for the Hunt
 	const fetchLocations = async () => {
 		setLoading(true);
 
@@ -178,11 +199,9 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		});
 
 		if (response.success) {
-			// Clear locations for the specific hunt
 			dispatch(clearHuntLocations({ huntid: huntid }));
 
 			const locations = response.data.locations;
-			// Add locations to the specific hunt
 			dispatch(addHuntLocations({ huntid: huntid, locations: locations }));
 		}
 		setLoading(false);
@@ -209,7 +228,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 				duration={Snackbar.DURATION_SHORT}>
 				{snackbarMessage}
 			</Snackbar>
-			<ScrollView>
+			<ScrollView style={{ marginBottom: 70 }}>
 				<View style={styles.container}>
 					<Card style={styles.card}>
 						<Card.Content>
@@ -309,7 +328,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 						/>
 						{locations.map((location, index) => (
 							<List.Item
-								key={index}
+								key={location.locationid}
 								title={location.name}
 								left={(props) => (
 									<List.Icon

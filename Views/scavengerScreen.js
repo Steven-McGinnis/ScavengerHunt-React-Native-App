@@ -1,21 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { View, Alert } from 'react-native';
-import { styles } from '../Styles/styles';
-import { useDispatch } from 'react-redux';
-import { Button, Card, Text, TextInput, Snackbar } from 'react-native-paper';
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { addAuthToken } from '../Model/Slices/authSlice';
+// Core
+import React, { useState } from 'react';
+import { View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+
+// Third-party libraries
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	Button,
+	Card,
+	Text,
+	TextInput,
+	Snackbar,
+	List,
+	ProgressBar,
+} from 'react-native-paper';
 import { useIntl, FormattedMessage } from 'react-intl';
-import LogoutButton from '../Components/logoutButton';
-import { SafeAreaView } from 'react-native';
-import { SegmentedButtons } from 'react-native-paper';
-import { addHunt } from '../Model/Slices/HuntSlice';
-import { useSelector } from 'react-redux';
-import { List } from 'react-native-paper';
-import { clearHunts } from '../Model/Slices/HuntSlice';
 import { useFocusEffect } from '@react-navigation/native';
-import { ProgressBar } from 'react-native-paper';
+
+// Custom components and utilities
+import { styles } from '../Styles/styles';
+import LogoutButton from '../Components/logoutButton';
 import apiCall from '../Helper/apiCall';
+
+// Redux slices
+import { addHunt, clearHunts } from '../Model/Slices/HuntSlice';
 
 const ScavengerScreen = ({ navigation }) => {
 	const dispatch = useDispatch();

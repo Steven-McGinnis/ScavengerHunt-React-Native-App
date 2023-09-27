@@ -1,4 +1,4 @@
-const BASE_API_URL = 'https://cpsc345sh.jayshaffstall.com/';
+import { BASE_API_URL } from '@env';
 
 const apiCall = async ({
 	endpointSuffix,

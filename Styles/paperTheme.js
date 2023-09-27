@@ -1,4 +1,3 @@
-// paperTheme.js
 import { DefaultTheme } from 'react-native-paper';
 
 export const customTheme = {

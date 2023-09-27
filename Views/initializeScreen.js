@@ -1,10 +1,17 @@
+// Core
 import React, { useEffect } from 'react';
 import { View, Image } from 'react-native';
+
+// Third-party libraries
 import { useSelector, useDispatch } from 'react-redux';
-import { styles } from '../Styles/styles';
-import { addAuthToken } from '../Model/Slices/authSlice';
-import apiCall from '../Helper/apiCall';
 import { useIntl } from 'react-intl';
+
+// Custom components and utilities
+import { styles } from '../Styles/styles';
+import apiCall from '../Helper/apiCall';
+
+// Redux slices
+import { addAuthToken } from '../Model/Slices/authSlice';
 
 const InitializeScreen = ({ navigation }) => {
 	const authTokenValue = useSelector((state) => state.authSlice.authToken);

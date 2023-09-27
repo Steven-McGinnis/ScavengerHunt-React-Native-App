@@ -1,12 +1,18 @@
+// Core
 import React, { useState } from 'react';
-import { View, Platform, KeyboardAvoidingView, ScrollView } from 'react-native';
-import { styles } from '../Styles/styles';
+import { View, ScrollView } from 'react-native';
+
+// Third-party libraries
 import { useDispatch } from 'react-redux';
-import { addAuthToken } from '../Model/Slices/authSlice';
-import { Button, Card, TextInput } from 'react-native-paper';
-import { Snackbar } from 'react-native-paper';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { Button, Card, TextInput, Snackbar } from 'react-native-paper';
+import { useIntl } from 'react-intl';
+
+// Custom components and utilities
+import { styles } from '../Styles/styles';
 import apiCall from '../Helper/apiCall';
+
+// Redux slices
+import { addAuthToken } from '../Model/Slices/authSlice';
 
 const Authentication = ({ navigation }) => {
 	const dispatch = useDispatch();
