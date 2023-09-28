@@ -180,7 +180,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		});
 
 		if (response.success) {
-			navigation.navigate('ScavengerScreen');
+			navigation.replace('ScavengerScreen');
 		}
 	};
 
@@ -246,6 +246,8 @@ const HuntDetailScreen = ({ navigation, route }) => {
 								<View>
 									<View style={styles.spacer2} />
 									<TextInput
+										activeOutlineColor='green'
+										mode='outlined'
 										label={intl.formatMessage({
 											id: 'huntDetailScreen.huntName',
 											defaultMessage: 'Hunt Name',
@@ -287,6 +289,8 @@ const HuntDetailScreen = ({ navigation, route }) => {
 							<Card.Content>
 								{/* Add Location to Hunt */}
 								<TextInput
+									activeOutlineColor='green'
+									mode='outlined'
 									label={intl.formatMessage({
 										id: 'huntDetailScreen.addLocation',
 										defaultMessage: 'Add Location to Hunt',
@@ -337,7 +341,11 @@ const HuntDetailScreen = ({ navigation, route }) => {
 									/>
 								)}
 								onPress={() => {
-									navigation.navigate('location Details', location);
+									navigation.navigate('Location Details', {
+										location,
+										currentName,
+										huntid,
+									});
 								}}
 							/>
 						))}

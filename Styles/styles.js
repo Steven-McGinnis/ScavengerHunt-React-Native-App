@@ -33,6 +33,9 @@ export const styles = StyleSheet.create({
 	spacer2: {
 		height: 20,
 	},
+	spacer3: {
+		height: 5,
+	},
 	input: {
 		marginBottom: 10,
 	},

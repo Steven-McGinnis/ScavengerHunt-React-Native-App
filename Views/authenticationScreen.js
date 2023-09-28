@@ -64,6 +64,8 @@ const Authentication = ({ navigation }) => {
 					/>
 					<Card.Content>
 						<TextInput
+							activeOutlineColor='green'
+							mode='outlined'
 							label={intl.formatMessage({
 								id: 'authentication.usernameLabel',
 							})}
@@ -72,6 +74,8 @@ const Authentication = ({ navigation }) => {
 							style={styles.input}
 						/>
 						<TextInput
+							activeOutlineColor='green'
+							mode='outlined'
 							label={intl.formatMessage({
 								id: 'authentication.passwordLabel',
 							})}

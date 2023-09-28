@@ -130,6 +130,8 @@ const ScavengerScreen = ({ navigation }) => {
 						<Card.Cover source={require('../assets/splashLogo.png')} />
 						<Card.Content>
 							<TextInput
+								activeOutlineColor='green'
+								mode='outlined'
 								label={intl.formatMessage({
 									id: 'scavenger.newHuntName',
 									defaultMessage: 'Hunt Name',
