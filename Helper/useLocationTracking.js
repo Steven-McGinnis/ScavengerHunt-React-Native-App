@@ -17,7 +17,6 @@ const useLocationTracking = () => {
 				setLocation(newLocation);
 			}
 		);
-		console.log('TestTest ', locationData);
 		setSubscription(result);
 	};
 

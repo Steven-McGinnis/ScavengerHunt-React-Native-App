@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
 import { addAuthToken } from '../Model/Slices/authSlice';
-import { themeColors } from '../Styles/constants';
 import { Button, Menu } from 'react-native-paper';
 
-const LogoutButton = ({ dispatch, intl }) => {
+const NavMenu = ({ dispatch, intl }) => {
 	const navigation = useNavigation();
 	const [visible, setVisible] = useState(false);
 
@@ -59,4 +57,4 @@ const LogoutButton = ({ dispatch, intl }) => {
 	return null;
 };
 
-export default LogoutButton;
+export default NavMenu;

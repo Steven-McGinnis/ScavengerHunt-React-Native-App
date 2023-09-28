@@ -28,7 +28,7 @@ import { FAB } from 'react-native-paper';
 // Custom components and utilities
 import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
-import LogoutButton from '../Components/logoutButton';
+import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
 
@@ -280,7 +280,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 			style={styles.container}>
-			<LogoutButton
+			<NavMenu
 				dispatch={dispatch}
 				intl={intl}
 			/>
