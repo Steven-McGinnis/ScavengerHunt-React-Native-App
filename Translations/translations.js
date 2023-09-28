@@ -87,6 +87,10 @@ const translations = {
 		'huntDetailScreen.unpublishHunt': 'Unpublish Hunt',
 		'huntDetailScreen.huntPublished': 'Hunt published successfully!',
 		'huntDetailScreen.huntUnpublished': 'Hunt unpublished successfully!',
+		'locationDetailScreen.conditionsSuccessfullyDownloaded':
+			'Conditions successfully downloaded!',
+		'locationDetailScreen.openConditionPanel': 'Open Condition Panel',
+		'locationDetailScreen.conditionPanel': 'Condition Panel',
 	},
 };
 

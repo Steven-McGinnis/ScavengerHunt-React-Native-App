@@ -223,7 +223,6 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		setLoading(false);
 	};
 
-	// Publish Hunt
 	const publishHunt = async () => {
 		const response = await apiCall({
 			endpointSuffix: 'updateHunt.php',

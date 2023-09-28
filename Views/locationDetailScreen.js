@@ -36,10 +36,12 @@ const LocationDetailScreen = ({ navigation, route }) => {
 	const { location, currentName, huntid } = route.params;
 	const authTokenValue = useSelector((state) => state.authSlice.authToken);
 	const { locationData, subscription } = useLocationTracking();
+	const [conditions, setConditions] = useState([]);
 
 	// State Management for Snackbar
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
+
 	// Currently Displayed Values
 	const [currentLocationName, setCurrentLocationName] = useState('');
 	const [currentLatitude, setCurrentLatitude] = useState('');
@@ -49,17 +51,17 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
 	// New Values for Updating
 	const [newLocationName, setNewLocationName] = useState('');
-	const [newLatitude, setNewLatitude] = useState('');
-	const [newLongitude, setNewLongitude] = useState('');
 	const [newClue, setNewClue] = useState('');
 	const [newDescription, setNewDescription] = useState('');
 
 	// State Management for Loading
+	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 
 	// Edit Location State
 	const [openLocationEdit, setOpenLocationEdit] = useState(false);
 	const [openLocationSet, setOpenLocationSet] = useState(false);
+	const [openConditionPanel, setOpenConditionPanel] = useState(false);
 
 	const dispatch = useDispatch();
 	const intl = useIntl();
@@ -74,9 +76,34 @@ const LocationDetailScreen = ({ navigation, route }) => {
 		setNewLocationName(location.name);
 		setNewClue(location.clue);
 		setNewDescription(location.description);
-		setNewLatitude(location.latitude);
-		setNewLongitude(location.longitude);
 	}, [location]);
+
+	useFocusEffect(
+		React.useCallback(() => {
+			fetchConditions();
+			return () => {};
+		}, [])
+	);
+
+	// Fetch Conditions
+	const fetchConditions = async () => {
+		setLoading(true);
+		const response = await apiCall({
+			endpointSuffix: 'getConditions.php',
+			data: {
+				locationid: location.locationid,
+				token: authTokenValue,
+			},
+			onSuccessMessageId: 'locationDetailScreen.conditionsSuccessfullyDownloaded',
+			onFailureMessageId: 'networkError',
+			intl,
+		});
+
+		if (response.success) {
+			setConditions(response.data.conditions);
+		}
+		setLoading(false);
+	};
 
 	// Submit Edit Hunt
 	const submitEditedLocationDetails = async () => {
@@ -236,6 +263,16 @@ const LocationDetailScreen = ({ navigation, route }) => {
 				defaultMessage: 'Edit Location',
 			}),
 			onPress: () => !setOpenLocationEdit((prevState) => !prevState),
+			color: themeColors.fabIconColor,
+			style: { backgroundColor: themeColors.fabIconBackgroundColor },
+		},
+		{
+			icon: 'map-marker-plus',
+			label: intl.formatMessage({
+				id: 'locationDetailScreen.openConditionPanel',
+				defaultMessage: 'Open Condition Panel',
+			}),
+			onPress: () => setOpenConditionPanel((prevState) => !prevState),
 			color: themeColors.fabIconColor,
 			style: { backgroundColor: themeColors.fabIconBackgroundColor },
 		},
@@ -411,6 +448,77 @@ const LocationDetailScreen = ({ navigation, route }) => {
 						</Card>
 					</View>
 				) : null}
+
+				{openConditionPanel && (
+					<View style={styles.container}>
+						<Card style={styles.card}>
+							<Card.Title
+								title={intl.formatMessage({
+									id: 'locationDetailScreen.conditionPanel',
+									defaultMessage: 'Condition Panel',
+								})}
+							/>
+							<Card.Content>
+								<View
+									style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+									<Text>
+										{intl.formatMessage({
+											id: 'locationDetailScreen.touchToSetLocation',
+											defaultMessage: 'Location Set Panel',
+										})}
+									</Text>
+									<TouchableOpacity
+										onPress={() => {
+											setLocation();
+										}}>
+										<Image
+											source={require('../assets/locationPrimary.png')}
+											style={{ width: 150, height: 150, alignSelf: 'center' }}
+										/>
+									</TouchableOpacity>
+								</View>
+								<View style={styles.spacer2} />
+								<Button
+									mode={themeColors.buttonMode}
+									onPress={() => setOpenLocationSet((prevState) => !prevState)}
+									style={styles.loginButton}
+									buttonColor={themeColors.buttonColor}>
+									{intl.formatMessage({
+										id: 'locationDetailScreen.closeLocationSet',
+										defaultMessage: 'Close Location Set Panel',
+									})}
+								</Button>
+							</Card.Content>
+						</Card>
+					</View>
+				)}
+
+				{loading && (
+					<ProgressBar
+						indeterminate={true}
+						color='#00FF00'
+						visible={loading}
+					/>
+				)}
+
+				{conditions && Array.isArray(conditions) && conditions.length > 0 && (
+					<Card>
+						<Card.Title title='Conditions for this Location' />
+						{conditions.map((condition, index) => (
+							<List.Item
+								key={condition.index}
+								title={condition.name}
+								left={(props) => (
+									<List.Icon
+										{...props}
+										icon='map-marker-radius'
+									/>
+								)}
+								onPress={() => {}}
+							/>
+						))}
+					</Card>
+				)}
 			</ScrollView>
 			<FAB.Group
 				open={open}
