@@ -91,6 +91,14 @@ const translations = {
 			'Conditions successfully downloaded!',
 		'locationDetailScreen.openConditionPanel': 'Open Condition Panel',
 		'locationDetailScreen.conditionPanel': 'Condition Panel',
+		'locationDetailScreen.previousCondition': 'Previous Condition to be Solved',
+		'locationDetailScreen.startTime': 'Start Time',
+		'locationDetailScreen.endTime': 'End Time',
+		'locationDetailScreen.addCondition': 'Add Condition',
+		'locationDetailScreen.switchCondition': 'Switch to Other Condition',
+		'locationDetailScreen.selectDifferentLocationError':
+			'You Cannot Choose the Same Location',
+		'locationDetailScreen.conditions': 'Conditions',
 	},
 };
 
