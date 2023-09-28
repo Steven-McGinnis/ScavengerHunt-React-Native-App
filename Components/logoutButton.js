@@ -15,7 +15,7 @@ const LogoutButton = ({ dispatch, intl }) => {
 				<View style={{ paddingRight: 5 }}>
 					<Button
 						icon='history'
-						mode='contained'
+						mode={themeColors.buttonMode}
 						onPress={() => {
 							dispatch(addAuthToken(null));
 							navigation.reset({

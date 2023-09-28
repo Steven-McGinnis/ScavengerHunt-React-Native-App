@@ -102,8 +102,8 @@ const Register = ({ navigation }) => {
 						/>
 						<Card.Content>
 							<TextInput
-								activeOutlineColor='green'
-								mode='outlined'
+								activeOutlineColor={themeColors.textactiveOutlineColor}
+								mode={themeColors.textMode}
 								label={intl.formatMessage({
 									id: 'register.usernameLabel',
 									defaultMessage: 'Username',
@@ -113,8 +113,8 @@ const Register = ({ navigation }) => {
 								style={styles.input}
 							/>
 							<TextInput
-								activeOutlineColor='green'
-								mode='outlined'
+								activeOutlineColor={themeColors.textactiveOutlineColor}
+								mode={themeColors.textMode}
 								label={intl.formatMessage({
 									id: 'register.passwordLabel',
 									defaultMessage: 'Password',
@@ -125,8 +125,8 @@ const Register = ({ navigation }) => {
 								style={styles.input}
 							/>
 							<TextInput
-								activeOutlineColor='green'
-								mode='outlined'
+								activeOutlineColor={themeColors.textactiveOutlineColor}
+								mode={themeColors.textMode}
 								label={intl.formatMessage({
 									id: 'register.reenterPasswordLabel',
 									defaultMessage: 'Re-enter Password',
@@ -138,7 +138,7 @@ const Register = ({ navigation }) => {
 							/>
 							<View style={styles.spacer} />
 							<Button
-								mode='contained'
+								mode={themeColors.buttonMode}
 								onPress={handleRegister}
 								style={styles.loginButton}
 								buttonColor={themeColors.buttonColor}>

@@ -255,7 +255,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 							{currentLatitude && currentLongitude && (
 								<View style={{ marginTop: 20 }}>
 									<Button
-										mode='contained'
+										mode={themeColors.buttonMode}
 										onPress={() => {
 											navigation.navigate('LocationMapScreen', {
 												location: location,
@@ -277,8 +277,8 @@ const LocationDetailScreen = ({ navigation, route }) => {
 								<View>
 									<View style={styles.spacer2} />
 									<TextInput
-										activeOutlineColor='green'
-										mode='outlined'
+										activeOutlineColor={themeColors.textactiveOutlineColor}
+										mode={themeColors.textMode}
 										label={intl.formatMessage({
 											id: 'locationDetailScreen.locationName',
 											defaultMessage: 'Location Name',
@@ -288,8 +288,8 @@ const LocationDetailScreen = ({ navigation, route }) => {
 										style={styles.input}
 									/>
 									<TextInput
-										activeOutlineColor='green'
-										mode='outlined'
+										activeOutlineColor={themeColors.textactiveOutlineColor}
+										mode={themeColors.textMode}
 										label={intl.formatMessage({
 											id: 'locationDetailScreen.clue',
 											defaultMessage: 'Clue',
@@ -299,8 +299,8 @@ const LocationDetailScreen = ({ navigation, route }) => {
 										style={styles.input}
 									/>
 									<TextInput
-										activeOutlineColor='green'
-										mode='outlined'
+										activeOutlineColor={themeColors.textactiveOutlineColor}
+										mode={themeColors.textMode}
 										label={intl.formatMessage({
 											id: 'locationDetailScreen.locationDescription',
 											defaultMessage: 'Location Description',
@@ -311,7 +311,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 										style={styles.input}
 									/>
 									<Button
-										mode='contained'
+										mode={themeColors.buttonMode}
 										onPress={submitEditedLocationDetails}
 										style={styles.loginButton}
 										buttonColor={themeColors.buttonColor}>
@@ -357,7 +357,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 								</View>
 								<View style={styles.spacer2} />
 								<Button
-									mode='contained'
+									mode={themeColors.buttonMode}
 									onPress={() => setOpenLocationSet((prevState) => !prevState)}
 									style={styles.loginButton}
 									buttonColor={themeColors.buttonColor}>
@@ -380,7 +380,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 							/>
 							<Card.Content>
 								<Button
-									mode='contained'
+									mode={themeColors.buttonMode}
 									onPress={() => setOpenLocationSet((prevState) => !prevState)}
 									style={styles.loginButton}
 									buttonColor={themeColors.buttonColor}>
@@ -400,7 +400,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 						Content
 						style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 						<Button
-							mode='contained'
+							mode={themeColors.buttonMode}
 							onPress={() => !setOpenLocationEdit((prevState) => !prevState)}
 							style={styles.loginButton}
 							buttonColor={themeColors.buttonColor}>
@@ -411,7 +411,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 						</Button>
 						<View style={styles.spacer2} />
 						<Button
-							mode='contained'
+							mode={themeColors.buttonMode}
 							onPress={showConfirmDialog}
 							style={styles.loginButton}
 							buttonColor={themeColors.buttonColor}>

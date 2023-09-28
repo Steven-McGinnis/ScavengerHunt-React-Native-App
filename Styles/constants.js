@@ -1,4 +1,6 @@
 export const themeColors = {
-	buttonColor: 'red',
-	// ... other theme colors
+	buttonColor: 'green',
+	buttonMode: 'contained',
+	textactiveOutlineColor: 'green',
+	textMode: 'outlined',
 };

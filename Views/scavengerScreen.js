@@ -131,8 +131,8 @@ const ScavengerScreen = ({ navigation }) => {
 						<Card.Cover source={require('../assets/splashLogo.png')} />
 						<Card.Content>
 							<TextInput
-								activeOutlineColor='green'
-								mode='outlined'
+								activeOutlineColor={themeColors.textactiveOutlineColor}
+								mode={themeColors.textMode}
 								label={intl.formatMessage({
 									id: 'scavenger.newHuntName',
 									defaultMessage: 'Hunt Name',
@@ -142,7 +142,7 @@ const ScavengerScreen = ({ navigation }) => {
 								style={styles.input}
 							/>
 							<Button
-								mode='contained'
+								mode={themeColors.buttonMode}
 								onPress={createHunt}
 								style={styles.loginButton}
 								buttonColor={themeColors.buttonColor}>

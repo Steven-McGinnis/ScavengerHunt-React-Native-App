@@ -65,8 +65,8 @@ const Authentication = ({ navigation }) => {
 					/>
 					<Card.Content>
 						<TextInput
-							activeOutlineColor='green'
-							mode='outlined'
+							activeOutlineColor={themeColors.textactiveOutlineColor}
+							mode={themeColors.textMode}
 							label={intl.formatMessage({
 								id: 'authentication.usernameLabel',
 							})}
@@ -75,8 +75,8 @@ const Authentication = ({ navigation }) => {
 							style={styles.input}
 						/>
 						<TextInput
-							activeOutlineColor='green'
-							mode='outlined'
+							activeOutlineColor={themeColors.textactiveOutlineColor}
+							mode={themeColors.textMode}
 							label={intl.formatMessage({
 								id: 'authentication.passwordLabel',
 							})}
@@ -87,7 +87,7 @@ const Authentication = ({ navigation }) => {
 						/>
 						<View style={styles.spacer} />
 						<Button
-							mode='contained'
+							mode={themeColors.buttonMode}
 							onPress={handleLogin}
 							style={styles.loginButton}
 							buttonColor={themeColors.buttonColor}>
@@ -95,7 +95,7 @@ const Authentication = ({ navigation }) => {
 						</Button>
 						<View style={styles.spacer2} />
 						<Button
-							mode='contained'
+							mode={themeColors.buttonMode}
 							onPress={() => navigation.navigate('Register')}
 							style={styles.loginButton}
 							buttonColor={themeColors.buttonColor}>

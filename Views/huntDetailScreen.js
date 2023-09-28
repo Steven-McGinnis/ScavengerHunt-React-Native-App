@@ -247,8 +247,8 @@ const HuntDetailScreen = ({ navigation, route }) => {
 								<View>
 									<View style={styles.spacer2} />
 									<TextInput
-										activeOutlineColor='green'
-										mode='outlined'
+										activeOutlineColor={themeColors.textactiveOutlineColor}
+										mode={themeColors.textMode}
 										label={intl.formatMessage({
 											id: 'huntDetailScreen.huntName',
 											defaultMessage: 'Hunt Name',
@@ -259,7 +259,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 									/>
 									<View style={styles.spacer2} />
 									<Button
-										mode='contained'
+										mode={themeColors.buttonMode}
 										onPress={submitEditHunt}
 										style={styles.loginButton}
 										buttonColor={themeColors.buttonColor}>
@@ -290,8 +290,8 @@ const HuntDetailScreen = ({ navigation, route }) => {
 							<Card.Content>
 								{/* Add Location to Hunt */}
 								<TextInput
-									activeOutlineColor='green'
-									mode='outlined'
+									activeOutlineColor={themeColors.textactiveOutlineColor}
+									mode={themeColors.textMode}
 									label={intl.formatMessage({
 										id: 'huntDetailScreen.addLocation',
 										defaultMessage: 'Add Location to Hunt',
@@ -302,7 +302,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 								/>
 								<View style={styles.spacer2} />
 								<Button
-									mode='contained'
+									mode={themeColors.buttonMode}
 									onPress={addLocationToTheHunt}
 									style={styles.loginButton}
 									buttonColor={themeColors.buttonColor}>
@@ -359,7 +359,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 						Content
 						style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
 						<Button
-							mode='contained'
+							mode={themeColors.buttonMode}
 							onPress={() => !setOpenEditHunt((prevState) => !prevState)}
 							style={styles.loginButton}
 							buttonColor={themeColors.buttonColor}>
@@ -370,7 +370,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 						</Button>
 						<View style={styles.spacer2} />
 						<Button
-							mode='contained'
+							mode={themeColors.buttonMode}
 							onPress={showConfirmDialog}
 							style={styles.loginButton}
 							buttonColor={themeColors.buttonColor}>
