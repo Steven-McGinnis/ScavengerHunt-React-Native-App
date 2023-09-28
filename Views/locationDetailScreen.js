@@ -257,10 +257,12 @@ const LocationDetailScreen = ({ navigation, route }) => {
 									<Button
 										mode={themeColors.buttonMode}
 										onPress={() => {
-											navigation.navigate('LocationMapScreen', {
+											navigation.navigate('Map Location', {
 												location: location,
-												currentName: currentName,
+												locationName: currentLocationName,
 												huntid: huntid,
+												currentLatitude: currentLatitude,
+												currentLongitude: currentLongitude,
 											});
 										}}
 										style={styles.loginButton}

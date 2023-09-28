@@ -19,6 +19,7 @@ import Register from './Views/registerScreen';
 import ScavengerScreen from './Views/scavengerScreen';
 import HuntDetailScreen from './Views/huntDetailScreen';
 import LocationDetailScreen from './Views/locationDetailScreen';
+import MapLocationScreen from './Views/mapLocationScreen';
 import { customTheme } from './Styles/paperTheme';
 import { StatusBar } from 'expo-status-bar';
 
@@ -81,6 +82,10 @@ export default function App() {
 							<Stack.Screen
 								name='Location Details'
 								component={LocationDetailScreen}
+							/>
+							<Stack.Screen
+								name='Map Location'
+								component={MapLocationScreen}
 							/>
 							{/* My Other screens */}
 						</Stack.Navigator>
