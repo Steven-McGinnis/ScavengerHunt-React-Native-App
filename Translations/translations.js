@@ -108,6 +108,7 @@ const translations = {
 		'conditionEditScreen.endTime': 'End Time',
 		'conditionEditScreen.editCondition': 'Edit Condition',
 		'conditionEditScreen.conditionUpdated': 'Condition updated successfully!',
+		'conditionEditScreen.conditionDeleted': 'Condition deleted successfully!',
 	},
 };
 

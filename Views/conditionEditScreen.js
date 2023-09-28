@@ -160,6 +160,24 @@ const ConditionEditScreen = ({ navigation, route }) => {
 		}
 	};
 
+	// Delete Condition
+	const deleteCondition = async () => {
+		const response = await apiCall({
+			endpointSuffix: 'deleteCondition.php',
+			data: {
+				conditionid: condition.conditionid,
+				token: authTokenValue,
+			},
+			onSuccessMessageId: 'conditionEditScreen.conditionDeleted',
+			onFailureMessageId: 'networkError',
+			intl,
+		});
+
+		if (response.success) {
+			navigation.goBack();
+		}
+	};
+
 	function stringToTime(timeString) {
 		const [hours, minutes] = timeString.split(':').map(Number);
 		const date = new Date();
