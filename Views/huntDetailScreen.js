@@ -24,6 +24,7 @@ import {
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
+import { themeColors } from '../Styles/constants';
 import LogoutButton from '../Components/logoutButton';
 import apiCall from '../Helper/apiCall';
 
@@ -261,7 +262,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 										mode='contained'
 										onPress={submitEditHunt}
 										style={styles.loginButton}
-										buttonColor='green'>
+										buttonColor={themeColors.buttonColor}>
 										{intl.formatMessage({
 											id: 'huntDetailScreen.submitEditHunt',
 											defaultMessage: 'Submit',
@@ -304,7 +305,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 									mode='contained'
 									onPress={addLocationToTheHunt}
 									style={styles.loginButton}
-									buttonColor='green'>
+									buttonColor={themeColors.buttonColor}>
 									{intl.formatMessage({
 										id: 'huntDetailScreen.addLocationButton',
 										defaultMessage: 'Add Location',
@@ -361,7 +362,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 							mode='contained'
 							onPress={() => !setOpenEditHunt((prevState) => !prevState)}
 							style={styles.loginButton}
-							buttonColor='green'>
+							buttonColor={themeColors.buttonColor}>
 							{intl.formatMessage({
 								id: 'huntDetailScreen.editHuntButton',
 								defaultMessage: 'Edit Hunt',
@@ -372,7 +373,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 							mode='contained'
 							onPress={showConfirmDialog}
 							style={styles.loginButton}
-							buttonColor='green'>
+							buttonColor={themeColors.buttonColor}>
 							{intl.formatMessage({
 								id: 'huntDetailScreen.deleteHuntButton',
 								defaultMessage: 'Edit Hunt',

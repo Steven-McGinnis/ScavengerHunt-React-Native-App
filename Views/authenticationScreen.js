@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
+import { themeColors } from '../Styles/constants';
 import apiCall from '../Helper/apiCall';
 
 // Redux slices
@@ -89,7 +90,7 @@ const Authentication = ({ navigation }) => {
 							mode='contained'
 							onPress={handleLogin}
 							style={styles.loginButton}
-							buttonColor='green'>
+							buttonColor={themeColors.buttonColor}>
 							{intl.formatMessage({ id: 'authentication.loginButton' })}
 						</Button>
 						<View style={styles.spacer2} />
@@ -97,7 +98,7 @@ const Authentication = ({ navigation }) => {
 							mode='contained'
 							onPress={() => navigation.navigate('Register')}
 							style={styles.loginButton}
-							buttonColor='green'>
+							buttonColor={themeColors.buttonColor}>
 							{intl.formatMessage({ id: 'authentication.registerButton' })}
 						</Button>
 					</Card.Content>

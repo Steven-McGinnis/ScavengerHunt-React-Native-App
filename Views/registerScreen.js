@@ -16,6 +16,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
+import { themeColors } from '../Styles/constants';
 import apiCall from '../Helper/apiCall';
 
 // Redux slices
@@ -140,7 +141,7 @@ const Register = ({ navigation }) => {
 								mode='contained'
 								onPress={handleRegister}
 								style={styles.loginButton}
-								buttonColor='green'>
+								buttonColor={themeColors.buttonColor}>
 								{intl.formatMessage({
 									id: 'register.registerButton',
 									defaultMessage: 'Register',

@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { addAuthToken } from '../Model/Slices/authSlice';
+import { themeColors } from '../Styles/constants';
 
 const LogoutButton = ({ dispatch, intl }) => {
 	const navigation = useNavigation();
@@ -22,7 +23,7 @@ const LogoutButton = ({ dispatch, intl }) => {
 								routes: [{ name: 'Authentication' }],
 							});
 						}}
-						buttonColor='green'>
+						buttonColor={themeColors.buttonColor}>
 						{intl.formatMessage({ id: 'Logout' })}
 					</Button>
 				</View>

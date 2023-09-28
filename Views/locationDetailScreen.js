@@ -26,6 +26,7 @@ import { TouchableOpacity } from 'react-native';
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
+import { themeColors } from '../Styles/constants';
 import LogoutButton from '../Components/logoutButton';
 import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
@@ -251,6 +252,27 @@ const LocationDetailScreen = ({ navigation, route }) => {
 								{currentDescription ? currentDescription : 'None'}
 							</Text>
 
+							{currentLatitude && currentLongitude && (
+								<View style={{ marginTop: 20 }}>
+									<Button
+										mode='contained'
+										onPress={() => {
+											navigation.navigate('LocationMapScreen', {
+												location: location,
+												currentName: currentName,
+												huntid: huntid,
+											});
+										}}
+										style={styles.loginButton}
+										buttonColor={themeColors.buttonColor}>
+										{intl.formatMessage({
+											id: 'locationDetailScreen.viewLocationOnMap',
+											defaultMessage: 'View Location on Map',
+										})}
+									</Button>
+								</View>
+							)}
+
 							{openLocationEdit && (
 								<View>
 									<View style={styles.spacer2} />
@@ -292,7 +314,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 										mode='contained'
 										onPress={submitEditedLocationDetails}
 										style={styles.loginButton}
-										buttonColor='green'>
+										buttonColor={themeColors.buttonColor}>
 										{intl.formatMessage({
 											id: 'locationDetailScreen.locationUpdateButton',
 											defaultMessage: 'Update Location',
@@ -338,7 +360,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 									mode='contained'
 									onPress={() => setOpenLocationSet((prevState) => !prevState)}
 									style={styles.loginButton}
-									buttonColor='green'>
+									buttonColor={themeColors.buttonColor}>
 									{intl.formatMessage({
 										id: 'locationDetailScreen.closeLocationSet',
 										defaultMessage: 'Close Location Set Panel',
@@ -361,7 +383,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 									mode='contained'
 									onPress={() => setOpenLocationSet((prevState) => !prevState)}
 									style={styles.loginButton}
-									buttonColor='green'>
+									buttonColor={themeColors.buttonColor}>
 									{intl.formatMessage({
 										id: 'locationDetailScreen.openLocationSet',
 										defaultMessage: 'Open Location Set Panel',
@@ -381,7 +403,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 							mode='contained'
 							onPress={() => !setOpenLocationEdit((prevState) => !prevState)}
 							style={styles.loginButton}
-							buttonColor='green'>
+							buttonColor={themeColors.buttonColor}>
 							{intl.formatMessage({
 								id: 'locationDetailScreen.editLocationButton',
 								defaultMessage: 'Edit Location',
@@ -392,7 +414,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 							mode='contained'
 							onPress={showConfirmDialog}
 							style={styles.loginButton}
-							buttonColor='green'>
+							buttonColor={themeColors.buttonColor}>
 							{intl.formatMessage({
 								id: 'locationDetailScreen.deleteLocationButton',
 								defaultMessage: 'Delete Location',

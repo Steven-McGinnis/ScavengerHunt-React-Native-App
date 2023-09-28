@@ -18,6 +18,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
+import { themeColors } from '../Styles/constants';
 import LogoutButton from '../Components/logoutButton';
 import apiCall from '../Helper/apiCall';
 
@@ -144,7 +145,7 @@ const ScavengerScreen = ({ navigation }) => {
 								mode='contained'
 								onPress={createHunt}
 								style={styles.loginButton}
-								buttonColor='green'>
+								buttonColor={themeColors.buttonColor}>
 								{intl.formatMessage({
 									id: 'scavenger.createHunt',
 									defaultMessage: 'Create Hunt',

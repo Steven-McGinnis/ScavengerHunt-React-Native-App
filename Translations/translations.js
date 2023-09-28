@@ -78,6 +78,9 @@ const translations = {
 		'locationDetailScreen.closeLocationSet': 'Close Location Set Panel',
 		'locationDetailScreen.touchToSetLocation': 'Touch to Set Location',
 		'locationDetailScreen.locationSet': 'Location Set Successfully!',
+		'locationDetailScreen.locationSetError':
+			'Location Set Failed. Please try again.',
+		'locationDetailScreen.viewLocationOnMap': 'View Location on Map',
 	},
 };
 
