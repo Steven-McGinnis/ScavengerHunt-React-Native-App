@@ -4,8 +4,8 @@ export const customTheme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		primary: '#00FF00', // A shade of green, but you can choose whatever shade you prefer.
-		accent: '#000000', // Black
-		text: '#000000', // If you want the general text to be black
+		primary: 'green', // A shade of green, but you can choose whatever shade you prefer.
+		accent: 'green', // Black
+		text: 'green', // If you want the general text to be black
 	},
 };

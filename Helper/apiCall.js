@@ -21,7 +21,7 @@ const apiCall = async ({
 		const responseData = await response.json();
 
 		if (responseData.status === 'okay') {
-			console.log('API call successful!', responseData);
+			// console.log('API call successful!', responseData);
 			const successMessage = onSuccessMessageId
 				? intl.formatMessage({
 						id: onSuccessMessageId,
@@ -34,7 +34,7 @@ const apiCall = async ({
 			return { success: false, error: errorMessage, message: errorMessage };
 		}
 	} catch (error) {
-		console.error('Network or other error:', error);
+		// console.error('Network or other error:', error);
 		const failureMessage = intl.formatMessage({
 			id: onFailureMessageId || 'networkError',
 			defaultMessage: 'Network or other error',

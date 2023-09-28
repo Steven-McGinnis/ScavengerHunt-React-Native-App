@@ -21,6 +21,7 @@ import LocationDetailScreen from './Views/locationDetailScreen';
 import MapLocationScreen from './Views/mapLocationScreen';
 import { customTheme } from './Styles/paperTheme';
 import { StatusBar } from 'expo-status-bar';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 const persistor = persistStore(store);
@@ -30,67 +31,67 @@ export default function App() {
 	const messages = translations[locale] || translations['en'];
 
 	return (
-		<Provider
-			store={store}
-			theme={customTheme}>
-			<PersistGate
-				loading={<ActivityIndicator />}
-				persistor={persistor}>
-				<IntlProvider
-					locale={locale}
-					messages={messages}>
-					<NavigationContainer>
-						<StatusBar
-							style='light'
-							backgroundColor='#1DB954'
-						/>
-						<Stack.Navigator
-							initialRouteName='Splash'
-							screenOptions={{
-								headerStyle: {
-									backgroundColor: 'white',
-								},
-								headerTintColor: '#1DB954',
-								headerTitleStyle: {
-									fontWeight: 'bold',
-								},
-							}}>
-							<Stack.Screen
-								name='Splash'
-								component={InitializeScreen}
-								options={{
-									headerShown: false,
-								}}
+		<PaperProvider theme={customTheme}>
+			<Provider store={store}>
+				<PersistGate
+					loading={<ActivityIndicator />}
+					persistor={persistor}>
+					<IntlProvider
+						locale={locale}
+						messages={messages}>
+						<NavigationContainer>
+							<StatusBar
+								style='light'
+								backgroundColor='#1DB954'
 							/>
-							<Stack.Screen
-								name='Authentication'
-								component={Authentication}
-							/>
-							<Stack.Screen
-								name='Register'
-								component={Register}
-							/>
-							<Stack.Screen
-								name='ScavengerScreen'
-								component={ScavengerScreen}
-							/>
-							<Stack.Screen
-								name='Hunt Details'
-								component={HuntDetailScreen}
-							/>
-							<Stack.Screen
-								name='Location Details'
-								component={LocationDetailScreen}
-							/>
-							<Stack.Screen
-								name='Map Location'
-								component={MapLocationScreen}
-							/>
-							{/* My Other screens */}
-						</Stack.Navigator>
-					</NavigationContainer>
-				</IntlProvider>
-			</PersistGate>
-		</Provider>
+							<Stack.Navigator
+								initialRouteName='Splash'
+								screenOptions={{
+									headerStyle: {
+										backgroundColor: 'white',
+									},
+									headerTintColor: 'green',
+									headerTitleStyle: {
+										fontWeight: 'bold',
+									},
+								}}>
+								<Stack.Screen
+									name='Splash'
+									component={InitializeScreen}
+									options={{
+										headerShown: false,
+									}}
+								/>
+								<Stack.Screen
+									name='Authentication'
+									component={Authentication}
+								/>
+								<Stack.Screen
+									name='Register'
+									component={Register}
+								/>
+								<Stack.Screen
+									name='ScavengerScreen'
+									component={ScavengerScreen}
+								/>
+								<Stack.Screen
+									name='Hunt Details'
+									component={HuntDetailScreen}
+								/>
+								<Stack.Screen
+									name='Location Details'
+									component={LocationDetailScreen}
+								/>
+								<Stack.Screen
+									name='Map Location'
+									component={MapLocationScreen}
+								/>
+								{/* My Other screens */}
+							</Stack.Navigator>
+						</NavigationContainer>
+					</IntlProvider>
+				</PersistGate>
+			</Provider>
+		</PaperProvider>
 	);
 }

@@ -1,35 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { addAuthToken } from '../Model/Slices/authSlice';
 import { themeColors } from '../Styles/constants';
+import { Button, Menu } from 'react-native-paper';
 
 const LogoutButton = ({ dispatch, intl }) => {
 	const navigation = useNavigation();
+	const [visible, setVisible] = useState(false);
+
+	const openMenu = () => setVisible(true);
+	const closeMenu = () => setVisible(false);
 
 	useEffect(() => {
 		navigation.setOptions({
 			headerRight: () => (
-				<View style={{ paddingRight: 5 }}>
-					<Button
-						icon='history'
-						mode={themeColors.buttonMode}
-						onPress={() => {
-							dispatch(addAuthToken(null));
-							navigation.reset({
-								index: 0,
-								routes: [{ name: 'Authentication' }],
-							});
-						}}
-						buttonColor={themeColors.buttonColor}>
-						{intl.formatMessage({ id: 'Logout' })}
-					</Button>
+				<View style={{ flexDirection: 'row', paddingRight: 5 }}>
+					<Menu
+						visible={visible}
+						onDismiss={closeMenu}
+						anchor={
+							<Button
+								onPress={openMenu}
+								icon='menu'>
+								Menu
+							</Button>
+						}>
+						{/* Home Button */}
+						<Menu.Item
+							icon='home'
+							onPress={() => {
+								closeMenu();
+								navigation.navigate('ScavengerScreen');
+							}}
+							title={intl.formatMessage({ id: 'Home' })}
+						/>
+
+						{/* Logout Button */}
+						<Menu.Item
+							icon='logout'
+							onPress={() => {
+								closeMenu();
+								dispatch(addAuthToken(null));
+								navigation.reset({
+									index: 0,
+									routes: [{ name: 'Authentication' }],
+								});
+							}}
+							title={intl.formatMessage({ id: 'Logout' })}
+						/>
+					</Menu>
 				</View>
 			),
 		});
-	}, [navigation, dispatch, intl]);
+	}, [navigation, dispatch, intl, visible]);
 
 	return null;
 };

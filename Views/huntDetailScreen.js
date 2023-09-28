@@ -57,14 +57,30 @@ const HuntDetailScreen = ({ navigation, route }) => {
 
 	// Edit Hunt State
 	const [openEditHunt, setOpenEditHunt] = useState(false);
+	const [openLocationAdd, setOpenLocationAdd] = useState(false);
 
 	const dispatch = useDispatch();
 	const intl = useIntl();
 
+	// Set the Hunt Name
 	useEffect(() => {
 		setNewHuntName(name);
 		setCurrentName(name);
 	}, [name]);
+
+	// Initial Load Data
+	useFocusEffect(
+		React.useCallback(() => {
+			fetchLocations();
+			return () => {};
+		}, [])
+	);
+
+	useEffect(() => {
+		if (hunt) {
+			setLocations(hunt.locations);
+		}
+	}, [hunt]);
 
 	// Submit Edit Hunt
 	const submitEditHunt = async () => {
@@ -160,16 +176,11 @@ const HuntDetailScreen = ({ navigation, route }) => {
 
 		if (response.success) {
 			fetchLocations();
-			setOpenEditHunt(false);
+			setOpenLocationAdd(false);
 		}
 	};
 
-	useEffect(() => {
-		if (hunt) {
-			setLocations(hunt.locations);
-		}
-	}, [hunt]);
-
+	// Delete Hunt
 	const deleteHunt = async () => {
 		const response = await apiCall({
 			endpointSuffix: 'deleteHunt.php',
@@ -210,17 +221,20 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		setLoading(false);
 	};
 
-	useFocusEffect(
-		React.useCallback(() => {
-			fetchLocations();
-			return () => {};
-		}, [])
-	);
-
-	// Create an array for the actions
+	// FAB Actions
 	const actions = [
 		{
-			icon: 'pencil', // You can use any icon name from MaterialCommunityIcons
+			icon: 'delete',
+			label: intl.formatMessage({
+				id: 'huntDetailScreen.deleteHuntButton',
+				defaultMessage: 'Delete Hunt',
+			}),
+			onPress: showConfirmDialog,
+			style: { backgroundColor: themeColors.buttonColor },
+			color: themeColors.fabIconColor,
+		},
+		{
+			icon: 'pencil',
 			label: intl.formatMessage({
 				id: 'huntDetailScreen.editHuntButton',
 				defaultMessage: 'Edit Hunt',
@@ -230,12 +244,13 @@ const HuntDetailScreen = ({ navigation, route }) => {
 			color: themeColors.fabIconColor,
 		},
 		{
-			icon: 'delete', // You can use any icon name from MaterialCommunityIcons
+			// location add icon
+			icon: 'map-marker-plus',
 			label: intl.formatMessage({
-				id: 'huntDetailScreen.deleteHuntButton',
-				defaultMessage: 'Delete Hunt',
+				id: 'huntDetailScreen.addLocationButton',
+				defaultMessage: 'Add Location',
 			}),
-			onPress: showConfirmDialog,
+			onPress: () => !setOpenLocationAdd((prevState) => !prevState),
 			style: { backgroundColor: themeColors.buttonColor },
 			color: themeColors.fabIconColor,
 		},
@@ -300,7 +315,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 					</Card>
 				</View>
 
-				{openEditHunt && (
+				{openLocationAdd && (
 					<View style={styles.container}>
 						<Card style={styles.card}>
 							<Card.Title
@@ -314,7 +329,6 @@ const HuntDetailScreen = ({ navigation, route }) => {
 								})}
 							/>
 							<Card.Content>
-								{/* Add Location to Hunt */}
 								<TextInput
 									activeOutlineColor={themeColors.textactiveOutlineColor}
 									mode={themeColors.textMode}
@@ -389,8 +403,8 @@ const HuntDetailScreen = ({ navigation, route }) => {
 					if (open) {
 					}
 				}}
-				fabStyle={{ backgroundColor: 'green' }} // Color for the main FAB
-				color='white' // Color for the icon and label
+				fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
+				color={themeColors.fabColor}
 			/>
 		</KeyboardAvoidingView>
 	);

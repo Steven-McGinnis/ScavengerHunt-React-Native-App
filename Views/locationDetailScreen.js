@@ -219,16 +219,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 	// Create an array for the actions FAB
 	const actions = [
 		{
-			icon: 'pencil',
-			label: intl.formatMessage({
-				id: 'locationDetailScreen.editLocationButton',
-				defaultMessage: 'Edit Location',
-			}),
-			onPress: () => !setOpenLocationEdit((prevState) => !prevState),
-			color: themeColors.fabIconColor,
-			style: { backgroundColor: themeColors.fabIconBackgroundColor },
-		},
-		{
 			icon: 'delete',
 			label: intl.formatMessage({
 				id: 'locationDetailScreen.deleteLocationButton',
@@ -238,10 +228,33 @@ const LocationDetailScreen = ({ navigation, route }) => {
 			color: themeColors.fabIconColor,
 			style: { backgroundColor: themeColors.fabIconBackgroundColor },
 		},
+		{
+			icon: 'pencil',
+			label: intl.formatMessage({
+				id: 'locationDetailScreen.editLocationButton',
+				defaultMessage: 'Edit Location',
+			}),
+			onPress: () => !setOpenLocationEdit((prevState) => !prevState),
+			color: themeColors.fabIconColor,
+			style: { backgroundColor: themeColors.fabIconBackgroundColor },
+		},
 	];
 
+	if (locationData) {
+		actions.push({
+			icon: 'map-marker',
+			label: intl.formatMessage({
+				id: 'locationDetailScreen.openLocationSet',
+				defaultMessage: 'Open Location Set Panel',
+			}),
+			color: themeColors.fabIconColor,
+			style: { backgroundColor: themeColors.fabIconBackgroundColor },
+			onPress: () => setOpenLocationSet((prevState) => !prevState),
+		});
+	}
+
 	if (currentLatitude && currentLongitude) {
-		actions.unshift({
+		actions.push({
 			icon: 'map',
 			label: intl.formatMessage({
 				id: 'locationDetailScreen.viewLocationOnMap',
@@ -261,18 +274,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 		});
 	}
 
-	if (locationData) {
-		actions.push({
-			icon: 'map-marker',
-			label: intl.formatMessage({
-				id: 'locationDetailScreen.openLocationSet',
-				defaultMessage: 'Open Location Set Panel',
-			}),
-			color: themeColors.fabIconColor,
-			style: { backgroundColor: themeColors.fabIconBackgroundColor },
-			onPress: () => setOpenLocationSet((prevState) => !prevState),
-		});
-	}
 	// End of FAB actions array
 
 	return (
@@ -419,8 +420,8 @@ const LocationDetailScreen = ({ navigation, route }) => {
 					if (open) {
 					}
 				}}
-				fabStyle={{ backgroundColor: 'green' }}
-				color='white'
+				fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
+				color={themeColors.fabColor}
 			/>
 			<Snackbar
 				visible={snackbarVisible}

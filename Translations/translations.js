@@ -81,6 +81,8 @@ const translations = {
 		'locationDetailScreen.locationSetError':
 			'Location Set Failed. Please try again.',
 		'locationDetailScreen.viewLocationOnMap': 'View on Map',
+		'Home': 'Home',
+		'Logout': 'Logout',
 	},
 };
 

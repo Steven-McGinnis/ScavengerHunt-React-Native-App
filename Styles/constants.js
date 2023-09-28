@@ -5,4 +5,6 @@ export const themeColors = {
 	textMode: 'outlined',
 	fabIconColor: 'white',
 	fabIconBackgroundColor: 'green',
+	fabBackGroundColor: 'green',
+	fabColor: 'white',
 };
