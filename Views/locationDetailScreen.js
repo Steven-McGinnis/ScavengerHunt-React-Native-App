@@ -34,6 +34,7 @@ import { themeColors } from '../Styles/constants';
 import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
+import { LocationDetails } from '../Components/LocationDetailComponents/LocationDetails';
 
 const LocationDetailScreen = ({ navigation, route }) => {
 	// Props and External Hooks
@@ -488,86 +489,23 @@ const LocationDetailScreen = ({ navigation, route }) => {
 			/>
 
 			<ScrollView style={{ marginBottom: 70 }}>
-				<View style={styles.container}>
-					<Card style={styles.card}>
-						<Card.Content>
-							<Text>
-								<FormattedMessage id='locationDetailScreen.locationName' />
-								{currentLocationName}
-							</Text>
-							<Text>
-								<FormattedMessage id='locationDetailScreen.locationID' />
-								{location.locationid ? location.locationid : 'None'}
-							</Text>
-							<Text>
-								<FormattedMessage id='locationDetailScreen.latitude' />
-								{currentLatitude ? currentLatitude : 'None'}
-							</Text>
-							<Text>
-								<FormattedMessage id='locationDetailScreen.longitude' />
-								{currentLongitude ? currentLongitude : 'None'}
-							</Text>
-							<Text>
-								<FormattedMessage id='locationDetailScreen.locationClue' />{' '}
-								{currentClue ? currentClue : 'None'}
-							</Text>
-							<Text>
-								<FormattedMessage id='locationDetailScreen.locationDescription' />{' '}
-								{currentDescription ? currentDescription : 'None'}
-							</Text>
-
-							{openLocationEdit && (
-								<View>
-									<View style={styles.spacer2} />
-									<TextInput
-										activeOutlineColor={themeColors.textactiveOutlineColor}
-										mode={themeColors.textMode}
-										label={intl.formatMessage({
-											id: 'locationDetailScreen.locationName',
-											defaultMessage: 'Location Name',
-										})}
-										value={newLocationName}
-										onChangeText={(text) => setNewLocationName(text)}
-										style={styles.input}
-									/>
-									<TextInput
-										activeOutlineColor={themeColors.textactiveOutlineColor}
-										mode={themeColors.textMode}
-										label={intl.formatMessage({
-											id: 'locationDetailScreen.clue',
-											defaultMessage: 'Clue',
-										})}
-										value={newClue}
-										onChangeText={(text) => setNewClue(text)}
-										style={styles.input}
-									/>
-									<TextInput
-										activeOutlineColor={themeColors.textactiveOutlineColor}
-										mode={themeColors.textMode}
-										label={intl.formatMessage({
-											id: 'locationDetailScreen.locationDescription',
-											defaultMessage: 'Location Description',
-										})}
-										multiline={true}
-										value={newDescription}
-										onChangeText={(text) => setNewDescription(text)}
-										style={styles.input}
-									/>
-									<Button
-										mode={themeColors.buttonMode}
-										onPress={submitEditedLocationDetails}
-										style={styles.loginButton}
-										buttonColor={themeColors.buttonColor}>
-										{intl.formatMessage({
-											id: 'locationDetailScreen.locationUpdateButton',
-											defaultMessage: 'Update Location',
-										})}
-									</Button>
-								</View>
-							)}
-						</Card.Content>
-					</Card>
-				</View>
+				<LocationDetails
+					location={location}
+					currentLocationName={currentLocationName}
+					currentLatitude={currentLatitude}
+					currentLongitude={currentLongitude}
+					currentClue={currentClue}
+					currentDescription={currentDescription}
+					openLocationEdit={openLocationEdit}
+					newLocationName={newLocationName}
+					setNewLocationName={setNewLocationName}
+					newClue={newClue}
+					setNewClue={setNewClue}
+					newDescription={newDescription}
+					setNewDescription={setNewDescription}
+					submitEditedLocationDetails={submitEditedLocationDetails}
+					intl={intl}
+				/>
 
 				{openLocationSet && locationData ? (
 					<View style={styles.container}>
@@ -755,7 +693,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
 						{conditions.map((condition, index) => (
 							<List.Item
-								key={condition.index}
+								key={condition.conditionid}
 								title={condition.conditionid}
 								description={
 									condition.requiredlocationid
@@ -770,7 +708,13 @@ const LocationDetailScreen = ({ navigation, route }) => {
 										icon='map-marker-radius'
 									/>
 								)}
-								onPress={() => {}}
+								onPress={() => {
+									navigation.navigate('Edit Condition', {
+										condition,
+										locationid: location.locationid,
+										huntid: huntid,
+									});
+								}}
 							/>
 						))}
 					</Card>

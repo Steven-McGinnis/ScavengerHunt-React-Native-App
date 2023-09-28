@@ -19,6 +19,7 @@ import ScavengerScreen from './Views/scavengerScreen';
 import HuntDetailScreen from './Views/huntDetailScreen';
 import LocationDetailScreen from './Views/locationDetailScreen';
 import MapLocationScreen from './Views/mapLocationScreen';
+import ConditionEditScreen from './Views/conditionEditScreen';
 import { customTheme } from './Styles/paperTheme';
 import { StatusBar } from 'expo-status-bar';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -86,7 +87,10 @@ export default function App() {
 									name='Map Location'
 									component={MapLocationScreen}
 								/>
-								{/* My Other screens */}
+								<Stack.Screen
+									name='Edit Condition'
+									component={ConditionEditScreen}
+								/>
 							</Stack.Navigator>
 						</NavigationContainer>
 					</IntlProvider>

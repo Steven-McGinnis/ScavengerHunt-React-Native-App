@@ -99,6 +99,15 @@ const translations = {
 		'locationDetailScreen.selectDifferentLocationError':
 			'You Cannot Choose the Same Location',
 		'locationDetailScreen.conditions': 'Conditions',
+		'conditionEditScreen.deleteConditionConfirm':
+			'Are you sure you want to delete this condition?',
+		'conditionEditScreen.deleteConditionButton': 'Delete Condition',
+		'conditionEditScreen.conditionPanel': 'Condition Panel',
+		'conditionEditScreen.switchCondition': 'Switch to Other Condition',
+		'conditionEditScreen.startTime': 'Start Time',
+		'conditionEditScreen.endTime': 'End Time',
+		'conditionEditScreen.editCondition': 'Edit Condition',
+		'conditionEditScreen.conditionUpdated': 'Condition updated successfully!',
 	},
 };
 
