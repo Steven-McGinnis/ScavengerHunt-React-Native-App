@@ -46,6 +46,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 	// State Management for Hunt Name
 	const [currentName, setCurrentName] = useState('');
 	const [newHuntName, setNewHuntName] = useState('');
+	const [currentActive, setCurrentActive] = useState(false);
 	const [newHuntLocations, setNewHuntLocations] = useState('');
 	const [locations, setLocations] = useState([]);
 	// State Management for Snackbar
@@ -66,6 +67,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 	useEffect(() => {
 		setNewHuntName(name);
 		setCurrentName(name);
+		setCurrentActive(active);
 	}, [name]);
 
 	// Initial Load Data
@@ -221,7 +223,87 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		setLoading(false);
 	};
 
+	// Publish Hunt
+	const publishHunt = async () => {
+		const response = await apiCall({
+			endpointSuffix: 'updateHunt.php',
+			data: {
+				name: currentName,
+				huntid: huntid,
+				token: authTokenValue,
+				active: 1,
+			},
+			onSuccessMessageId: 'huntDetailScreen.huntPublished',
+			onFailureMessageId: 'networkError',
+			intl,
+		});
+
+		if (response.success) {
+			setCurrentActive(true);
+			setSnackbarMessage(
+				intl.formatMessage({
+					id: 'huntDetailScreen.huntPublished',
+					defaultMessage: 'Hunt Published Successfully!',
+				})
+			);
+			setSnackbarVisible(true);
+		}
+	};
+
+	// Unpublish Hunt
+	const unpublishHunt = async () => {
+		const response = await apiCall({
+			endpointSuffix: 'updateHunt.php',
+			data: {
+				name: currentName,
+				huntid: huntid,
+				token: authTokenValue,
+				active: 0,
+			},
+			onSuccessMessageId: 'huntDetailScreen.huntUnpublished',
+			onFailureMessageId: 'networkError',
+			intl,
+		});
+
+		if (response.success) {
+			setCurrentActive(false);
+			setSnackbarMessage(
+				intl.formatMessage({
+					id: 'huntDetailScreen.huntUnpublished',
+					defaultMessage: 'Hunt Unpublished Successfully!',
+				})
+			);
+			setSnackbarVisible(true);
+		}
+	};
+
 	// FAB Actions
+	const publishAction = {
+		icon: 'publish',
+		label: intl.formatMessage({
+			id: 'huntDetailScreen.publishHunt',
+			defaultMessage: 'Publish Hunt',
+		}),
+		onPress: () => {
+			publishHunt();
+		},
+		style: { backgroundColor: themeColors.buttonColor },
+		color: themeColors.fabIconColor,
+	};
+
+	const unpublishAction = {
+		icon: 'publish-off',
+		label: intl.formatMessage({
+			id: 'huntDetailScreen.unpublishHunt',
+			defaultMessage: 'Unpublish Hunt',
+		}),
+		onPress: () => {
+			unpublishHunt();
+		},
+		style: { backgroundColor: themeColors.buttonColor },
+		color: themeColors.fabIconColor,
+	};
+
 	const actions = [
 		{
 			icon: 'delete',
@@ -233,6 +315,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 			style: { backgroundColor: themeColors.buttonColor },
 			color: themeColors.fabIconColor,
 		},
+		currentActive ? unpublishAction : publishAction,
 		{
 			icon: 'pencil',
 			label: intl.formatMessage({
@@ -244,7 +327,6 @@ const HuntDetailScreen = ({ navigation, route }) => {
 			color: themeColors.fabIconColor,
 		},
 		{
-			// location add icon
 			icon: 'map-marker-plus',
 			label: intl.formatMessage({
 				id: 'huntDetailScreen.addLocationButton',
@@ -264,12 +346,6 @@ const HuntDetailScreen = ({ navigation, route }) => {
 				dispatch={dispatch}
 				intl={intl}
 			/>
-			<Snackbar
-				visible={snackbarVisible}
-				onDismiss={() => setSnackbarVisible(false)}
-				duration={Snackbar.DURATION_SHORT}>
-				{snackbarMessage}
-			</Snackbar>
 			<ScrollView style={{ marginBottom: 70 }}>
 				<View style={styles.container}>
 					<Card style={styles.card}>
@@ -282,7 +358,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 							</Text>
 							<Text>
 								<FormattedMessage id='huntDetailScreen.active' />{' '}
-								{active ? 'Yes' : 'No'}
+								{currentActive ? 'Yes' : 'No'}
 							</Text>
 							{openEditHunt && (
 								<View>
@@ -406,6 +482,13 @@ const HuntDetailScreen = ({ navigation, route }) => {
 				fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
 				color={themeColors.fabColor}
 			/>
+
+			<Snackbar
+				visible={snackbarVisible}
+				onDismiss={() => setSnackbarVisible(false)}
+				duration={Snackbar.DURATION_SHORT}>
+				{snackbarMessage}
+			</Snackbar>
 		</KeyboardAvoidingView>
 	);
 };

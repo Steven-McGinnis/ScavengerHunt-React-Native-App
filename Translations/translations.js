@@ -83,6 +83,10 @@ const translations = {
 		'locationDetailScreen.viewLocationOnMap': 'View on Map',
 		'Home': 'Home',
 		'Logout': 'Logout',
+		'huntDetailScreen.publishHunt': 'Publish Hunt',
+		'huntDetailScreen.unpublishHunt': 'Unpublish Hunt',
+		'huntDetailScreen.huntPublished': 'Hunt published successfully!',
+		'huntDetailScreen.huntUnpublished': 'Hunt unpublished successfully!',
 	},
 };
 

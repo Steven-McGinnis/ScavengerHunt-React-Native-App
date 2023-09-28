@@ -195,6 +195,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 			console.log('location set successfully!', response.data);
 			setCurrentLatitude(locationData.coords.latitude);
 			setCurrentLongitude(locationData.coords.longitude);
+			setOpenLocationSet(false);
 		}
 	};
 
