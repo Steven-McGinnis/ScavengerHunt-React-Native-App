@@ -80,7 +80,7 @@ const translations = {
 		'locationDetailScreen.locationSet': 'Location Set Successfully!',
 		'locationDetailScreen.locationSetError':
 			'Location Set Failed. Please try again.',
-		'locationDetailScreen.viewLocationOnMap': 'View Location on Map',
+		'locationDetailScreen.viewLocationOnMap': 'View on Map',
 	},
 };
 

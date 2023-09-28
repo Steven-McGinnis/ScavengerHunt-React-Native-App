@@ -7,8 +7,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { ActivityIndicator } from 'react-native-paper';
-import * as Location from 'expo-location';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // Local modules and components
 import { translations } from './Translations/translations';

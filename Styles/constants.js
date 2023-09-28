@@ -3,4 +3,6 @@ export const themeColors = {
 	buttonMode: 'contained',
 	textactiveOutlineColor: 'green',
 	textMode: 'outlined',
+	fabIconColor: 'white',
+	fabIconBackgroundColor: 'green',
 };

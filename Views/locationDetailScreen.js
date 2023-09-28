@@ -23,6 +23,7 @@ import {
 } from 'react-native-paper';
 import { Image } from 'react-native';
 import { TouchableOpacity } from 'react-native';
+import { FAB } from 'react-native-paper';
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
@@ -54,7 +55,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 	const [newDescription, setNewDescription] = useState('');
 
 	// State Management for Loading
-	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	// Edit Location State
 	const [openLocationEdit, setOpenLocationEdit] = useState(false);
@@ -102,7 +103,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 			return;
 		}
 
-		console.log('newDescription', newDescription);
 		if (!newDescription || newDescription === '') {
 			setSnackbarMessage(
 				intl.formatMessage({
@@ -176,6 +176,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
+	// Set Location API Call
 	const setLocation = async () => {
 		const response = await apiCall({
 			endpointSuffix: 'updateHuntLocationPosition.php',
@@ -197,6 +198,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
+	// Delete Location API Call
 	const deleteLocation = async () => {
 		const response = await apiCall({
 			endpointSuffix: 'deleteHuntLocation.php',
@@ -213,6 +215,65 @@ const LocationDetailScreen = ({ navigation, route }) => {
 			navigation.goBack();
 		}
 	};
+
+	// Create an array for the actions FAB
+	const actions = [
+		{
+			icon: 'pencil',
+			label: intl.formatMessage({
+				id: 'locationDetailScreen.editLocationButton',
+				defaultMessage: 'Edit Location',
+			}),
+			onPress: () => !setOpenLocationEdit((prevState) => !prevState),
+			color: themeColors.fabIconColor,
+			style: { backgroundColor: themeColors.fabIconBackgroundColor },
+		},
+		{
+			icon: 'delete',
+			label: intl.formatMessage({
+				id: 'locationDetailScreen.deleteLocationButton',
+				defaultMessage: 'Delete Location',
+			}),
+			onPress: showConfirmDialog,
+			color: themeColors.fabIconColor,
+			style: { backgroundColor: themeColors.fabIconBackgroundColor },
+		},
+	];
+
+	if (currentLatitude && currentLongitude) {
+		actions.unshift({
+			icon: 'map',
+			label: intl.formatMessage({
+				id: 'locationDetailScreen.viewLocationOnMap',
+				defaultMessage: 'View Location on Map',
+			}),
+			color: themeColors.fabIconColor,
+			style: { backgroundColor: themeColors.fabIconBackgroundColor },
+			onPress: () => {
+				navigation.navigate('Map Location', {
+					location: location,
+					locationName: currentLocationName,
+					huntid: huntid,
+					currentLatitude: currentLatitude,
+					currentLongitude: currentLongitude,
+				});
+			},
+		});
+	}
+
+	if (locationData) {
+		actions.push({
+			icon: 'map-marker',
+			label: intl.formatMessage({
+				id: 'locationDetailScreen.openLocationSet',
+				defaultMessage: 'Open Location Set Panel',
+			}),
+			color: themeColors.fabIconColor,
+			style: { backgroundColor: themeColors.fabIconBackgroundColor },
+			onPress: () => setOpenLocationSet((prevState) => !prevState),
+		});
+	}
+	// End of FAB actions array
 
 	return (
 		<KeyboardAvoidingView
@@ -251,29 +312,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 								<FormattedMessage id='locationDetailScreen.locationDescription' />{' '}
 								{currentDescription ? currentDescription : 'None'}
 							</Text>
-
-							{currentLatitude && currentLongitude && (
-								<View style={{ marginTop: 20 }}>
-									<Button
-										mode={themeColors.buttonMode}
-										onPress={() => {
-											navigation.navigate('Map Location', {
-												location: location,
-												locationName: currentLocationName,
-												huntid: huntid,
-												currentLatitude: currentLatitude,
-												currentLongitude: currentLongitude,
-											});
-										}}
-										style={styles.loginButton}
-										buttonColor={themeColors.buttonColor}>
-										{intl.formatMessage({
-											id: 'locationDetailScreen.viewLocationOnMap',
-											defaultMessage: 'View Location on Map',
-										})}
-									</Button>
-								</View>
-							)}
 
 							{openLocationEdit && (
 								<View>
@@ -328,7 +366,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 					</Card>
 				</View>
 
-				{/* needs locationData too */}
 				{openLocationSet && locationData ? (
 					<View style={styles.container}>
 						<Card style={styles.card}>
@@ -371,60 +408,20 @@ const LocationDetailScreen = ({ navigation, route }) => {
 							</Card.Content>
 						</Card>
 					</View>
-				) : (
-					<View style={styles.container}>
-						<Card style={styles.card}>
-							<Card.Title
-								title={intl.formatMessage({
-									id: 'locationDetailScreen.openLocationSet',
-									defaultMessage: 'Open Location Set Panel',
-								})}
-							/>
-							<Card.Content>
-								<Button
-									mode={themeColors.buttonMode}
-									onPress={() => setOpenLocationSet((prevState) => !prevState)}
-									style={styles.loginButton}
-									buttonColor={themeColors.buttonColor}>
-									{intl.formatMessage({
-										id: 'locationDetailScreen.openLocationSet',
-										defaultMessage: 'Open Location Set Panel',
-									})}
-								</Button>
-							</Card.Content>
-						</Card>
-					</View>
-				)}
+				) : null}
 			</ScrollView>
-			<View style={styles.navigation}>
-				<Card style={styles.card}>
-					<Card.Content
-						Content
-						style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-						<Button
-							mode={themeColors.buttonMode}
-							onPress={() => !setOpenLocationEdit((prevState) => !prevState)}
-							style={styles.loginButton}
-							buttonColor={themeColors.buttonColor}>
-							{intl.formatMessage({
-								id: 'locationDetailScreen.editLocationButton',
-								defaultMessage: 'Edit Location',
-							})}
-						</Button>
-						<View style={styles.spacer2} />
-						<Button
-							mode={themeColors.buttonMode}
-							onPress={showConfirmDialog}
-							style={styles.loginButton}
-							buttonColor={themeColors.buttonColor}>
-							{intl.formatMessage({
-								id: 'locationDetailScreen.deleteLocationButton',
-								defaultMessage: 'Delete Location',
-							})}
-						</Button>
-					</Card.Content>
-				</Card>
-			</View>
+			<FAB.Group
+				open={open}
+				icon={open ? 'close' : 'plus'}
+				actions={actions}
+				onStateChange={({ open }) => setOpen(open)}
+				onPress={() => {
+					if (open) {
+					}
+				}}
+				fabStyle={{ backgroundColor: 'green' }}
+				color='white'
+			/>
 			<Snackbar
 				visible={snackbarVisible}
 				onDismiss={() => setSnackbarVisible(false)}

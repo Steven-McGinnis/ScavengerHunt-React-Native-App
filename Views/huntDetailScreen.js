@@ -20,6 +20,7 @@ import {
 	Snackbar,
 	ProgressBar,
 	List,
+	FAB,
 } from 'react-native-paper';
 
 // Custom components and utilities
@@ -52,6 +53,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 
 	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	// Edit Hunt State
 	const [openEditHunt, setOpenEditHunt] = useState(false);
@@ -215,6 +217,30 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		}, [])
 	);
 
+	// Create an array for the actions
+	const actions = [
+		{
+			icon: 'pencil', // You can use any icon name from MaterialCommunityIcons
+			label: intl.formatMessage({
+				id: 'huntDetailScreen.editHuntButton',
+				defaultMessage: 'Edit Hunt',
+			}),
+			onPress: () => !setOpenEditHunt((prevState) => !prevState),
+			style: { backgroundColor: themeColors.buttonColor },
+			color: themeColors.fabIconColor,
+		},
+		{
+			icon: 'delete', // You can use any icon name from MaterialCommunityIcons
+			label: intl.formatMessage({
+				id: 'huntDetailScreen.deleteHuntButton',
+				defaultMessage: 'Delete Hunt',
+			}),
+			onPress: showConfirmDialog,
+			style: { backgroundColor: themeColors.buttonColor },
+			color: themeColors.fabIconColor,
+		},
+	];
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -353,35 +379,19 @@ const HuntDetailScreen = ({ navigation, route }) => {
 					</Card>
 				)}
 			</ScrollView>
-			<View style={styles.navigation}>
-				<Card style={styles.card}>
-					<Card.Content
-						Content
-						style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-						<Button
-							mode={themeColors.buttonMode}
-							onPress={() => !setOpenEditHunt((prevState) => !prevState)}
-							style={styles.loginButton}
-							buttonColor={themeColors.buttonColor}>
-							{intl.formatMessage({
-								id: 'huntDetailScreen.editHuntButton',
-								defaultMessage: 'Edit Hunt',
-							})}
-						</Button>
-						<View style={styles.spacer2} />
-						<Button
-							mode={themeColors.buttonMode}
-							onPress={showConfirmDialog}
-							style={styles.loginButton}
-							buttonColor={themeColors.buttonColor}>
-							{intl.formatMessage({
-								id: 'huntDetailScreen.deleteHuntButton',
-								defaultMessage: 'Edit Hunt',
-							})}
-						</Button>
-					</Card.Content>
-				</Card>
-			</View>
+
+			<FAB.Group
+				open={open}
+				icon={open ? 'close' : 'plus'}
+				actions={actions}
+				onStateChange={({ open }) => setOpen(open)}
+				onPress={() => {
+					if (open) {
+					}
+				}}
+				fabStyle={{ backgroundColor: 'green' }} // Color for the main FAB
+				color='white' // Color for the icon and label
+			/>
 		</KeyboardAvoidingView>
 	);
 };
