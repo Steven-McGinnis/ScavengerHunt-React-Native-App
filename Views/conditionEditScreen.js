@@ -186,8 +186,6 @@ const ConditionEditScreen = ({ navigation, route }) => {
 		return date;
 	}
 
-	console.log(startTime, endTime);
-
 	function formatTime(date) {
 		let hours = date.getHours();
 		let minutes = date.getMinutes();
@@ -236,7 +234,6 @@ const ConditionEditScreen = ({ navigation, route }) => {
 
 	const addConditionToLocation = async () => {
 		if (isSwitchOn) {
-			console.log("This should be the location's id");
 			if (!selectedLocationId) {
 				setSnackbarMessage(
 					intl.formatMessage({
@@ -290,7 +287,6 @@ const ConditionEditScreen = ({ navigation, route }) => {
 				starttime: null,
 				endtime: null,
 			};
-			console.log(data);
 		} else {
 			data = {
 				conditionid: condition.conditionid,

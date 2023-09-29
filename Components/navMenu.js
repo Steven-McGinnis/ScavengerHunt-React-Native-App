@@ -30,7 +30,7 @@ const NavMenu = ({ dispatch, intl }) => {
 							icon='home'
 							onPress={() => {
 								closeMenu();
-								navigation.navigate('ScavengerScreen');
+								navigation.navigate('Choose Role Player/Builder');
 							}}
 							title={intl.formatMessage({ id: 'Home' })}
 						/>

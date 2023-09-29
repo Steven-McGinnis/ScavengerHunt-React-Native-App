@@ -31,7 +31,7 @@ const InitializeScreen = ({ navigation }) => {
 				});
 
 				if (response.success) {
-					navigation.replace('ScavengerScreen');
+					navigation.replace('Choose Role Player/Builder');
 				} else {
 					dispatch(addAuthToken(null));
 					navigation.replace('Authentication');

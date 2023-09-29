@@ -67,7 +67,6 @@ const Register = ({ navigation }) => {
 		});
 
 		if (response.success) {
-			console.log('Registered successfully!', response.data);
 			dispatch(addAuthToken(response.data.token));
 			navigation.navigate('ScavengerScreen');
 		}

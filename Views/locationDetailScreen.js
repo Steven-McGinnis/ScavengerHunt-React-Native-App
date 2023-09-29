@@ -153,7 +153,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
 	// Submit Edit Hunt
 	const submitEditedLocationDetails = async () => {
-		console.log('submitEditedLocationDetails');
 		if (!newLocationName || newLocationName === '') {
 			setSnackbarMessage(
 				intl.formatMessage({
@@ -249,12 +248,8 @@ const LocationDetailScreen = ({ navigation, route }) => {
 		}
 	};
 
-	console.log(startTime, endTime);
-	console.log(conditions);
-
 	const addConditionToLocation = async () => {
 		if (isSwitchOn) {
-			console.log("This should be the location's id");
 			if (!selectedLocationId) {
 				setSnackbarMessage(
 					intl.formatMessage({
@@ -299,8 +294,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 				.padStart(2, '0')}:${utcEndMinutes.toString().padStart(2, '0')}:00`;
 		}
 
-		console.log(formattedUTCStartTime, formattedUTCEndTime);
-
 		let data;
 		if (isSwitchOn) {
 			data = {
@@ -320,7 +313,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 			};
 		}
 
-		console.log("we're here");
 		const response = await apiCall({
 			endpointSuffix: 'addCondition.php',
 			data: data,
@@ -352,7 +344,6 @@ const LocationDetailScreen = ({ navigation, route }) => {
 		});
 
 		if (response.success) {
-			console.log('location set successfully!', response.data);
 			setCurrentLatitude(locationData.coords.latitude);
 			setCurrentLongitude(locationData.coords.longitude);
 			setOpenLocationSet(false);

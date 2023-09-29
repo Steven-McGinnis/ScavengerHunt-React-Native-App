@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
 	},
 	splash: {
 		flex: 1,
-		backgroundColor: 'black',
+		backgroundColor: '#444654',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},

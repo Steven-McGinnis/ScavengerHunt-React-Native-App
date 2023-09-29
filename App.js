@@ -20,6 +20,8 @@ import HuntDetailScreen from './Views/huntDetailScreen';
 import LocationDetailScreen from './Views/locationDetailScreen';
 import MapLocationScreen from './Views/mapLocationScreen';
 import ConditionEditScreen from './Views/conditionEditScreen';
+import ChooseRoleScreen from './Views/chooseRoleScreen';
+import PlayerHomeScreen from './Views/playerHomeScreen';
 import { customTheme } from './Styles/paperTheme';
 import { StatusBar } from 'expo-status-bar';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -90,6 +92,14 @@ export default function App() {
 								<Stack.Screen
 									name='Edit Condition'
 									component={ConditionEditScreen}
+								/>
+								<Stack.Screen
+									name='Choose Role Player/Builder'
+									component={ChooseRoleScreen}
+								/>
+								<Stack.Screen
+									name='Player Home Screen'
+									component={PlayerHomeScreen}
 								/>
 							</Stack.Navigator>
 						</NavigationContainer>
