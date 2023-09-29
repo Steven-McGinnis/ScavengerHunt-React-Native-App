@@ -33,7 +33,7 @@ import apiCall from '../Helper/apiCall';
 import {
 	clearHuntLocations,
 	addHuntLocations,
-} from '../Model/Slices/HuntSlice';
+} from '../Model/Slices/huntSlice';
 
 const HuntDetailScreen = ({ navigation, route }) => {
 	const { active, huntid, name } = route.params;

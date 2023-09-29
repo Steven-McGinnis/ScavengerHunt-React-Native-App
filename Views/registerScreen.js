@@ -66,6 +66,18 @@ const Register = ({ navigation }) => {
 			intl,
 		});
 
+		if (!response.success) {
+			setSnackbarMessage(
+				response.message ||
+					intl.formatMessage({
+						id: 'defaultErrorMessage',
+						defaultMessage: 'An error occurred. Please try again later.',
+					})
+			);
+			setSnackbarVisible(true);
+			return; // Ensure we exit the function after handling the error
+		}
+
 		if (response.success) {
 			dispatch(addAuthToken(response.data.token));
 			navigation.navigate('ScavengerScreen');
@@ -78,12 +90,6 @@ const Register = ({ navigation }) => {
 			style={styles.container}>
 			<ScrollView>
 				<View style={styles.container}>
-					<Snackbar
-						visible={snackbarVisible}
-						onDismiss={() => setSnackbarVisible(false)}
-						duration={Snackbar.DURATION_SHORT}>
-						{snackbarMessage}
-					</Snackbar>
 					<Card style={styles.card}>
 						<Card.Title
 							title={
@@ -150,6 +156,12 @@ const Register = ({ navigation }) => {
 					</Card>
 				</View>
 			</ScrollView>
+			<Snackbar
+				visible={snackbarVisible}
+				onDismiss={() => setSnackbarVisible(false)}
+				duration={Snackbar.DURATION_SHORT}>
+				{snackbarMessage}
+			</Snackbar>
 		</KeyboardAvoidingView>
 	);
 };

@@ -2,7 +2,8 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 // Redux slices
-import huntSlice from './Slices/HuntSlice';
+import huntSlice from './Slices/huntSlice.js';
+
 import authSlice from './Slices/authSlice';
 
 import {

@@ -23,7 +23,7 @@ import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 
 // Redux slices
-import { addHunt, clearHunts } from '../Model/Slices/HuntSlice';
+import { addHunt, clearHunts } from '../Model/Slices/huntSlice';
 
 const ScavengerScreen = ({ navigation }) => {
 	const dispatch = useDispatch();

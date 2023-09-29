@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.stevenmcginnis.ScavengerHunt"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -29,6 +30,11 @@
     },
     "plugins": [
       "expo-localization"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a725df7c-3665-483e-8e10-b39cdcf16431"
+      }
+    }
   }
 }
