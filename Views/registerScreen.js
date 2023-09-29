@@ -1,6 +1,6 @@
 // Core
 import React, { useState } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 // Third-party libraries
 import { useDispatch } from 'react-redux';
@@ -18,6 +18,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
 import apiCall from '../Helper/apiCall';
+import CustomSnackbar from '../Components/customSnackBar';
 
 // Redux slices
 import { addAuthToken } from '../Model/Slices/authSlice';
@@ -31,6 +32,7 @@ const Register = ({ navigation }) => {
 	const [password2, setPassword2] = useState('');
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
+	const [snackbarIconName, setSnackbarIconName] = useState(null);
 
 	const handleRegister = async () => {
 		if (!username || !password || !password2) {
@@ -40,6 +42,7 @@ const Register = ({ navigation }) => {
 					defaultMessage: 'Please enter a username and password',
 				})
 			);
+			setSnackbarIconName('error-outline');
 			setSnackbarVisible(true);
 			return;
 		}
@@ -51,6 +54,7 @@ const Register = ({ navigation }) => {
 					defaultMessage: 'Passwords do not match',
 				})
 			);
+			setSnackbarIconName('error-outline');
 			setSnackbarVisible(true);
 			return;
 		}
@@ -74,6 +78,7 @@ const Register = ({ navigation }) => {
 						defaultMessage: 'An error occurred. Please try again later.',
 					})
 			);
+			setSnackbarIconName('error-outline');
 			setSnackbarVisible(true);
 			return; // Ensure we exit the function after handling the error
 		}
@@ -85,84 +90,81 @@ const Register = ({ navigation }) => {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			style={styles.container}>
+		<View style={styles.container}>
 			<ScrollView>
-				<View style={styles.container}>
-					<Card style={styles.card}>
-						<Card.Title
-							title={
-								<FormattedMessage
-									id='register.title'
-									defaultMessage='Register'
-								/>
-							}
-							subtitle={
-								<FormattedMessage
-									id='register.subtitle'
-									defaultMessage='Create Account'
-								/>
-							}
+				<Card style={styles.card}>
+					<Card.Title
+						title={
+							<FormattedMessage
+								id='register.title'
+								defaultMessage='Register'
+							/>
+						}
+						subtitle={
+							<FormattedMessage
+								id='register.subtitle'
+								defaultMessage='Create Account'
+							/>
+						}
+					/>
+					<Card.Content>
+						<TextInput
+							activeOutlineColor={themeColors.textactiveOutlineColor}
+							mode={themeColors.textMode}
+							label={intl.formatMessage({
+								id: 'register.usernameLabel',
+								defaultMessage: 'Username',
+							})}
+							value={username}
+							onChangeText={(text) => setUsername(text)}
+							style={styles.input}
 						/>
-						<Card.Content>
-							<TextInput
-								activeOutlineColor={themeColors.textactiveOutlineColor}
-								mode={themeColors.textMode}
-								label={intl.formatMessage({
-									id: 'register.usernameLabel',
-									defaultMessage: 'Username',
-								})}
-								value={username}
-								onChangeText={(text) => setUsername(text)}
-								style={styles.input}
-							/>
-							<TextInput
-								activeOutlineColor={themeColors.textactiveOutlineColor}
-								mode={themeColors.textMode}
-								label={intl.formatMessage({
-									id: 'register.passwordLabel',
-									defaultMessage: 'Password',
-								})}
-								value={password}
-								onChangeText={(text) => setPassword(text)}
-								secureTextEntry
-								style={styles.input}
-							/>
-							<TextInput
-								activeOutlineColor={themeColors.textactiveOutlineColor}
-								mode={themeColors.textMode}
-								label={intl.formatMessage({
-									id: 'register.reenterPasswordLabel',
-									defaultMessage: 'Re-enter Password',
-								})}
-								value={password2}
-								onChangeText={(text) => setPassword2(text)}
-								secureTextEntry
-								style={styles.input}
-							/>
-							<View style={styles.spacer} />
-							<Button
-								mode={themeColors.buttonMode}
-								onPress={handleRegister}
-								style={styles.loginButton}
-								buttonColor={themeColors.buttonColor}>
-								{intl.formatMessage({
-									id: 'register.registerButton',
-									defaultMessage: 'Register',
-								})}
-							</Button>
-						</Card.Content>
-					</Card>
-				</View>
+						<TextInput
+							activeOutlineColor={themeColors.textactiveOutlineColor}
+							mode={themeColors.textMode}
+							label={intl.formatMessage({
+								id: 'register.passwordLabel',
+								defaultMessage: 'Password',
+							})}
+							value={password}
+							onChangeText={(text) => setPassword(text)}
+							secureTextEntry
+							style={styles.input}
+						/>
+						<TextInput
+							activeOutlineColor={themeColors.textactiveOutlineColor}
+							mode={themeColors.textMode}
+							label={intl.formatMessage({
+								id: 'register.reenterPasswordLabel',
+								defaultMessage: 'Re-enter Password',
+							})}
+							value={password2}
+							onChangeText={(text) => setPassword2(text)}
+							secureTextEntry
+							style={styles.input}
+						/>
+						<View style={styles.spacer} />
+						<Button
+							mode={themeColors.buttonMode}
+							onPress={handleRegister}
+							style={styles.loginButton}
+							buttonColor={themeColors.buttonColor}>
+							{intl.formatMessage({
+								id: 'register.registerButton',
+								defaultMessage: 'Register',
+							})}
+						</Button>
+					</Card.Content>
+				</Card>
 			</ScrollView>
-			<Snackbar
+			<CustomSnackbar
 				visible={snackbarVisible}
 				onDismiss={() => setSnackbarVisible(false)}
-				duration={Snackbar.DURATION_SHORT}>
-				{snackbarMessage}
-			</Snackbar>
-		</KeyboardAvoidingView>
+				message={snackbarMessage}
+				iconName={snackbarIconName}
+				duration={Snackbar.DURATION_SHORT}
+			/>
+		</View>
 	);
 };
 

@@ -7,6 +7,7 @@ import {
 	ScrollView,
 	Image,
 	TouchableOpacity,
+	Platform,
 } from 'react-native';
 
 // Third-party libraries
@@ -34,6 +35,8 @@ import { themeColors } from '../Styles/constants';
 import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
+import timeHelper from '../Helper/timeHelper';
+import CustomSnackbar from '../Components/customSnackBar';
 
 const ConditionEditScreen = ({ navigation, route }) => {
 	// Props and External Hooks
@@ -51,6 +54,7 @@ const ConditionEditScreen = ({ navigation, route }) => {
 	const [open, setOpen] = useState(false);
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
+	const [snackbarIconName, setSnackbarIconName] = useState(null);
 
 	// Switch states and handlers
 	const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -310,37 +314,6 @@ const ConditionEditScreen = ({ navigation, route }) => {
 			navigation.goBack();
 		}
 	};
-	const convertUTCToLocal = (utcTimeInput) => {
-		let hours, minutes;
-
-		if (utcTimeInput instanceof Date) {
-			// Check if it's a Date object
-			hours = utcTimeInput.getUTCHours();
-			minutes = utcTimeInput.getUTCMinutes();
-		} else if (typeof utcTimeInput === 'string') {
-			// Check if it's a string
-			[hours, minutes] = utcTimeInput.split(':').map(Number);
-		} else {
-			console.error('Unknown type for utcTimeInput:', utcTimeInput);
-			return null;
-		}
-
-		const now = new Date();
-		const utcDate = new Date(
-			Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0)
-		);
-		const localDate = new Date(utcDate);
-
-		let localHours = localDate.getHours();
-		const ampm = localHours >= 12 ? 'PM' : 'AM';
-		localHours = localHours % 12;
-		localHours = localHours || 12;
-
-		return `${localHours}:${localDate
-			.getMinutes()
-			.toString()
-			.padStart(2, '0')} ${ampm}`;
-	};
 
 	return (
 		<KeyboardAvoidingView
@@ -377,11 +350,15 @@ const ConditionEditScreen = ({ navigation, route }) => {
 								<>
 									<Text>
 										Required StartTime:{' '}
-										{currentStartTime ? convertUTCToLocal(currentStartTime) : 'None'}
+										{currentStartTime
+											? timeHelper.convertUTCToLocal(currentStartTime)
+											: 'None'}
 									</Text>
 									<Text>
 										Required EndTime:{' '}
-										{currentEndTime ? convertUTCToLocal(currentEndTime) : 'None'}
+										{currentEndTime
+											? timeHelper.convertUTCToLocal(currentEndTime)
+											: 'None'}
 									</Text>
 								</>
 							)}
@@ -510,12 +487,13 @@ const ConditionEditScreen = ({ navigation, route }) => {
 				fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
 				color={themeColors.fabColor}
 			/>
-			<Snackbar
+			<CustomSnackbar
 				visible={snackbarVisible}
 				onDismiss={() => setSnackbarVisible(false)}
-				duration={Snackbar.DURATION_SHORT}>
-				{snackbarMessage}
-			</Snackbar>
+				message={snackbarMessage}
+				iconName={snackbarIconName}
+				duration={Snackbar.DURATION_SHORT}
+			/>
 		</KeyboardAvoidingView>
 	);
 };

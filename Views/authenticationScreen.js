@@ -11,6 +11,7 @@ import { useIntl } from 'react-intl';
 import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
 import apiCall from '../Helper/apiCall';
+import CustomSnackbar from '../Components/customSnackBar';
 
 // Redux slices
 import { addAuthToken } from '../Model/Slices/authSlice';
@@ -22,6 +23,7 @@ const Authentication = ({ navigation }) => {
 	const [password, setPassword] = useState('');
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState('');
+	const [snackbarIconName, setSnackbarIconName] = useState(null);
 
 	const handleLogin = async () => {
 		if (!username || !password) {
@@ -43,21 +45,24 @@ const Authentication = ({ navigation }) => {
 			intl,
 		});
 
+		if (!response.success) {
+			setSnackbarMessage(response.message);
+			setSnackbarIconName('error-outline');
+			setSnackbarVisible(true);
+			return;
+		}
+
 		if (response.success) {
+			setSnackbarIconName('check-circle-outline');
+			setSnackbarMessage(response.message);
 			dispatch(addAuthToken(response.data.token));
-			navigation.replace('ScavengerScreen');
+			navigation.replace('Choose Role Player/Builder');
 		}
 	};
 
 	return (
-		<ScrollView style={{ backgroundColor: '#444654' }}>
-			<Snackbar
-				visible={snackbarVisible}
-				onDismiss={() => setSnackbarVisible(false)}
-				duration={Snackbar.DURATION_SHORT}>
-				{snackbarMessage}
-			</Snackbar>
-			<View style={styles.container}>
+		<View style={styles.container}>
+			<ScrollView style={{ backgroundColor: '#444654' }}>
 				<Card style={styles.card}>
 					<Card.Title
 						title={intl.formatMessage({ id: 'authentication.title' })}
@@ -103,8 +108,15 @@ const Authentication = ({ navigation }) => {
 						</Button>
 					</Card.Content>
 				</Card>
-			</View>
-		</ScrollView>
+			</ScrollView>
+			<CustomSnackbar
+				visible={snackbarVisible}
+				onDismiss={() => setSnackbarVisible(false)}
+				message={snackbarMessage}
+				iconName={snackbarIconName}
+				duration={Snackbar.DURATION_SHORT}
+			/>
+		</View>
 	);
 };
 

@@ -1,12 +1,6 @@
 // Core
 import React, { useState, useEffect } from 'react';
-import {
-	View,
-	Alert,
-	KeyboardAvoidingView,
-	Platform,
-	ScrollView,
-} from 'react-native';
+import { View, Alert, ScrollView } from 'react-native';
 
 // Third-party libraries
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +22,7 @@ import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
 import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
+import CustomSnackbar from '../Components/customSnackBar';
 
 // Redux slices
 import {
@@ -36,32 +31,38 @@ import {
 } from '../Model/Slices/huntSlice';
 
 const HuntDetailScreen = ({ navigation, route }) => {
+	// Extracting route parameters
 	const { active, huntid, name } = route.params;
+
+	// Redux selectors
 	const hunt = useSelector((state) =>
 		state.huntSlice.huntItems.find((h) => h.huntid === huntid)
 	);
-
 	const authTokenValue = useSelector((state) => state.authSlice.authToken);
 
-	// State Management for Hunt Name
+	// Redux dispatch hook
+	const dispatch = useDispatch();
+
+	// Internationalization hook
+	const intl = useIntl();
+
+	// Hunt-related state
 	const [currentName, setCurrentName] = useState('');
 	const [newHuntName, setNewHuntName] = useState('');
-	const [currentActive, setCurrentActive] = useState(false);
 	const [newHuntLocations, setNewHuntLocations] = useState('');
 	const [locations, setLocations] = useState([]);
-	// State Management for Snackbar
+	const [currentActive, setCurrentActive] = useState(false);
+
+	// Snackbar state management
 	const [snackbarMessage, setSnackbarMessage] = useState('');
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
+	const [snackbarIconName, setSnackbarIconName] = useState(null);
 
+	// Loading and modal states
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
-
-	// Edit Hunt State
 	const [openEditHunt, setOpenEditHunt] = useState(false);
 	const [openLocationAdd, setOpenLocationAdd] = useState(false);
-
-	const dispatch = useDispatch();
-	const intl = useIntl();
 
 	// Set the Hunt Name
 	useEffect(() => {
@@ -111,47 +112,45 @@ const HuntDetailScreen = ({ navigation, route }) => {
 
 		if (response.success) {
 			setCurrentName(newHuntName);
+
 			setOpenEditHunt(false);
 		}
 	};
 
 	// Confirm Delete Hunt
 	const showConfirmDialog = () => {
-		if (Platform.OS === 'web') {
-			const isConfirmed = window.confirm(
-				intl.formatMessage({
-					id: 'huntDetailScreen.deleteHuntConfirm',
-					defaultMessage: 'Are you sure you want to delete selected Hunt?',
-				})
-			);
-			if (isConfirmed) {
-				deleteHunt();
-			}
-		} else {
-			Alert.alert(
-				intl.formatMessage({
-					id: 'huntDetailScreen.deleteHuntConfirm',
-					defaultMessage: 'Are you sure you want to delete selected Hunt?',
-				}),
-				`Delete?`,
-				[
-					// The "Yes" button
-					{
-						text: 'Yes',
-						onPress: () => {
-							deleteHunt();
-						},
+		Alert.alert(
+			intl.formatMessage({
+				id: 'huntDetailScreen.deleteHuntConfirm',
+				defaultMessage: 'Are you sure you want to delete selected Hunt?',
+			}),
+			`Delete?`,
+			[
+				// The "Yes" button
+				{
+					text: 'Yes',
+					onPress: () => {
+						deleteHunt();
 					},
-					// The "No" button
-					{
-						text: 'No',
-					},
-				]
-			);
-		}
+				},
+				// The "No" button
+				{
+					text: 'No',
+				},
+			]
+		);
 	};
 
-	// Add on Location to the Hunt
+	/**
+	 * Asynchronously adds a location to the specified hunt using an API call.
+	 * Before making the API call, it checks if there's a valid new location name.
+	 * If the location name is missing or invalid, an error snackbar is displayed.
+	 * On successful API response, it fetches the latest locations and closes the location addition interface.
+	 *
+	 * @async
+	 * @function
+	 * @returns {void} Returns nothing
+	 */
 	const addLocationToTheHunt = async () => {
 		if (!newHuntLocations || newHuntLocations === '') {
 			setSnackbarMessage(
@@ -177,6 +176,14 @@ const HuntDetailScreen = ({ navigation, route }) => {
 		});
 
 		if (response.success) {
+			setSnackbarMessage(
+				intl.formatMessage({
+					id: 'huntDetailScreen.locationCreatedSuccessfully',
+					defaultMessage: 'Location Created Successfully!',
+				})
+			);
+			setSnackbarIconName('check-circle-outline');
+			setSnackbarVisible(true);
 			fetchLocations();
 			setOpenLocationAdd(false);
 		}
@@ -194,6 +201,17 @@ const HuntDetailScreen = ({ navigation, route }) => {
 			onFailureMessageId: 'networkError',
 			intl,
 		});
+
+		if (!response.success) {
+			setSnackbarMessage(
+				intl.formatMessage({
+					id: 'huntDetailScreen.huntDeleteError',
+					defaultMessage: 'Failed to delete Hunt',
+				})
+			);
+			setSnackbarVisible(true);
+			return;
+		}
 
 		if (response.success) {
 			navigation.replace('ScavengerScreen');
@@ -338,9 +356,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 	];
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			style={styles.container}>
+		<View style={styles.container}>
 			<NavMenu
 				dispatch={dispatch}
 				intl={intl}
@@ -482,13 +498,14 @@ const HuntDetailScreen = ({ navigation, route }) => {
 				color={themeColors.fabColor}
 			/>
 
-			<Snackbar
+			<CustomSnackbar
 				visible={snackbarVisible}
 				onDismiss={() => setSnackbarVisible(false)}
-				duration={Snackbar.DURATION_SHORT}>
-				{snackbarMessage}
-			</Snackbar>
-		</KeyboardAvoidingView>
+				message={snackbarMessage}
+				iconName={snackbarIconName}
+				duration={Snackbar.DURATION_SHORT}
+			/>
+		</View>
 	);
 };
 

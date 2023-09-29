@@ -7,6 +7,7 @@ import {
 	ScrollView,
 	Image,
 	TouchableOpacity,
+	Platform,
 } from 'react-native';
 
 // Third-party libraries

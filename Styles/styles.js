@@ -39,4 +39,8 @@ export const styles = StyleSheet.create({
 	input: {
 		marginBottom: 10,
 	},
+	mainContainer: {
+		flex: 1, // Take up the full height
+		flexDirection: 'column', // Stack children vertically
+	},
 });
