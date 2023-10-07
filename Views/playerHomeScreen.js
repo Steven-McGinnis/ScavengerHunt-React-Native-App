@@ -13,15 +13,15 @@ import { styles } from '../Styles/styles';
 import apiCall from '../Helper/apiCall';
 
 const PlayerHomeScreen = ({ navigation }) => {
-	const authTokenValue = useSelector((state) => state.authSlice.authToken);
-	const dispatch = useDispatch();
-	const intl = useIntl();
+    const authTokenValue = useSelector((state) => state.authSlice.authToken);
+    const dispatch = useDispatch();
+    const intl = useIntl();
 
-	return (
-		<View style={styles.container}>
-			<BottomNav />
-		</View>
-	);
+    return (
+        <View style={styles.container}>
+            <BottomNav />
+        </View>
+    );
 };
 
 export default PlayerHomeScreen;

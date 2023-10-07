@@ -14,40 +14,40 @@ import apiCall from '../Helper/apiCall';
 import { addAuthToken } from '../Model/Slices/authSlice';
 
 const InitializeScreen = ({ navigation }) => {
-	const authTokenValue = useSelector((state) => state.authSlice.authToken);
-	const dispatch = useDispatch();
-	const intl = useIntl();
+    const authTokenValue = useSelector((state) => state.authSlice.authToken);
+    const dispatch = useDispatch();
+    const intl = useIntl();
 
-	useEffect(() => {
-		setTimeout(async () => {
-			if (!authTokenValue) {
-				navigation.replace('Authentication');
-			} else {
-				const response = await apiCall({
-					endpointSuffix: 'verifyToken.php',
-					data: { token: authTokenValue },
-					onFailureMessageId: 'networkError',
-					intl,
-				});
+    useEffect(() => {
+        setTimeout(async () => {
+            if (!authTokenValue) {
+                navigation.replace('Authentication');
+            } else {
+                const response = await apiCall({
+                    endpointSuffix: 'verifyToken.php',
+                    data: { token: authTokenValue },
+                    onFailureMessageId: 'networkError',
+                    intl,
+                });
 
-				if (response.success) {
-					navigation.replace('Choose Role Player/Builder');
-				} else {
-					dispatch(addAuthToken(null));
-					navigation.replace('Authentication');
-				}
-			}
-		}, 3000);
-	}, [authTokenValue, navigation, dispatch, intl]);
+                if (response.success) {
+                    navigation.replace('Choose Role Player/Builder');
+                } else {
+                    dispatch(addAuthToken(null));
+                    navigation.replace('Authentication');
+                }
+            }
+        }, 3000);
+    }, [authTokenValue, navigation, dispatch, intl]);
 
-	return (
-		<View style={styles.splash}>
-			<Image
-				source={require('../assets/splashLogo.png')}
-				style={{ width: 400, height: 400 }}
-			/>
-		</View>
-	);
+    return (
+        <View style={styles.splash}>
+            <Image
+                source={require('../assets/splashLogo.png')}
+                style={{ width: 400, height: 400 }}
+            />
+        </View>
+    );
 };
 
 export default InitializeScreen;
