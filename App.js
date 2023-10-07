@@ -12,19 +12,19 @@ import React from 'react';
 // Local modules and components
 import { translations } from './Translations/translations';
 import { store } from './Model/store';
-import InitializeScreen from './Views/initializeScreen';
-import Authentication from './Views/authenticationScreen';
+import SplashScreen from './Views/splashScreen';
+import LoginScreen from './Views/loginScreen';
 import Register from './Views/registerScreen';
-import ScavengerScreen from './Views/scavengerScreen';
+import HuntScreen from './Views/huntScreen';
 import HuntDetailScreen from './Views/huntDetailScreen';
 import LocationDetailScreen from './Views/locationDetailScreen';
 import MapLocationScreen from './Views/mapLocationScreen';
 import ConditionEditScreen from './Views/conditionEditScreen';
-import ChooseRoleScreen from './Views/chooseRoleScreen';
-import PlayerHomeScreen from './Views/playerHomeScreen';
+import HomeScreen from './Views/homeScreen';
 import { customTheme } from './Styles/paperTheme';
 import { StatusBar } from 'expo-status-bar';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { themeColors } from './Styles/constants';
 
 const Stack = createNativeStackNavigator();
 const persistor = persistStore(store);
@@ -45,61 +45,66 @@ export default function App() {
                         <NavigationContainer>
                             <StatusBar
                                 style='light'
-                                backgroundColor='#1DB954'
+                                backgroundColor={themeColors.backgroundcolors}
                             />
                             <Stack.Navigator
                                 initialRouteName='Splash'
                                 screenOptions={{
                                     headerStyle: {
-                                        backgroundColor: 'white',
+                                        backgroundColor:
+                                            themeColors.backgroundcolors,
                                     },
-                                    headerTintColor: 'green',
+                                    headerTintColor: themeColors.textColor,
                                     headerTitleStyle: {
                                         fontWeight: 'bold',
                                     },
                                 }}>
                                 <Stack.Screen
                                     name='Splash'
-                                    component={InitializeScreen}
+                                    component={SplashScreen}
                                     options={{
                                         headerShown: false,
                                     }}
                                 />
                                 <Stack.Screen
-                                    name='Authentication'
-                                    component={Authentication}
+                                    name='Login'
+                                    component={LoginScreen}
+                                    options={{ title: 'Login' }}
                                 />
                                 <Stack.Screen
                                     name='Register'
                                     component={Register}
+                                    options={{ title: 'Register' }}
                                 />
                                 <Stack.Screen
-                                    name='ScavengerScreen'
-                                    component={ScavengerScreen}
+                                    name='HuntScreen'
+                                    component={HuntScreen}
+                                    options={{ title: 'Hunts Screen' }}
                                 />
                                 <Stack.Screen
                                     name='Hunt Details'
                                     component={HuntDetailScreen}
+                                    options={{ title: 'Hunt Details' }}
                                 />
                                 <Stack.Screen
                                     name='Location Details'
                                     component={LocationDetailScreen}
+                                    options={{ title: 'Location Details' }}
                                 />
                                 <Stack.Screen
                                     name='Map Location'
                                     component={MapLocationScreen}
+                                    options={{ title: 'Map Location' }}
                                 />
                                 <Stack.Screen
                                     name='Edit Condition'
                                     component={ConditionEditScreen}
+                                    options={{ title: 'Edit Condition' }}
                                 />
                                 <Stack.Screen
-                                    name='Choose Role Player/Builder'
-                                    component={ChooseRoleScreen}
-                                />
-                                <Stack.Screen
-                                    name='Player Home Screen'
-                                    component={PlayerHomeScreen}
+                                    name='HomeScreen'
+                                    component={HomeScreen}
+                                    options={{ title: 'Home Screen' }}
                                 />
                             </Stack.Navigator>
                         </NavigationContainer>

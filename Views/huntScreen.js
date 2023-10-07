@@ -12,6 +12,7 @@ import {
     Snackbar,
     List,
     ProgressBar,
+    FAB
 } from 'react-native-paper';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useFocusEffect } from '@react-navigation/native';
@@ -26,7 +27,7 @@ import CustomSnackbar from '../Components/customSnackBar';
 // Redux slices
 import { addHunt, clearHunts } from '../Model/Slices/huntSlice';
 
-const ScavengerScreen = ({ navigation }) => {
+const HuntScreen = ({ navigation }) => {
     // Redux hooks
     const dispatch = useDispatch();
 
@@ -44,9 +45,11 @@ const ScavengerScreen = ({ navigation }) => {
 
     // Loader state
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
 
     // Input state
     const [newHuntName, setNewHuntName] = useState('');
+    const [openCreateNewHunt, setOpenCreateNewHunt] = useState(false);
 
     // Initial Load for Data
     useFocusEffect(
@@ -69,7 +72,7 @@ const ScavengerScreen = ({ navigation }) => {
         if (!newHuntName) {
             setSnackbarMessage(
                 intl.formatMessage({
-                    id: 'scavenger.newHuntName',
+                    id: 'huntScreen.newHuntName',
                     defaultMessage: 'Please enter a hunt name',
                 })
             );
@@ -84,7 +87,7 @@ const ScavengerScreen = ({ navigation }) => {
                 token: authTokenValue,
             },
             onSuccessMessageId: null,
-            onFailureMessageId: 'scavenger.failedToRegister',
+            onFailureMessageId: 'huntScreen.failedToRegister',
             intl,
         });
 
@@ -94,7 +97,7 @@ const ScavengerScreen = ({ navigation }) => {
                 setNewHuntName('');
                 setSnackbarMessage(
                     intl.formatMessage({
-                        id: 'scavenger.huntCreated',
+                        id: 'huntScreen.huntCreated',
                         defaultMessage: 'Hunter Created Successfully!',
                     })
                 );
@@ -109,6 +112,7 @@ const ScavengerScreen = ({ navigation }) => {
             setSnackbarVisible(true);
         }
     };
+
 
     /**
      * Asynchronously fetches hunts data using an API call.
@@ -129,14 +133,14 @@ const ScavengerScreen = ({ navigation }) => {
                 token: authTokenValue,
             },
             onSuccessMessageId: null,
-            onFailureMessageId: 'scavenger.failedToRegister',
+            onFailureMessageId: 'huntScreen.failedToRegister',
             intl,
         });
 
         if (!response.success) {
             setSnackbarMessage(
                 intl.formatMessage({
-                    id: 'scavenger.failedToLoadData',
+                    id: 'huntScreen.failedToLoadData',
                     defaultMessage: 'Failed to load data',
                 })
             );
@@ -156,50 +160,62 @@ const ScavengerScreen = ({ navigation }) => {
         setLoading(false);
     };
 
+    
+    const actions = [
+        {
+            icon: 'tag-plus',
+            label: intl.formatMessage({
+                id: 'huntScreen.newHunt',
+                defaultMessage: 'Add Location',
+            }),
+            onPress: () => !setOpenCreateNewHunt((prevState) => !prevState),
+            style: { backgroundColor: themeColors.buttonColor },
+            color: themeColors.fabIconColor,
+        },
+    ];
+
     return (
         <View style={styles.container}>
-            <NavMenu
-                dispatch={dispatch}
-                intl={intl}
-            />
+            <NavMenu />
             <ScrollView>
                 <View style={styles.container}>
-                    <Card style={styles.card}>
+                    {openCreateNewHunt && (
+                    <Card style={{backgroundColor: "#8ac187"}}>
                         <Card.Title
-                            title={<FormattedMessage id='ScavengerScreen' />}
-                            subtitle={
-                                <FormattedMessage id='scavenger.newHunt' />
+                            title={
+                                <FormattedMessage id='huntScreen.createHunt' />
                             }
-                        />
-                        <Card.Cover
-                            source={require('../assets/splashLogo.png')}
+                            titleStyle={{color: "black", fontSize: 20}}
                         />
                         <Card.Content>
                             <TextInput
                                 activeOutlineColor={
-                                    themeColors.textactiveOutlineColor
+                                    themeColors.textActiveOutlineColor2
                                 }
                                 mode={themeColors.textMode}
                                 label={intl.formatMessage({
-                                    id: 'scavenger.newHuntName',
+                                    id: 'huntScreen.newHuntName',
                                     defaultMessage: 'Hunt Name',
                                 })}
                                 value={newHuntName}
                                 onChangeText={(text) => setNewHuntName(text)}
-                                style={styles.input}
+                                style={{backgroundColor: "#8ac187", marginBottom: 10}}
                             />
                             <Button
                                 mode={themeColors.buttonMode}
                                 onPress={createHunt}
                                 style={styles.loginButton}
-                                buttonColor={themeColors.buttonColor}>
+                                buttonColor='white'
+                                activeOutlineColor='green'
+                                textColor='black'>
                                 {intl.formatMessage({
-                                    id: 'scavenger.createHunt',
+                                    id: 'huntScreen.createHunt',
                                     defaultMessage: 'Create Hunt',
                                 })}
                             </Button>
                         </Card.Content>
                     </Card>
+                    )}
                 </View>
                 {loading && (
                     <ProgressBar
@@ -209,31 +225,52 @@ const ScavengerScreen = ({ navigation }) => {
                         style={{ marginBottom: 10 }}
                     />
                 )}
-                <Card>
+                <Card style={styles.card}>
                     <Card.Title
                         title='My Hunts'
+                        titleStyle={styles.cardTitle}
                         subtitle='Select a Hunt to Edit It'
+                        subtitleStyle={{ color: 'white' }}
                     />
                     {huntList.map((hunt, index) => {
                         return (
-                            <List.Item
-                                key={index}
-                                title={hunt.name}
-                                description={`Active: ${hunt.active.toString()}`}
-                                left={(props) => (
-                                    <List.Icon
-                                        {...props}
-                                        icon='map-search'
-                                    />
-                                )}
-                                onPress={() => {
-                                    navigation.navigate('Hunt Details', hunt);
-                                }}
-                            />
+                        <List.Item
+                            key={index}
+                            title={hunt.name}
+                            titleStyle={{ color: 'white' }}
+                            description={`Active: ${hunt.active.toString()}`}
+                            descriptionStyle={{ color: 'gray' }}
+                            left={(props) => (
+                                <List.Icon
+                                    {...props}
+                                    icon='map-search'
+                                    color={themeColors.listItemIconColor}
+                                />
+                            )}
+                            onPress={() => {
+                                navigation.navigate('Hunt Details', hunt);
+                            }}
+                            style={{ backgroundColor: '#2e2f33' }}
+                        />
+
                         );
                     })}
                 </Card>
             </ScrollView>
+
+            <FAB.Group
+                open={open}
+                icon={open ? 'close' : 'plus'}
+                actions={actions}
+                onStateChange={({ open }) => setOpen(open)}
+                onPress={() => {
+                    if (open) {
+                    }
+                }}
+                fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
+                color={themeColors.fabColor}
+            />
+
             <CustomSnackbar
                 visible={snackbarVisible}
                 onDismiss={() => setSnackbarVisible(false)}
@@ -245,4 +282,4 @@ const ScavengerScreen = ({ navigation }) => {
     );
 };
 
-export default ScavengerScreen;
+export default HuntScreen;

@@ -360,10 +360,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <NavMenu
-                dispatch={dispatch}
-                intl={intl}
-            />
+            <NavMenu />
             <ScrollView style={{ marginBottom: 70 }}>
                 <View style={styles.container}>
                     <Card style={styles.card}>

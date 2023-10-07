@@ -3,20 +3,20 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#444654',
+        backgroundColor: '#1b1c20',
         justifyContent: 'space-around',
         alignItems: 'stretch',
         paddingTop: 10,
         paddingBottom: 10,
     },
     navigation: {
-        position: 'absolute', // Added this line
-        bottom: 0, // Added this line
+        position: 'absolute',
+        bottom: 0,
         width: '100%',
     },
     splash: {
         flex: 1,
-        backgroundColor: '#444654',
+        backgroundColor: '#1b1c20',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
     },
     card: {
         height: '100%',
+        backgroundColor: '#2e2f33',
     },
     spacer: {
         height: 30,
@@ -38,9 +39,20 @@ export const styles = StyleSheet.create({
     },
     input: {
         marginBottom: 10,
+        backgroundColor: '#242424',
     },
     mainContainer: {
-        flex: 1, // Take up the full height
-        flexDirection: 'column', // Stack children vertically
+        flex: 1,
+        flexDirection: 'column',
+    },
+    backgroundColor: {
+        backgroundColor: '#17181c',
+    },
+    textColor: {
+        color: '#fff',
+    },
+    cardTitle: {
+        color: '#fff',
+        fontSize: 24,
     },
 });

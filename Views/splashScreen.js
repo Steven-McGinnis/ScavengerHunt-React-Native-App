@@ -13,15 +13,16 @@ import apiCall from '../Helper/apiCall';
 // Redux slices
 import { addAuthToken } from '../Model/Slices/authSlice';
 
-const InitializeScreen = ({ navigation }) => {
+const SplashScreen = ({ navigation }) => {
     const authTokenValue = useSelector((state) => state.authSlice.authToken);
     const dispatch = useDispatch();
     const intl = useIntl();
 
     useEffect(() => {
         setTimeout(async () => {
+            console.log(authTokenValue);
             if (!authTokenValue) {
-                navigation.replace('Authentication');
+                navigation.replace('Login');
             } else {
                 const response = await apiCall({
                     endpointSuffix: 'verifyToken.php',
@@ -30,11 +31,12 @@ const InitializeScreen = ({ navigation }) => {
                     intl,
                 });
 
+                console.log(response);
                 if (response.success) {
-                    navigation.replace('Choose Role Player/Builder');
+                    navigation.replace('HomeScreen');
                 } else {
                     dispatch(addAuthToken(null));
-                    navigation.replace('Authentication');
+                    navigation.replace('Login');
                 }
             }
         }, 3000);
@@ -50,4 +52,4 @@ const InitializeScreen = ({ navigation }) => {
     );
 };
 
-export default InitializeScreen;
+export default SplashScreen;

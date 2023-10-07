@@ -97,16 +97,11 @@ const Register = ({ navigation }) => {
                     <Card.Title
                         title={
                             <FormattedMessage
-                                id='register.title'
-                                defaultMessage='Register'
-                            />
-                        }
-                        subtitle={
-                            <FormattedMessage
                                 id='register.subtitle'
                                 defaultMessage='Create Account'
                             />
                         }
+                        titleStyle={styles.cardTitle}
                     />
                     <Card.Content>
                         <TextInput
@@ -121,6 +116,7 @@ const Register = ({ navigation }) => {
                             value={username}
                             onChangeText={(text) => setUsername(text)}
                             style={styles.input}
+                            textColor={themeColors.cardTextColor}
                         />
                         <TextInput
                             activeOutlineColor={
@@ -135,6 +131,7 @@ const Register = ({ navigation }) => {
                             onChangeText={(text) => setPassword(text)}
                             secureTextEntry
                             style={styles.input}
+                            textColor={themeColors.cardTextColor}
                         />
                         <TextInput
                             activeOutlineColor={
@@ -149,6 +146,7 @@ const Register = ({ navigation }) => {
                             onChangeText={(text) => setPassword2(text)}
                             secureTextEntry
                             style={styles.input}
+                            textColor={themeColors.cardTextColor}
                         />
                         <View style={styles.spacer} />
                         <Button

@@ -16,7 +16,7 @@ import CustomSnackbar from '../Components/customSnackBar';
 // Redux slices
 import { addAuthToken } from '../Model/Slices/authSlice';
 
-const Authentication = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
     const dispatch = useDispatch();
     const intl = useIntl();
     const [username, setUsername] = useState('');
@@ -28,7 +28,7 @@ const Authentication = ({ navigation }) => {
     const handleLogin = async () => {
         if (!username || !password) {
             setSnackbarMessage(
-                intl.formatMessage({ id: 'authentication.emptyFieldsError' })
+                intl.formatMessage({ id: 'login.emptyFieldsError' })
             );
             setSnackbarVisible(true);
             return;
@@ -41,7 +41,7 @@ const Authentication = ({ navigation }) => {
                 password: password,
             },
             onSuccessMessageId: null,
-            onFailureMessageId: 'authentication.loginError',
+            onFailureMessageId: 'login.loginError',
             intl,
         });
 
@@ -56,22 +56,14 @@ const Authentication = ({ navigation }) => {
             setSnackbarIconName('check-circle-outline');
             setSnackbarMessage(response.message);
             dispatch(addAuthToken(response.data.token));
-            navigation.replace('Choose Role Player/Builder');
+            navigation.replace('PlayerHomeScreen');
         }
     };
 
     return (
         <View style={styles.container}>
-            <ScrollView style={{ backgroundColor: '#444654' }}>
+            <ScrollView style={styles.backgroundColor}>
                 <Card style={styles.card}>
-                    <Card.Title
-                        title={intl.formatMessage({
-                            id: 'authentication.title',
-                        })}
-                        subtitle={intl.formatMessage({
-                            id: 'authentication.subtitle',
-                        })}
-                    />
                     <Card.Content>
                         <TextInput
                             activeOutlineColor={
@@ -79,11 +71,12 @@ const Authentication = ({ navigation }) => {
                             }
                             mode={themeColors.textMode}
                             label={intl.formatMessage({
-                                id: 'authentication.usernameLabel',
+                                id: 'login.usernameLabel',
                             })}
                             value={username}
                             onChangeText={(text) => setUsername(text)}
                             style={styles.input}
+                            textColor={themeColors.cardTextColor}
                         />
                         <TextInput
                             activeOutlineColor={
@@ -91,12 +84,13 @@ const Authentication = ({ navigation }) => {
                             }
                             mode={themeColors.textMode}
                             label={intl.formatMessage({
-                                id: 'authentication.passwordLabel',
+                                id: 'login.passwordLabel',
                             })}
                             value={password}
                             onChangeText={(text) => setPassword(text)}
                             secureTextEntry
                             style={styles.input}
+                            textColor={themeColors.cardTextColor}
                         />
                         <View style={styles.spacer} />
                         <Button
@@ -105,7 +99,7 @@ const Authentication = ({ navigation }) => {
                             style={styles.loginButton}
                             buttonColor={themeColors.buttonColor}>
                             {intl.formatMessage({
-                                id: 'authentication.loginButton',
+                                id: 'login.loginButton',
                             })}
                         </Button>
                         <View style={styles.spacer2} />
@@ -115,7 +109,7 @@ const Authentication = ({ navigation }) => {
                             style={styles.loginButton}
                             buttonColor={themeColors.buttonColor}>
                             {intl.formatMessage({
-                                id: 'authentication.registerButton',
+                                id: 'login.registerButton',
                             })}
                         </Button>
                     </Card.Content>
@@ -132,4 +126,4 @@ const Authentication = ({ navigation }) => {
     );
 };
 
-export default Authentication;
+export default LoginScreen;

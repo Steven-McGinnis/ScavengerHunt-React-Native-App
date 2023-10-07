@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { addAuthToken } from '../Model/Slices/authSlice';
 import { Button, Menu } from 'react-native-paper';
+import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux'; // Import the useDispatch hook
+import { addAuthToken } from '../Model/Slices/authSlice';
 
-const NavMenu = ({ dispatch, intl }) => {
+const NavMenu = () => {
     const navigation = useNavigation();
     const [visible, setVisible] = useState(false);
+    const intl = useIntl();
+    const dispatch = useDispatch();
 
     const openMenu = () => setVisible(true);
     const closeMenu = () => setVisible(false);
@@ -30,11 +34,19 @@ const NavMenu = ({ dispatch, intl }) => {
                             icon='home'
                             onPress={() => {
                                 closeMenu();
-                                navigation.navigate(
-                                    'Choose Role Player/Builder'
-                                );
+                                navigation.navigate('HomeScreen');
                             }}
-                            title={intl.formatMessage({ id: 'Home' })}
+                            title={intl.formatMessage({ id: 'navBar.home' })}
+                        />
+
+                        {/* Edit Hunts/Create Hunts */}
+                        <Menu.Item
+                            icon='map-search'
+                            onPress={() => {
+                                closeMenu();
+                                navigation.navigate('HuntScreen');
+                            }}
+                            title={intl.formatMessage({ id: 'navBar.hunts' })}
                         />
 
                         {/* Logout Button */}
@@ -45,16 +57,16 @@ const NavMenu = ({ dispatch, intl }) => {
                                 dispatch(addAuthToken(null));
                                 navigation.reset({
                                     index: 0,
-                                    routes: [{ name: 'Authentication' }],
+                                    routes: [{ name: 'Login' }],
                                 });
                             }}
-                            title={intl.formatMessage({ id: 'Logout' })}
+                            title={intl.formatMessage({ id: 'navBar.logout' })}
                         />
                     </Menu>
                 </View>
             ),
         });
-    }, [navigation, dispatch, intl, visible]);
+    }, [intl, visible]);
 
     return null;
 };

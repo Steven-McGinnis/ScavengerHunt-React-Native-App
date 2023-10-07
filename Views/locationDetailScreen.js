@@ -473,10 +473,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <NavMenu
-                dispatch={dispatch}
-                intl={intl}
-            />
+            <NavMenu />
 
             <ScrollView style={{ marginBottom: 70 }}>
                 <LocationDetails

@@ -313,10 +313,7 @@ const ConditionEditScreen = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <NavMenu
-                dispatch={dispatch}
-                intl={intl}
-            />
+            <NavMenu />
             {loading && (
                 <ProgressBar
                     indeterminate={true}
