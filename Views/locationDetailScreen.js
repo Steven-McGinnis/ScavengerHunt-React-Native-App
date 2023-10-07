@@ -7,7 +7,6 @@ import {
 	ScrollView,
 	Image,
 	TouchableOpacity,
-	Platform,
 } from 'react-native';
 
 // Third-party libraries
@@ -215,38 +214,26 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
 	// Confirm Delete Hunt
 	const showConfirmDialog = () => {
-		if (Platform.OS === 'web') {
-			const isConfirmed = window.confirm(
-				intl.formatMessage({
-					id: 'locationDetailScreen.deleteLocationConfirm',
-					defaultMessage: 'Are you sure you want to delete selected location?',
-				})
-			);
-			if (isConfirmed) {
-				deleteHunt();
-			}
-		} else {
-			Alert.alert(
-				intl.formatMessage({
-					id: 'locationDetailScreen.deleteLocationConfirm',
-					defaultMessage: 'Are you sure you want to delete selected location?',
-				}),
-				`Delete?`,
-				[
-					// The "Yes" button
-					{
-						text: 'Yes',
-						onPress: () => {
-							deleteLocation();
-						},
+		Alert.alert(
+			intl.formatMessage({
+				id: 'locationDetailScreen.deleteLocationConfirm',
+				defaultMessage: 'Are you sure you want to delete selected location?',
+			}),
+			`Delete?`,
+			[
+				// The "Yes" button
+				{
+					text: 'Yes',
+					onPress: () => {
+						deleteLocation();
 					},
-					// The "No" button
-					{
-						text: 'No',
-					},
-				]
-			);
-		}
+				},
+				// The "No" button
+				{
+					text: 'No',
+				},
+			]
+		);
 	};
 
 	const addConditionToLocation = async () => {
@@ -472,9 +459,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			style={styles.container}>
+		<View style={styles.container}>
 			<NavMenu
 				dispatch={dispatch}
 				intl={intl}
@@ -730,7 +715,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 				duration={Snackbar.DURATION_SHORT}>
 				{snackbarMessage}
 			</Snackbar>
-		</KeyboardAvoidingView>
+		</View>
 	);
 };
 

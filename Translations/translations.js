@@ -19,7 +19,7 @@ const translations = {
 		'huntDetailScreen.editHuntButton': 'Edit Hunt',
 		'huntDetailScreen.huntDeleted': 'Hunt deleted successfully!',
 		'huntDetailScreen.huntID': 'Hunt ID:',
-		'huntDetailScreen.huntName': 'Hunt Name',
+		'huntDetailScreen.huntName': 'Hunt Name: ',
 		'huntDetailScreen.huntUpdated': 'Hunt updated successfully!',
 		'huntDetailScreen.newHuntNameError': 'Please Enter a New Hunt Name',
 		'huntDetailScreen.submitEditHunt': 'Submit Edit Hunt',

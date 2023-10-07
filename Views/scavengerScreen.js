@@ -102,6 +102,12 @@ const ScavengerScreen = ({ navigation }) => {
 				setSnackbarVisible(true);
 			}
 		}
+
+		if (!response.success) {
+			setSnackbarMessage(response.message);
+			setSnackbarIconName('error-outline');
+			setSnackbarVisible(true);
+		}
 	};
 
 	/**

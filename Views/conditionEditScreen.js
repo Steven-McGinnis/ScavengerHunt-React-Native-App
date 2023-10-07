@@ -7,7 +7,6 @@ import {
 	ScrollView,
 	Image,
 	TouchableOpacity,
-	Platform,
 } from 'react-native';
 
 // Third-party libraries
@@ -130,38 +129,26 @@ const ConditionEditScreen = ({ navigation, route }) => {
 
 	// Confirm Delete Hunt
 	const showConfirmDialog = () => {
-		if (Platform.OS === 'web') {
-			const isConfirmed = window.confirm(
-				intl.formatMessage({
-					id: 'conditionEditScreen.deleteConditionConfirm',
-					defaultMessage: 'Are you sure you want to delete selected condition?',
-				})
-			);
-			if (isConfirmed) {
-				deleteCondition();
-			}
-		} else {
-			Alert.alert(
-				intl.formatMessage({
-					id: 'conditionEditScreen.deleteConditionConfirm',
-					defaultMessage: 'Are you sure you want to delete selected condition?',
-				}),
-				`Delete?`,
-				[
-					// The "Yes" button
-					{
-						text: 'Yes',
-						onPress: () => {
-							deleteCondition();
-						},
+		Alert.alert(
+			intl.formatMessage({
+				id: 'conditionEditScreen.deleteConditionConfirm',
+				defaultMessage: 'Are you sure you want to delete selected condition?',
+			}),
+			`Delete?`,
+			[
+				// The "Yes" button
+				{
+					text: 'Yes',
+					onPress: () => {
+						deleteCondition();
 					},
-					// The "No" button
-					{
-						text: 'No',
-					},
-				]
-			);
-		}
+				},
+				// The "No" button
+				{
+					text: 'No',
+				},
+			]
+		);
 	};
 
 	// Delete Condition
@@ -316,9 +303,7 @@ const ConditionEditScreen = ({ navigation, route }) => {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-			style={styles.container}>
+		<View style={styles.container}>
 			<NavMenu
 				dispatch={dispatch}
 				intl={intl}
@@ -494,7 +479,7 @@ const ConditionEditScreen = ({ navigation, route }) => {
 				iconName={snackbarIconName}
 				duration={Snackbar.DURATION_SHORT}
 			/>
-		</KeyboardAvoidingView>
+		</View>
 	);
 };
 
