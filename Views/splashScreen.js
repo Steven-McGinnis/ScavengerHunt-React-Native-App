@@ -5,6 +5,7 @@ import { View, Image } from 'react-native';
 // Third-party libraries
 import { useSelector, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { Text} from 'react-native-paper';
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
@@ -45,9 +46,10 @@ const SplashScreen = ({ navigation }) => {
     return (
         <View style={styles.splash}>
             <Image
-                source={require('../assets/splashLogo.png')}
+                source={require('../assets/ScavengerLogo.png')}
                 style={{ width: 400, height: 400 }}
             />
+            <Text style={{color: '#fff', fontSize: 40}}>Scavenger Hunts</Text>
         </View>
     );
 };

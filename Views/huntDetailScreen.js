@@ -363,9 +363,9 @@ const HuntDetailScreen = ({ navigation, route }) => {
             <NavMenu />
             <ScrollView style={{ marginBottom: 70 }}>
                 <View style={styles.container}>
-                    <Card style={styles.card}>
+                    <Card style={{backgroundColor: '#fed47d'}}>
                         <Card.Content>
-                            <Text>
+                            <Text style={{fontSize: 20}}>
                                 <FormattedMessage id='huntDetailScreen.huntName' />{' '}
                                 {currentName}
                             </Text>

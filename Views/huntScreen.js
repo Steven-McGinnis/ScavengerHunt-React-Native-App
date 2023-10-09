@@ -220,7 +220,7 @@ const HuntScreen = ({ navigation }) => {
                 {loading && (
                     <ProgressBar
                         indeterminate={true}
-                        color='#00FF00'
+                        color='#8ac187'
                         visible={loading}
                         style={{ marginBottom: 10 }}
                     />
