@@ -39,6 +39,7 @@ const translations = {
         'huntDetailScreen.selectLocationText': 'Select a Location to Edit It',
         'huntDetailScreen.submitEditHunt': 'Submit Edit Hunt',
         'huntDetailScreen.unpublishHunt': 'Unpublish Hunt',
+        'huntDetailScreen.completionStatus': 'Completion Status: ',
         'initializeScreen.welcome': 'Welcome to the App!',
 
         // Register Screen

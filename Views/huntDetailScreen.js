@@ -26,7 +26,6 @@ import CustomSnackbar from '../Components/customSnackBar';
 import CustomFABGroup from '../Components/customFABGroup';
 import { useHuntDetailFabActions } from '../Helper/fabActions.js';
 
-
 // Redux slices
 import {
     clearHuntLocations,
@@ -36,7 +35,7 @@ import {
 const HuntDetailScreen = ({ navigation, route }) => {
     // Extracting route parameters
     const { active, huntid, name, completed, isViewing } = route.params;
-    console.log(route.params)
+    console.log(route.params);
 
     // Redux selectors
     const hunt = useSelector((state) =>
@@ -322,10 +321,17 @@ const HuntDetailScreen = ({ navigation, route }) => {
                                 <FormattedMessage id='huntDetailScreen.huntName' />{' '}
                                 {currentName}
                             </Text>
-                            <Text>
-                                <FormattedMessage id='huntDetailScreen.huntID' />{' '}
-                                {huntid}
-                            </Text>
+                            {!isViewing ? (
+                                <Text>
+                                    <FormattedMessage id='huntDetailScreen.huntID' />{' '}
+                                    {huntid}
+                                </Text>
+                            ) : (
+                                <Text>
+                                    <FormattedMessage id='huntDetailScreen.completionStatus' />{' '}
+                                    {completed}%
+                                </Text>
+                            )}
                             <Text>
                                 <FormattedMessage id='huntDetailScreen.active' />{' '}
                                 {currentActive ? 'Yes' : 'No'}
@@ -378,7 +384,10 @@ const HuntDetailScreen = ({ navigation, route }) => {
                                     id: 'huntDetailScreen.locationTitle',
                                     defaultMessage: 'Add Location to Hunt',
                                 })}
-                                titleStyle={{color: themeColors.locationCardTextColor, fontSize: themeColors.locationCardTextSize}}
+                                titleStyle={{
+                                    color: themeColors.locationCardTextColor,
+                                    fontSize: themeColors.locationCardTextSize,
+                                }}
                             />
                             <Card.Content>
                                 <TextInput
@@ -459,14 +468,11 @@ const HuntDetailScreen = ({ navigation, route }) => {
                                         />
                                     )}
                                     onPress={() => {
-                                        navigation.navigate(
-                                            'LocationDetails',
-                                            {
-                                                location,
-                                                currentName,
-                                                huntid,
-                                            }
-                                        );
+                                        navigation.navigate('LocationDetails', {
+                                            location,
+                                            currentName,
+                                            huntid,
+                                        });
                                     }}
                                     style={{
                                         backgroundColor:
@@ -478,10 +484,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
                     )}
             </ScrollView>
 
-            {!isViewing && (
-                <CustomFABGroup actions={actions} />
-            )}
-            
+            {!isViewing && <CustomFABGroup actions={actions} />}
 
             <CustomSnackbar
                 visible={snackbarVisible}
