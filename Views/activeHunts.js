@@ -20,13 +20,9 @@ import CustomSnackbar from '../Components/customSnackBar';
 import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useNavigation } from '@react-navigation/native';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
-
-
-const FindHunts = () => {
-    const navigation = useNavigation();
-
+const ActiveHunts = () => {
     // Auth Token
     const authTokenValue = useSelector((state) => state.authSlice.authToken);
     const intl = useIntl();
@@ -65,7 +61,7 @@ const FindHunts = () => {
 
         if (response.success) {
             setSnackbarIconName('check-circle-outline');
-            setSnackbarMessage('Hunts Found');
+            setSnackbarMessage("Hunts Found");
             setSnackbarVisible(true);
             setHunts(response.data.hunts);
         }
@@ -90,7 +86,7 @@ const FindHunts = () => {
     const clearFilter = () => {
         setSearchFilter('');
         getHunts();
-    };
+    }
 
     return (
         <>
@@ -99,14 +95,9 @@ const FindHunts = () => {
                     backgroundColor: themeColors.backgroundcolors,
                     flex: 1,
                 }}>
-                <Card
-                    style={{
-                        marginBottom: 10,
-                        backgroundColor:
-                            themeColors.locationCardBackgroundColor,
-                    }}>
+                <Card style={{marginBottom: 10, backgroundColor: themeColors.locationCardBackgroundColor}}>
                     <Searchbar
-                        style={{ margin: 10 }}
+                        style={{margin: 10 }}
                         placeholder='Filter'
                         onChangeText={(text) => setSearchFilter(text)}
                     />
@@ -138,16 +129,17 @@ const FindHunts = () => {
                         </Button>
                     </View>
                 </Card>
-                <View
+                <List.AccordionGroup
                     style={{
                         backgroundColor: themeColors.listBackgroundColor,
-                        flex: 1,
                     }}>
                     {Array.isArray(hunts) &&
                         hunts.map((hunt, index) => (
-                            <List.Item
+                            <List.Accordion
                                 key={index}
                                 title={hunt.name}
+                                id={hunt.huntid}
+                                theme={{ colors: { primary: 'black' } }}
                                 titleStyle={{ color: 'white', fontSize: 20 }}
                                 style={{
                                     backgroundColor:
@@ -156,34 +148,25 @@ const FindHunts = () => {
                                 left={(props) => (
                                     <Icon
                                         {...props}
-                                        name='circle'
-                                        color={
-                                            hunt.completed === 100
-                                                ? 'green'
-                                                : hunt.completed !== null
-                                                ? 'yellow'
-                                                : 'red'
-                                        }
-                                        size={20}
+                                        color='red'
                                     />
-                                )}
-                                right={(props) => (
-                                    <Text
-                                        style={{
-                                            color: 'white',
-                                            ...props.style,
-                                        }}>
-                                        {getCompletionStatus(hunt.completed)}
-                                    </Text>
-                                )}
-                                onPress={() =>
-                                    navigation.navigate('Hunt Details', {
-                                        huntid: hunt.huntid, name: hunt.name, active: true, completed: hunt.completed, isViewing: true
-                                    })
-                                }
-                            />
+                                )}>
+                                <List.Item
+                                    title={`Hunt ID: ${hunt.huntid}`}
+                                    titleStyle={{ color: 'white' }}
+                                    style={{ backgroundColor: '#252628' }}
+                                />
+
+                                <List.Item
+                                    title={`Completion: ${getCompletionStatus(
+                                        hunt.completed
+                                    )}`}
+                                    titleStyle={{ color: 'white' }}
+                                    style={{ backgroundColor: '#252628' }}
+                                />
+                            </List.Accordion>
                         ))}
-                </View>
+                </List.AccordionGroup>
             </ScrollView>
             <CustomSnackbar
                 visible={snackbarVisible}
@@ -196,4 +179,4 @@ const FindHunts = () => {
     );
 };
 
-export default FindHunts;
+export default ActiveHunts;

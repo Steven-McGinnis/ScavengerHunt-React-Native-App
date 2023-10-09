@@ -35,7 +35,8 @@ import {
 
 const HuntDetailScreen = ({ navigation, route }) => {
     // Extracting route parameters
-    const { active, huntid, name } = route.params;
+    const { active, huntid, name, completed, isViewing } = route.params;
+    console.log(route.params)
 
     // Redux selectors
     const hunt = useSelector((state) =>
@@ -477,7 +478,10 @@ const HuntDetailScreen = ({ navigation, route }) => {
                     )}
             </ScrollView>
 
-            <CustomFABGroup actions={actions} />
+            {!isViewing && (
+                <CustomFABGroup actions={actions} />
+            )}
+            
 
             <CustomSnackbar
                 visible={snackbarVisible}

@@ -109,6 +109,10 @@ const translations = {
         'conditionEditScreen.startTime': 'Start Time',
         'conditionEditScreen.switchCondition': 'Switch to Other Condition',
 
+        // Find Hunts
+        'findHunts.filter': 'Filter Hunts',
+        "findHunts.clearFilter": "Clear Filter",
+
         // Network Errors
         'networkError': 'Network or other error',
     },

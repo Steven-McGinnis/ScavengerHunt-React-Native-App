@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     backgroundColor: {
-        backgroundColor: '#17181c',
+        backgroundColor: '#1b1c20',
     },
     textColor: {
         color: '#fff',
