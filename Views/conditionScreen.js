@@ -34,8 +34,10 @@ import { themeColors } from '../Styles/constants';
 import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
-import timeHelper from '../Helper/timeHelper';
+import * as timeHelper from '../Helper/timeHelper';
 import CustomSnackbar from '../Components/customSnackBar';
+import CustomFABGroup from '../Components/customFABGroup';
+import { useConditionFabActions } from '../Helper/fabActions';
 
 const ConditionEditScreen = ({ navigation, route }) => {
     // Props and External Hooks
@@ -198,18 +200,10 @@ const ConditionEditScreen = ({ navigation, route }) => {
     }
 
     // Create an array for the actions FAB
-    const actions = [
-        {
-            icon: 'delete',
-            label: intl.formatMessage({
-                id: 'conditionEditScreen.deleteConditionButton',
-                defaultMessage: 'Delete Condition',
-            }),
-            onPress: showConfirmDialog,
-            color: themeColors.fabIconColor,
-            style: { backgroundColor: themeColors.fabIconBackgroundColor },
-        },
-    ];
+    const actions = useConditionFabActions({
+        showConfirmDialog: showConfirmDialog,
+    });
+
 
     function utcStringToLocalDate(utcTimeString) {
         if (!utcTimeString) return null;
@@ -323,12 +317,15 @@ const ConditionEditScreen = ({ navigation, route }) => {
             )}
             <ScrollView style={{ backgroundColor: '#444654' }}>
                 <View style={styles.container}>
-                    <Card style={styles.card}>
+                    <Card style={{backgroundColor: themeColors.conditionCardBackgroundColor}}>
                         <Card.Title
                             title={intl.formatMessage({
                                 id: 'conditionEditScreen.conditionPanel',
                                 defaultMessage: 'Edit Condition Panel',
                             })}
+                            titleStyle={{
+                                fontSize: themeColors.conditionCardTextSize,
+                            }}
                         />
                         <Card.Content>
                             {currentLocationId ? (
@@ -386,7 +383,7 @@ const ConditionEditScreen = ({ navigation, route }) => {
                                             setSelectedLocationId(itemValue)
                                         }
                                         style={{
-                                            backgroundColor: 'white',
+                                            backgroundColor: themeColors.conditionCardBackgroundColor,
                                             flex: 1,
                                         }} // Here's the correction
                                     >
@@ -479,18 +476,7 @@ const ConditionEditScreen = ({ navigation, route }) => {
                     </Card>
                 </View>
             </ScrollView>
-            <FAB.Group
-                open={open}
-                icon={open ? 'close' : 'plus'}
-                actions={actions}
-                onStateChange={({ open }) => setOpen(open)}
-                onPress={() => {
-                    if (open) {
-                    }
-                }}
-                fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
-                color={themeColors.fabColor}
-            />
+            <CustomFABGroup actions={actions} />
             <CustomSnackbar
                 visible={snackbarVisible}
                 onDismiss={() => setSnackbarVisible(false)}

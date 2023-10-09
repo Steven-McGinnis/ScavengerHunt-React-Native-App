@@ -35,6 +35,9 @@ import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
 import { LocationDetails } from '../Components/LocationDetailComponents/LocationDetails';
+import timeHelper from '../Helper/timeHelper';
+import CustomFABGroup from '../Components/customFABGroup';
+import { useLocationDetailFabActions } from '../Helper/fabActions';
 
 const LocationDetailScreen = ({ navigation, route }) => {
     // Props and External Hooks
@@ -362,75 +365,20 @@ const LocationDetailScreen = ({ navigation, route }) => {
         }
     };
 
-    // Create an array for the actions FAB
-    const actions = [
-        {
-            icon: 'delete',
-            label: intl.formatMessage({
-                id: 'locationDetailScreen.deleteLocationButton',
-                defaultMessage: 'Delete Location',
-            }),
-            onPress: showConfirmDialog,
-            color: themeColors.fabIconColor,
-            style: { backgroundColor: themeColors.fabIconBackgroundColor },
-        },
-        {
-            icon: 'pencil',
-            label: intl.formatMessage({
-                id: 'locationDetailScreen.editLocationButton',
-                defaultMessage: 'Edit Location',
-            }),
-            onPress: () => !setOpenLocationEdit((prevState) => !prevState),
-            color: themeColors.fabIconColor,
-            style: { backgroundColor: themeColors.fabIconBackgroundColor },
-        },
-        {
-            icon: 'map-marker-plus',
-            label: intl.formatMessage({
-                id: 'locationDetailScreen.openConditionPanel',
-                defaultMessage: 'Open Condition Panel',
-            }),
-            onPress: () => setOpenConditionPanel((prevState) => !prevState),
-            color: themeColors.fabIconColor,
-            style: { backgroundColor: themeColors.fabIconBackgroundColor },
-        },
-    ];
-
-    if (locationData) {
-        actions.push({
-            icon: 'map-marker',
-            label: intl.formatMessage({
-                id: 'locationDetailScreen.openLocationSet',
-                defaultMessage: 'Open Location Set Panel',
-            }),
-            color: themeColors.fabIconColor,
-            style: { backgroundColor: themeColors.fabIconBackgroundColor },
-            onPress: () => setOpenLocationSet((prevState) => !prevState),
-        });
-    }
-
-    if (currentLatitude && currentLongitude) {
-        actions.push({
-            icon: 'map',
-            label: intl.formatMessage({
-                id: 'locationDetailScreen.viewLocationOnMap',
-                defaultMessage: 'View Location on Map',
-            }),
-            color: themeColors.fabIconColor,
-            style: { backgroundColor: themeColors.fabIconBackgroundColor },
-            onPress: () => {
-                navigation.navigate('Map Location', {
-                    location: location,
-                    locationName: currentLocationName,
-                    huntid: huntid,
-                    currentLatitude: currentLatitude,
-                    currentLongitude: currentLongitude,
-                });
-            },
-        });
-    }
-
-    // End of FAB actions array
+    // Actions for the FAB
+    const actions = useLocationDetailFabActions({
+        showConfirmDialog,
+        setOpenLocationEdit,
+        setOpenConditionPanel,
+        locationData,
+        setOpenLocationSet,
+        currentLatitude,
+        currentLongitude,
+        navigation,
+        location,
+        currentLocationName,
+        huntid
+    });
 
     function formatTime(date) {
         let hours = date.getHours();
@@ -496,12 +444,14 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
                 {openLocationSet && locationData ? (
                     <View style={styles.container}>
-                        <Card style={styles.card}>
+                        <Card style={{backgroundColor: themeColors.locationCardBackgroundColor}}>
                             <Card.Title
                                 title={intl.formatMessage({
                                     id: 'locationDetailScreen.locationPanelTitle',
                                     defaultMessage: 'Location Set Panel',
                                 })}
+                                titleStyle={{ color: themeColors.locationCardTextColor, fontSize: themeColors.locationCardTextSize }}
+
                             />
                             <Card.Content>
                                 <View
@@ -510,7 +460,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
-                                    <Text>
+                                    <Text style={{color: 'white                                        '}}>
                                         {intl.formatMessage({
                                             id: 'locationDetailScreen.touchToSetLocation',
                                             defaultMessage:
@@ -522,7 +472,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
                                             setLocation();
                                         }}>
                                         <Image
-                                            source={require('../assets/locationPrimary.png')}
+                                            source={require('../assets/locationSet.png')}
                                             style={{
                                                 width: 150,
                                                 height: 150,
@@ -554,7 +504,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
                 {openConditionPanel && (
                     <View style={styles.container}>
-                        <Card style={styles.card}>
+                        <Card style={{backgroundColor: themeColors.conditionCardBackgroundColor}}>
                             <Card.Title
                                 title={intl.formatMessage({
                                     id: 'locationDetailScreen.conditionPanel',
@@ -592,9 +542,9 @@ const LocationDetailScreen = ({ navigation, route }) => {
                                                 setSelectedLocationId(itemValue)
                                             }
                                             style={{
-                                                backgroundColor: 'white',
+                                                backgroundColor: themeColors.conditionCardBackgroundColor,
                                                 flex: 1,
-                                            }} // Here's the correction
+                                            }} 
                                         >
                                             {locations.map(
                                                 (location, index) => (
@@ -715,18 +665,32 @@ const LocationDetailScreen = ({ navigation, route }) => {
                 {conditions &&
                     Array.isArray(conditions) &&
                     conditions.length > 0 && (
-                        <Card>
+                        <Card  style={styles.card}>
                             <Card.Title
                                 title={intl.formatMessage({
                                     id: 'locationDetailScreen.conditions',
                                     defaultMessage: 'Conditions',
                                 })}
+                                titleStyle={{
+                                    color: themeColors.listTextColor,
+                                }}
+                                subtitle={intl.formatMessage({
+                                    id: 'locationDetailScreen.previousCondition',
+                                    defaultMessage:
+                                        'Previous Condition to be Solved',
+                                })}
+                                subtitleStyle={{ color: 'white' }}
                             />
 
                             {conditions.map((condition, index) => (
                                 <List.Item
                                     key={condition.conditionid}
                                     title={condition.conditionid}
+                                    titleStyle={{
+                                        color: themeColors.listTextColor,
+                                    }}
+                                    subtitleStyle={{ color: 'white' }}
+                                    descriptionStyle={{ color: 'gray' }}
                                     description={
                                         condition.requiredlocationid
                                             ? `Location ID: ${condition.requiredlocationid}`
@@ -740,32 +704,30 @@ const LocationDetailScreen = ({ navigation, route }) => {
                                         <List.Icon
                                             {...props}
                                             icon='map-marker-radius'
+                                            color={
+                                                themeColors.listItemIconColor
+                                            }
                                         />
                                     )}
                                     onPress={() => {
-                                        navigation.navigate('Edit Condition', {
+                                        navigation.navigate('EditCondition', {
                                             condition,
                                             locationid: location.locationid,
                                             huntid: huntid,
                                         });
+                                    }}
+                                    style={{
+                                        backgroundColor:
+                                            themeColors.listBackgroundColor,
                                     }}
                                 />
                             ))}
                         </Card>
                     )}
             </ScrollView>
-            <FAB.Group
-                open={open}
-                icon={open ? 'close' : 'plus'}
-                actions={actions}
-                onStateChange={({ open }) => setOpen(open)}
-                onPress={() => {
-                    if (open) {
-                    }
-                }}
-                fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
-                color={themeColors.fabColor}
-            />
+
+            <CustomFABGroup actions={actions} />
+
             <Snackbar
                 visible={snackbarVisible}
                 onDismiss={() => setSnackbarVisible(false)}

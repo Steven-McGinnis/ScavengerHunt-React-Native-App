@@ -23,6 +23,9 @@ import { themeColors } from '../Styles/constants';
 import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 import CustomSnackbar from '../Components/customSnackBar';
+import CustomFABGroup from '../Components/customFABGroup';
+import { useHuntDetailFabActions } from '../Helper/fabActions.js';
+
 
 // Redux slices
 import {
@@ -215,7 +218,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
         }
 
         if (response.success) {
-            navigation.replace('ScavengerScreen');
+            navigation.replace('HuntScreen');
         }
     };
 
@@ -298,74 +301,23 @@ const HuntDetailScreen = ({ navigation, route }) => {
     };
 
     // FAB Actions
-    const publishAction = {
-        icon: 'publish',
-        label: intl.formatMessage({
-            id: 'huntDetailScreen.publishHunt',
-            defaultMessage: 'Publish Hunt',
-        }),
-        onPress: () => {
-            publishHunt();
-        },
-        style: { backgroundColor: themeColors.buttonColor },
-        color: themeColors.fabIconColor,
-    };
-
-    const unpublishAction = {
-        icon: 'publish-off',
-        label: intl.formatMessage({
-            id: 'huntDetailScreen.unpublishHunt',
-            defaultMessage: 'Unpublish Hunt',
-        }),
-        onPress: () => {
-            unpublishHunt();
-        },
-        style: { backgroundColor: themeColors.buttonColor },
-        color: themeColors.fabIconColor,
-    };
-
-    const actions = [
-        {
-            icon: 'delete',
-            label: intl.formatMessage({
-                id: 'huntDetailScreen.deleteHuntButton',
-                defaultMessage: 'Delete Hunt',
-            }),
-            onPress: showConfirmDialog,
-            style: { backgroundColor: themeColors.buttonColor },
-            color: themeColors.fabIconColor,
-        },
-        currentActive ? unpublishAction : publishAction,
-        {
-            icon: 'pencil',
-            label: intl.formatMessage({
-                id: 'huntDetailScreen.editHuntButton',
-                defaultMessage: 'Edit Hunt',
-            }),
-            onPress: () => !setOpenEditHunt((prevState) => !prevState),
-            style: { backgroundColor: themeColors.buttonColor },
-            color: themeColors.fabIconColor,
-        },
-        {
-            icon: 'map-marker-plus',
-            label: intl.formatMessage({
-                id: 'huntDetailScreen.addLocationButton',
-                defaultMessage: 'Add Location',
-            }),
-            onPress: () => !setOpenLocationAdd((prevState) => !prevState),
-            style: { backgroundColor: themeColors.buttonColor },
-            color: themeColors.fabIconColor,
-        },
-    ];
+    const actions = useHuntDetailFabActions({
+        publishHunt: publishHunt,
+        unpublishHunt: unpublishHunt,
+        showConfirmDialog: showConfirmDialog,
+        setOpenEditHunt: setOpenEditHunt,
+        setOpenLocationAdd: setOpenLocationAdd,
+        currentActive: currentActive,
+    });
 
     return (
         <View style={styles.container}>
             <NavMenu />
             <ScrollView style={{ marginBottom: 70 }}>
                 <View style={styles.container}>
-                    <Card style={{backgroundColor: '#fed47d'}}>
+                    <Card style={{ backgroundColor: '#fed47d' }}>
                         <Card.Content>
-                            <Text style={{fontSize: 20}}>
+                            <Text style={{ fontSize: 20 }}>
                                 <FormattedMessage id='huntDetailScreen.huntName' />{' '}
                                 {currentName}
                             </Text>
@@ -381,9 +333,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
                                 <View>
                                     <View style={styles.spacer2} />
                                     <TextInput
-                                        activeOutlineColor={
-                                            themeColors.textactiveOutlineColor
-                                        }
+                                        activeOutlineColor={'black'}
                                         mode={themeColors.textMode}
                                         label={intl.formatMessage({
                                             id: 'huntDetailScreen.huntName',
@@ -393,7 +343,10 @@ const HuntDetailScreen = ({ navigation, route }) => {
                                         onChangeText={(text) =>
                                             setNewHuntName(text)
                                         }
-                                        style={styles.input}
+                                        style={{
+                                            backgroundColor: '#fed47d',
+                                            marginBottom: 10,
+                                        }}
                                     />
                                     <View style={styles.spacer2} />
                                     <Button
@@ -414,17 +367,17 @@ const HuntDetailScreen = ({ navigation, route }) => {
 
                 {openLocationAdd && (
                     <View style={styles.container}>
-                        <Card style={styles.card}>
+                        <Card
+                            style={{
+                                backgroundColor:
+                                    themeColors.locationCardBackgroundColor,
+                            }}>
                             <Card.Title
                                 title={intl.formatMessage({
                                     id: 'huntDetailScreen.locationTitle',
                                     defaultMessage: 'Add Location to Hunt',
                                 })}
-                                subtitle={intl.formatMessage({
-                                    id: 'huntDetailScreen.selectLocationText',
-                                    defaultMessage:
-                                        'Select a Location to Edit It',
-                                })}
+                                titleStyle={{color: themeColors.locationCardTextColor, fontSize: themeColors.locationCardTextSize}}
                             />
                             <Card.Content>
                                 <TextInput
@@ -440,7 +393,12 @@ const HuntDetailScreen = ({ navigation, route }) => {
                                     onChangeText={(text) =>
                                         setNewHuntLocations(text)
                                     }
-                                    style={styles.input}
+                                    style={{
+                                        backgroundColor:
+                                            themeColors.locationCardBackgroundColor,
+                                        marginBottom: 10,
+                                        color: themeColors.locationCardTextColor,
+                                    }}
                                 />
                                 <View style={styles.spacer2} />
                                 <Button
@@ -470,24 +428,38 @@ const HuntDetailScreen = ({ navigation, route }) => {
                 {locations &&
                     Array.isArray(locations) &&
                     locations.length > 0 && (
-                        <Card>
+                        <Card style={styles.card}>
                             <Card.Title
                                 title='Locations in this Hunt'
+                                titleStyle={{
+                                    color: themeColors.listTextColor,
+                                }}
                                 subtitle='Select a Location to Edit It'
+                                subtitleStyle={{
+                                    color: themeColors.listTextColor,
+                                }}
                             />
                             {locations.map((location, index) => (
                                 <List.Item
                                     key={location.locationid}
                                     title={location.name}
+                                    titleStyle={{
+                                        color: themeColors.listTextColor,
+                                    }}
+                                    subtitleStyle={{ color: 'white' }}
+                                    descriptionStyle={{ color: 'gray' }}
                                     left={(props) => (
                                         <List.Icon
                                             {...props}
                                             icon='map-marker-radius'
+                                            color={
+                                                themeColors.listItemIconColor
+                                            }
                                         />
                                     )}
                                     onPress={() => {
                                         navigation.navigate(
-                                            'Location Details',
+                                            'LocationDetails',
                                             {
                                                 location,
                                                 currentName,
@@ -495,24 +467,17 @@ const HuntDetailScreen = ({ navigation, route }) => {
                                             }
                                         );
                                     }}
+                                    style={{
+                                        backgroundColor:
+                                            themeColors.listBackgroundColor,
+                                    }}
                                 />
                             ))}
                         </Card>
                     )}
             </ScrollView>
 
-            <FAB.Group
-                open={open}
-                icon={open ? 'close' : 'plus'}
-                actions={actions}
-                onStateChange={({ open }) => setOpen(open)}
-                onPress={() => {
-                    if (open) {
-                    }
-                }}
-                fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
-                color={themeColors.fabColor}
-            />
+            <CustomFABGroup actions={actions} />
 
             <CustomSnackbar
                 visible={snackbarVisible}

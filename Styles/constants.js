@@ -18,7 +18,22 @@ export const themeColors = {
 
     // Cards
     cardTextColor: 'white',
+    
 
     // List Items
-    listItemIconColor: '#fff'
+    listItemIconColor: '#fff',
+    listTextColor: 'white',
+    listBackgroundColor: '#2e2f33',
+
+    // Location Card
+    locationCardBackgroundColor: '#708090',
+    locationCardTextColor: 'white',
+    locationCardTextSize: 20,
+
+    // Locaiton Set Card
+    locationSetCardBackgroundColor: '#008080',
+
+    // Condition Card
+    conditionCardBackgroundColor: '#D46A8D',
+    conditionCardTextSize: 20,
 };

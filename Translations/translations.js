@@ -96,6 +96,7 @@ const translations = {
         'locationDetailScreen.switchCondition': 'Switch to Other Condition',
         'locationDetailScreen.touchToSetLocation': 'Touch to Set Location',
         'locationDetailScreen.viewLocationOnMap': 'View on Map',
+        'locationDetailScreen.conditionAdded': 'Condition added successfully!',
 
         // Condition Edit Screen
         'conditionEditScreen.conditionDeleted': 'Condition deleted successfully!',

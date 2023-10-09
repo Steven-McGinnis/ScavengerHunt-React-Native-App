@@ -17,9 +17,9 @@ import LoginScreen from './Views/loginScreen';
 import Register from './Views/registerScreen';
 import HuntScreen from './Views/huntScreen';
 import HuntDetailScreen from './Views/huntDetailScreen';
-import LocationDetailScreen from './Views/locationDetailScreen';
+import LocationScreen from './Views/locationScreen';
 import MapLocationScreen from './Views/mapLocationScreen';
-import ConditionEditScreen from './Views/conditionEditScreen';
+import ConditionEdit from './Views/conditionScreen';
 import HomeScreen from './Views/homeScreen';
 import { customTheme } from './Styles/paperTheme';
 import { StatusBar } from 'expo-status-bar';
@@ -87,8 +87,8 @@ export default function App() {
                                     options={{ title: 'Hunt Details' }}
                                 />
                                 <Stack.Screen
-                                    name='Location Details'
-                                    component={LocationDetailScreen}
+                                    name='LocationDetails'
+                                    component={LocationScreen}
                                     options={{ title: 'Location Details' }}
                                 />
                                 <Stack.Screen
@@ -97,8 +97,8 @@ export default function App() {
                                     options={{ title: 'Map Location' }}
                                 />
                                 <Stack.Screen
-                                    name='Edit Condition'
-                                    component={ConditionEditScreen}
+                                    name='EditCondition'
+                                    component={ConditionEdit}
                                     options={{ title: 'Edit Condition' }}
                                 />
                                 <Stack.Screen

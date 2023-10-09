@@ -12,7 +12,7 @@ import {
     Snackbar,
     List,
     ProgressBar,
-    FAB
+    FAB,
 } from 'react-native-paper';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useFocusEffect } from '@react-navigation/native';
@@ -23,6 +23,8 @@ import { themeColors } from '../Styles/constants';
 import NavMenu from '../Components/navMenu';
 import apiCall from '../Helper/apiCall';
 import CustomSnackbar from '../Components/customSnackBar';
+import CustomFABGroup from '../Components/customFABGroup';
+import { useHuntActions } from '../Helper/fabActions.js';
 
 // Redux slices
 import { addHunt, clearHunts } from '../Model/Slices/huntSlice';
@@ -113,7 +115,6 @@ const HuntScreen = ({ navigation }) => {
         }
     };
 
-
     /**
      * Asynchronously fetches hunts data using an API call.
      * It sets a loading state before starting the call and resets it after finishing.
@@ -160,19 +161,9 @@ const HuntScreen = ({ navigation }) => {
         setLoading(false);
     };
 
-    
-    const actions = [
-        {
-            icon: 'tag-plus',
-            label: intl.formatMessage({
-                id: 'huntScreen.newHunt',
-                defaultMessage: 'Add Location',
-            }),
-            onPress: () => !setOpenCreateNewHunt((prevState) => !prevState),
-            style: { backgroundColor: themeColors.buttonColor },
-            color: themeColors.fabIconColor,
-        },
-    ];
+    // FAB actions
+    const actions = useHuntActions({ setOpenCreateNewHunt });
+
 
     return (
         <View style={styles.container}>
@@ -180,41 +171,46 @@ const HuntScreen = ({ navigation }) => {
             <ScrollView>
                 <View style={styles.container}>
                     {openCreateNewHunt && (
-                    <Card style={{backgroundColor: "#8ac187"}}>
-                        <Card.Title
-                            title={
-                                <FormattedMessage id='huntScreen.createHunt' />
-                            }
-                            titleStyle={{color: "black", fontSize: 20}}
-                        />
-                        <Card.Content>
-                            <TextInput
-                                activeOutlineColor={
-                                    themeColors.textActiveOutlineColor2
+                        <Card style={{ backgroundColor: '#8ac187' }}>
+                            <Card.Title
+                                title={
+                                    <FormattedMessage id='huntScreen.createHunt' />
                                 }
-                                mode={themeColors.textMode}
-                                label={intl.formatMessage({
-                                    id: 'huntScreen.newHuntName',
-                                    defaultMessage: 'Hunt Name',
-                                })}
-                                value={newHuntName}
-                                onChangeText={(text) => setNewHuntName(text)}
-                                style={{backgroundColor: "#8ac187", marginBottom: 10}}
+                                titleStyle={{ color: 'black', fontSize: 20 }}
                             />
-                            <Button
-                                mode={themeColors.buttonMode}
-                                onPress={createHunt}
-                                style={styles.loginButton}
-                                buttonColor='white'
-                                activeOutlineColor='green'
-                                textColor='black'>
-                                {intl.formatMessage({
-                                    id: 'huntScreen.createHunt',
-                                    defaultMessage: 'Create Hunt',
-                                })}
-                            </Button>
-                        </Card.Content>
-                    </Card>
+                            <Card.Content>
+                                <TextInput
+                                    activeOutlineColor={
+                                        themeColors.textActiveOutlineColor2
+                                    }
+                                    mode={themeColors.textMode}
+                                    label={intl.formatMessage({
+                                        id: 'huntScreen.newHuntName',
+                                        defaultMessage: 'Hunt Name',
+                                    })}
+                                    value={newHuntName}
+                                    onChangeText={(text) =>
+                                        setNewHuntName(text)
+                                    }
+                                    style={{
+                                        backgroundColor: '#8ac187',
+                                        marginBottom: 10,
+                                    }}
+                                />
+                                <Button
+                                    mode={themeColors.buttonMode}
+                                    onPress={createHunt}
+                                    style={styles.loginButton}
+                                    buttonColor='white'
+                                    activeOutlineColor='green'
+                                    textColor='black'>
+                                    {intl.formatMessage({
+                                        id: 'huntScreen.createHunt',
+                                        defaultMessage: 'Create Hunt',
+                                    })}
+                                </Button>
+                            </Card.Content>
+                        </Card>
                     )}
                 </View>
                 {loading && (
@@ -234,42 +230,33 @@ const HuntScreen = ({ navigation }) => {
                     />
                     {huntList.map((hunt, index) => {
                         return (
-                        <List.Item
-                            key={index}
-                            title={hunt.name}
-                            titleStyle={{ color: 'white' }}
-                            description={`Active: ${hunt.active.toString()}`}
-                            descriptionStyle={{ color: 'gray' }}
-                            left={(props) => (
-                                <List.Icon
-                                    {...props}
-                                    icon='map-search'
-                                    color={themeColors.listItemIconColor}
-                                />
-                            )}
-                            onPress={() => {
-                                navigation.navigate('Hunt Details', hunt);
-                            }}
-                            style={{ backgroundColor: '#2e2f33' }}
-                        />
-
+                            <List.Item
+                                key={index}
+                                title={hunt.name}
+                                titleStyle={{ color: 'white' }}
+                                description={`Active: ${hunt.active.toString()}`}
+                                descriptionStyle={{ color: 'gray' }}
+                                left={(props) => (
+                                    <List.Icon
+                                        {...props}
+                                        icon='map-search'
+                                        color={themeColors.listItemIconColor}
+                                    />
+                                )}
+                                onPress={() => {
+                                    navigation.navigate('Hunt Details', hunt);
+                                }}
+                                style={{
+                                    backgroundColor:
+                                        themeColors.listBackgroundColor,
+                                }}
+                            />
                         );
                     })}
                 </Card>
             </ScrollView>
 
-            <FAB.Group
-                open={open}
-                icon={open ? 'close' : 'plus'}
-                actions={actions}
-                onStateChange={({ open }) => setOpen(open)}
-                onPress={() => {
-                    if (open) {
-                    }
-                }}
-                fabStyle={{ backgroundColor: themeColors.fabBackGroundColor }}
-                color={themeColors.fabColor}
-            />
+            <CustomFABGroup actions={actions} />
 
             <CustomSnackbar
                 visible={snackbarVisible}

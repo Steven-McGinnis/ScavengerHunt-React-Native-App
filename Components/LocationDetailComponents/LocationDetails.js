@@ -1,11 +1,18 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card, Text, TextInput, Button } from 'react-native-paper';
+import {
+    Card,
+    Text,
+    TextInput,
+    Button,
+    DefaultTheme,
+} from 'react-native-paper';
 import { FormattedMessage } from 'react-intl';
 
 // Assuming these are from your custom constants or utilities:
 import { themeColors } from '../../Styles/constants';
 import { styles } from '../../Styles/styles';
+import { customTheme } from '../../Styles/paperTheme';
 
 export function LocationDetails({
     location,
@@ -26,29 +33,36 @@ export function LocationDetails({
 }) {
     return (
         <View style={styles.container}>
-            <Card style={styles.card}>
+            <Card
+                style={{
+                    backgroundColor: themeColors.locationCardBackgroundColor,
+                }}>
                 <Card.Content>
-                    <Text>
+                    <Text
+                        style={{
+                            color: themeColors.locationCardTextColor,
+                            fontSize: themeColors.locationCardTextSize,
+                        }}>
                         <FormattedMessage id='locationDetailScreen.locationName' />
                         {currentLocationName}
                     </Text>
-                    <Text>
+                    <Text style={{ color: themeColors.locationCardTextColor }}>
                         <FormattedMessage id='locationDetailScreen.locationID' />
                         {location.locationid ? location.locationid : 'None'}
                     </Text>
-                    <Text>
+                    <Text style={{ color: themeColors.locationCardTextColor }}>
                         <FormattedMessage id='locationDetailScreen.latitude' />
                         {currentLatitude ? currentLatitude : 'None'}
                     </Text>
-                    <Text>
+                    <Text style={{ color: themeColors.locationCardTextColor }}>
                         <FormattedMessage id='locationDetailScreen.longitude' />
                         {currentLongitude ? currentLongitude : 'None'}
                     </Text>
-                    <Text>
+                    <Text style={{ color: themeColors.locationCardTextColor }}>
                         <FormattedMessage id='locationDetailScreen.locationClue' />{' '}
                         {currentClue ? currentClue : 'None'}
                     </Text>
-                    <Text>
+                    <Text style={{ color: themeColors.locationCardTextColor }}>
                         <FormattedMessage id='locationDetailScreen.locationDescription' />{' '}
                         {currentDescription ? currentDescription : 'None'}
                     </Text>
@@ -69,8 +83,14 @@ export function LocationDetails({
                                 onChangeText={(text) =>
                                     setNewLocationName(text)
                                 }
-                                style={styles.input}
+                                style={{
+                                    backgroundColor:
+                                        themeColors.locationCardBackgroundColor,
+                                    marginBottom: 10,
+                                    color: themeColors.locationCardTextColor,
+                                }}
                             />
+
                             <TextInput
                                 activeOutlineColor={
                                     themeColors.textactiveOutlineColor
@@ -82,8 +102,13 @@ export function LocationDetails({
                                 })}
                                 value={newClue}
                                 onChangeText={(text) => setNewClue(text)}
-                                style={styles.input}
+                                style={{
+                                    backgroundColor:
+                                        themeColors.locationCardBackgroundColor,
+                                    marginBottom: 10,
+                                }}
                             />
+
                             <TextInput
                                 activeOutlineColor={
                                     themeColors.textactiveOutlineColor
@@ -96,8 +121,13 @@ export function LocationDetails({
                                 multiline={true}
                                 value={newDescription}
                                 onChangeText={(text) => setNewDescription(text)}
-                                style={styles.input}
+                                style={{
+                                    backgroundColor:
+                                        themeColors.locationCardBackgroundColor,
+                                    marginBottom: 10,
+                                }}
                             />
+
                             <Button
                                 mode={themeColors.buttonMode}
                                 onPress={submitEditedLocationDetails}
