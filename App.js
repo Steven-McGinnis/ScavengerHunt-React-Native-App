@@ -12,6 +12,12 @@ import React from 'react';
 // Local modules and components
 import { translations } from './Translations/translations';
 import { store } from './Model/store';
+import { customTheme } from './Styles/paperTheme';
+import { StatusBar } from 'expo-status-bar';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { themeColors } from './Styles/constants';
+
+// Screens
 import SplashScreen from './Views/splashScreen';
 import LoginScreen from './Views/loginScreen';
 import Register from './Views/registerScreen';
@@ -21,10 +27,7 @@ import LocationScreen from './Views/locationScreen';
 import MapLocationScreen from './Views/mapLocationScreen';
 import ConditionEdit from './Views/conditionScreen';
 import HomeScreen from './Views/homeScreen';
-import { customTheme } from './Styles/paperTheme';
-import { StatusBar } from 'expo-status-bar';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { themeColors } from './Styles/constants';
+import PlayerHuntDetail from './Views/playerHuntDetail';
 
 const Stack = createNativeStackNavigator();
 const persistor = persistStore(store);
@@ -104,8 +107,12 @@ export default function App() {
                                 <Stack.Screen
                                     name='HomeScreen'
                                     component={HomeScreen}
-                                    options={{ title: 'Home Screen'}}
-                                    
+                                    options={{ title: 'Home Screen' }}
+                                />
+                                <Stack.Screen
+                                    name='PlayerHuntDetail'
+                                    component={PlayerHuntDetail}
+                                    options={{ title: 'View Hunt Details' }}
                                 />
                             </Stack.Navigator>
                         </NavigationContainer>

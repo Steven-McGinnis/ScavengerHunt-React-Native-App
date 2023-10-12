@@ -9,6 +9,13 @@ export const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
     },
+    container2: {
+        flex: 1,
+        backgroundColor: '#1b1c20',
+        alignItems: 'stretch',
+        paddingTop: 10,
+        paddingBottom: 10,
+    },
     navigation: {
         position: 'absolute',
         bottom: 0,

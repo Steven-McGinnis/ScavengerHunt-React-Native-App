@@ -21,8 +21,7 @@ import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
-
-
+import completedImage from '../assets/completionBadge.png';
 
 const FindHunts = () => {
     const navigation = useNavigation();
@@ -153,20 +152,25 @@ const FindHunts = () => {
                                     backgroundColor:
                                         themeColors.listBackgroundColor,
                                 }}
-                                left={(props) => (
-                                    <Icon
-                                        {...props}
-                                        name='circle'
-                                        color={
-                                            hunt.completed === 100
-                                                ? 'green'
-                                                : hunt.completed !== null
-                                                ? 'yellow'
-                                                : 'red'
-                                        }
-                                        size={20}
-                                    />
-                                )}
+                                left={(props) =>
+                                    hunt.completed === 100 ? (
+                                        <Image
+                                            source={completedImage}
+                                            style={{ width: 20, height: 20 }}
+                                        />
+                                    ) : (
+                                        <Icon
+                                            {...props}
+                                            name='circle'
+                                            color={
+                                                hunt.completed !== null
+                                                    ? 'yellow'
+                                                    : 'red'
+                                            }
+                                            size={20}
+                                        />
+                                    )
+                                }
                                 right={(props) => (
                                     <Text
                                         style={{
@@ -177,9 +181,10 @@ const FindHunts = () => {
                                     </Text>
                                 )}
                                 onPress={() =>
-                                    navigation.navigate('Hunt Details', {
-                                        huntid: hunt.huntid, name: hunt.name, active: true, completed: hunt.completed, isViewing: true
-                                    })
+                                    navigation.navigate(
+                                        'PlayerHuntDetail',
+                                        hunt
+                                    )
                                 }
                             />
                         ))}
