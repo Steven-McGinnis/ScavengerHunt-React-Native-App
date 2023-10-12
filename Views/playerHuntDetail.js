@@ -1,17 +1,9 @@
+// External Libraries
 import React, { useCallback, useEffect } from 'react';
-import { View, Alert, Image } from 'react-native';
-import { styles } from '../Styles/styles';
-import { themeColors } from '../Styles/constants';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import HuntDetailCard from '../Components/PlayerHuntDetail/huntDetailCard';
-import HuntNotStarted from '../Components/PlayerHuntDetail/huntNotStarted';
-import AbandonHuntCard from '../Components/PlayerHuntDetail/abandonHuntCard';
-import CustomFABGroup from '../Components/customFABGroup';
-import CustomSnackbar from '../Components/customSnackBar';
-import LocationListCard from '../Components/PlayerHuntDetail/locationListCard';
-import CompassComponent from '../Components/compassComponent';
-import apiCall from '../Helper/apiCall';
+import geolib, { getDistance, getCompassDirection } from 'geolib';
 import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { View, Alert, Image } from 'react-native';
 import {
     Button,
     Card,
@@ -23,28 +15,51 @@ import {
     FAB,
     Switch,
 } from 'react-native-paper';
-import geolib from 'geolib';
-import { getDistance, getCompassDirection } from 'geolib';
 
-import { useSelector } from 'react-redux';
-import { usePlayerHuntDetailFabActions } from '../Helper/fabActions';
+// React Navigation
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
+// Local Components and Helpers
+import HuntDetailCard from '../Components/PlayerHuntDetail/huntDetailCard';
+import HuntNotStarted from '../Components/PlayerHuntDetail/huntNotStarted';
+import AbandonHuntCard from '../Components/PlayerHuntDetail/abandonHuntCard';
+import CustomFABGroup from '../Components/customFABGroup';
+import CustomSnackbar from '../Components/customSnackBar';
+import LocationListCard from '../Components/PlayerHuntDetail/locationListCard';
+import CompassComponent from '../Components/compassComponent';
+import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { usePlayerHuntDetailFabActions } from '../Helper/fabActions';
+
+// Styling
+import { styles } from '../Styles/styles';
+import { themeColors } from '../Styles/constants';
 
 const PlayerHuntDetail = (route) => {
+    // Redux State
     const authTokenValue = useSelector((state) => state.authSlice.authToken);
+
+    // Route Params
     const { completed, huntid, name } = route.route.params;
-    const [updatedHunt, setUpdatedHunt] = React.useState(null);
-    const { locationData, subscription } = useLocationTracking();
-    const [completionData, setCompletionData] = React.useState([]);
+
+    // React Navigation
     const navigation = useNavigation();
+
+    // Internationalization
     const intl = useIntl();
+
+    // React States
+    const [updatedHunt, setUpdatedHunt] = React.useState(null);
+    const [completionData, setCompletionData] = React.useState([]);
     const [locations, setLocations] = React.useState([]);
     const [snackbarVisible, setSnackbarVisible] = React.useState(false);
     const [snackbarMessage, setSnackbarMessage] = React.useState('');
     const [snackbarIconName, setSnackbarIconName] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [displayCompass, setDisplayCompass] = React.useState(false);
+
+    // Custom Hooks
+    const { locationData, subscription } = useLocationTracking();
 
     useEffect(() => {
         getHunts();
@@ -224,12 +239,7 @@ const PlayerHuntDetail = (route) => {
     };
 
     const giveHint = async (location) => {
-        console.log('Give Hint Pressed');
-
         try {
-            console.log('Location Data: ', locationData); // Log entire location data
-            console.log('Location: ', location); // Log location passed to giveHint
-
             if (!locationData || !locationData.coords) {
                 Alert.alert(
                     'Location Error',
