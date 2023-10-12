@@ -244,17 +244,6 @@ const PlayerHuntDetail = (route) => {
                 return;
             }
 
-            if (
-                typeof getDistance === 'undefined' ||
-                typeof getCompassDirection === 'undefined'
-            ) {
-                Alert.alert(
-                    'Error',
-                    'Distance and direction methods are not available.'
-                );
-                return;
-            }
-
             const distance = getDistance(
                 {
                     latitude: locationData.coords.latitude,
@@ -263,18 +252,25 @@ const PlayerHuntDetail = (route) => {
                 { latitude: location.latitude, longitude: location.longitude }
             );
 
-            const direction = getCompassDirection(
-                {
-                    latitude: locationData.coords.latitude,
-                    longitude: locationData.coords.longitude,
-                },
-                { latitude: location.latitude, longitude: location.longitude }
-            );
+            if (distance <= 25) {
+                Alert.alert('Hint', "You're very close to the location!");
+            } else {
+                const direction = getCompassDirection(
+                    {
+                        latitude: locationData.coords.latitude,
+                        longitude: locationData.coords.longitude,
+                    },
+                    {
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                    }
+                );
 
-            Alert.alert(
-                'Hint',
-                `The location is ${distance} meters to the ${direction}`
-            );
+                Alert.alert(
+                    'Hint',
+                    `The location is ${distance} meters to the ${direction}`
+                );
+            }
         } catch (error) {
             console.error('An error occurred while giving hint:', error);
             Alert.alert('Error', 'An error occurred while giving hint.');

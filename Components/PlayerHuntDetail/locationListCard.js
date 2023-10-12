@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import {
+    View,
+    TouchableOpacity,
+    Image,
+    StyleSheet,
+    ScrollView,
+} from 'react-native';
 import { Card, List } from 'react-native-paper';
 import { themeColors } from '../../Styles/constants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,7 +27,7 @@ const LocationListCard = ({ locations, locationData, onPress, giveHint }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             {locations &&
                 Array.isArray(locations) &&
                 locations.length > 0 &&
@@ -72,7 +78,7 @@ const LocationListCard = ({ locations, locationData, onPress, giveHint }) => {
                         )}
                     </View>
                 ))}
-        </View>
+        </ScrollView>
     );
 };
 
