@@ -52,7 +52,7 @@ export const useHuntDetailFabActions = ({
                 id: 'huntDetailScreen.editHuntButton',
                 defaultMessage: 'Edit Hunt',
             }),
-            onPress: () => setOpenEditHunt(prevState => !prevState),
+            onPress: () => setOpenEditHunt((prevState) => !prevState),
             style: { backgroundColor: themeColors.buttonColor },
             color: themeColors.fabIconColor,
         },
@@ -62,13 +62,12 @@ export const useHuntDetailFabActions = ({
                 id: 'huntDetailScreen.addLocationButton',
                 defaultMessage: 'Add Location',
             }),
-            onPress: () => setOpenLocationAdd(prevState => !prevState),
+            onPress: () => setOpenLocationAdd((prevState) => !prevState),
             style: { backgroundColor: themeColors.buttonColor },
             color: themeColors.fabIconColor,
         },
     ];
 };
-
 
 export const useHuntActions = ({ setOpenCreateNewHunt }) => {
     const intl = useIntl();
@@ -80,7 +79,7 @@ export const useHuntActions = ({ setOpenCreateNewHunt }) => {
                 id: 'huntScreen.newHunt',
                 defaultMessage: 'Add Location',
             }),
-            onPress: () => !setOpenCreateNewHunt(prevState => !prevState),
+            onPress: () => !setOpenCreateNewHunt((prevState) => !prevState),
             style: { backgroundColor: themeColors.buttonColor },
             color: themeColors.fabIconColor,
         },
@@ -98,7 +97,7 @@ export const useLocationDetailFabActions = ({
     navigation,
     location,
     currentLocationName,
-    huntid
+    huntid,
 }) => {
     const intl = useIntl();
 
@@ -132,7 +131,7 @@ export const useLocationDetailFabActions = ({
             onPress: () => setOpenConditionPanel((prevState) => !prevState),
             style: { backgroundColor: themeColors.buttonColor },
             color: themeColors.fabIconColor,
-        }
+        },
     ];
 
     if (locationData) {
@@ -183,6 +182,29 @@ export const useConditionFabActions = ({ showConfirmDialog }) => {
                 defaultMessage: 'Delete Condition',
             }),
             onPress: showConfirmDialog,
+            style: { backgroundColor: themeColors.buttonColor },
+            color: themeColors.fabIconColor,
+        },
+    ];
+};
+
+export const usePlayerHuntDetailFabActions = ({
+    showConfirmDialog,
+    themeColors,
+    setDisplayCompass,
+}) => {
+    return [
+        {
+            icon: 'cancel',
+            label: 'Abandon Hunt',
+            onPress: showConfirmDialog,
+            style: { backgroundColor: themeColors.buttonColor },
+            color: themeColors.fabIconColor,
+        },
+        {
+            icon: 'compass',
+            label: 'Show Compass',
+            onPress: () => setDisplayCompass((prevState) => !prevState),
             style: { backgroundColor: themeColors.buttonColor },
             color: themeColors.fabIconColor,
         },

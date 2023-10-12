@@ -377,7 +377,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
         navigation,
         location,
         currentLocationName,
-        huntid
+        huntid,
     });
 
     function formatTime(date) {
@@ -444,14 +444,20 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
                 {openLocationSet && locationData ? (
                     <View style={styles.container}>
-                        <Card style={{backgroundColor: themeColors.locationCardBackgroundColor}}>
+                        <Card
+                            style={{
+                                backgroundColor:
+                                    themeColors.locationCardBackgroundColor,
+                            }}>
                             <Card.Title
                                 title={intl.formatMessage({
                                     id: 'locationDetailScreen.locationPanelTitle',
                                     defaultMessage: 'Location Set Panel',
                                 })}
-                                titleStyle={{ color: themeColors.locationCardTextColor, fontSize: themeColors.locationCardTextSize }}
-
+                                titleStyle={{
+                                    color: themeColors.locationCardTextColor,
+                                    fontSize: themeColors.locationCardTextSize,
+                                }}
                             />
                             <Card.Content>
                                 <View
@@ -460,7 +466,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                     }}>
-                                    <Text style={{color: 'white                                        '}}>
+                                    <Text style={{ color: 'white' }}>
                                         {intl.formatMessage({
                                             id: 'locationDetailScreen.touchToSetLocation',
                                             defaultMessage:
@@ -504,7 +510,11 @@ const LocationDetailScreen = ({ navigation, route }) => {
 
                 {openConditionPanel && (
                     <View style={styles.container}>
-                        <Card style={{backgroundColor: themeColors.conditionCardBackgroundColor}}>
+                        <Card
+                            style={{
+                                backgroundColor:
+                                    themeColors.conditionCardBackgroundColor,
+                            }}>
                             <Card.Title
                                 title={intl.formatMessage({
                                     id: 'locationDetailScreen.conditionPanel',
@@ -542,10 +552,10 @@ const LocationDetailScreen = ({ navigation, route }) => {
                                                 setSelectedLocationId(itemValue)
                                             }
                                             style={{
-                                                backgroundColor: themeColors.conditionCardBackgroundColor,
+                                                backgroundColor:
+                                                    themeColors.conditionCardBackgroundColor,
                                                 flex: 1,
-                                            }} 
-                                        >
+                                            }}>
                                             {locations.map(
                                                 (location, index) => (
                                                     <Picker.Item
@@ -665,7 +675,7 @@ const LocationDetailScreen = ({ navigation, route }) => {
                 {conditions &&
                     Array.isArray(conditions) &&
                     conditions.length > 0 && (
-                        <Card  style={styles.card}>
+                        <Card style={styles.card}>
                             <Card.Title
                                 title={intl.formatMessage({
                                     id: 'locationDetailScreen.conditions',

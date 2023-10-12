@@ -1,13 +1,6 @@
 import { BASE_API_URL } from '@env';
 
-const apiCall = async ({
-    endpointSuffix,
-    data = {},
-    onSuccessMessageId = null,
-    onFailureMessageId = null,
-    intl,
-    debug = false,
-}) => {
+const apiCall = async ({ endpointSuffix, data = {}, debug = false }) => {
     let formData = new FormData();
     for (let key in data) {
         formData.append(key, data[key]);
@@ -18,6 +11,7 @@ const apiCall = async ({
             console.log('API call to ' + BASE_API_URL + endpointSuffix);
             console.log('FormData', formData);
         }
+
         const response = await fetch(BASE_API_URL + endpointSuffix, {
             method: 'POST',
             body: formData,
@@ -29,20 +23,18 @@ const apiCall = async ({
             console.log('Json', responseData);
         }
 
+        console.log('Json', responseData);
+
         if (responseData.status === 'okay') {
             console.log('API call successful!', responseData);
-            const successMessage = onSuccessMessageId
-                ? intl.formatMessage({
-                      id: onSuccessMessageId,
-                      defaultMessage: 'Operation successful!',
-                  })
-                : null;
             return {
                 success: true,
                 data: responseData,
-                message: successMessage,
+                message: 'Operation successful!',
             };
-        } else if (responseData.status === 'error') {
+        }
+
+        if (responseData.status === 'error') {
             if (debug) {
                 console.log('Response', responseData.error);
             }
@@ -53,16 +45,20 @@ const apiCall = async ({
                 message: errorMessage,
             };
         }
+
+        if (responseData.status === 'toofar') {
+            return {
+                success: false,
+                error: 'Too far',
+                message: 'Too far',
+            };
+        }
     } catch (error) {
         console.error('Network or other error:', error);
-        const failureMessage = intl.formatMessage({
-            id: onFailureMessageId || 'networkError',
-            defaultMessage: 'Network or other error',
-        });
         return {
             success: false,
             error: error.message,
-            message: failureMessage,
+            message: 'Network or other error',
         };
     }
 };

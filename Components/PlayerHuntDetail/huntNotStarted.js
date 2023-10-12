@@ -1,13 +1,18 @@
 import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { Card } from 'react-native-paper';
+import { styles } from '../../Styles/styles';
+import { themeColors } from '../../Styles/constants';
 
 const HuntNotStarted = ({ onPress }) => {
     return (
         <View>
-            <Card style={{ backgroundColor: '#fed47d', margin: 10 }}>
+            <Card
+                style={{
+                    backgroundColor: themeColors.locationSetCardBackgroundColor,
+                }}>
                 <Card.Title
-                    titleStyle={{ color: '#000', fontSize: 20 }}
+                    titleStyle={{ color: '#FFF', fontSize: 20 }}
                     title={'Press to Start Hunt'}
                 />
                 <Card.Content

@@ -1,6 +1,7 @@
 // React and React Native core libraries
-import { useState, useEffect } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { useState, useCallback } from 'react';
+import { View, Text, ScrollView, Image } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 // External libraries and components
 import {
@@ -38,9 +39,11 @@ const FindHunts = () => {
     const [hunts, setHunts] = useState([]);
     const [searchFilter, setSearchFilter] = useState('');
 
-    useEffect(() => {
-        getHunts();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            getHunts();
+        }, [])
+    );
 
     const getHunts = async () => {
         let data;
@@ -63,9 +66,6 @@ const FindHunts = () => {
         });
 
         if (response.success) {
-            setSnackbarIconName('check-circle-outline');
-            setSnackbarMessage('Hunts Found');
-            setSnackbarVisible(true);
             setHunts(response.data.hunts);
         }
 
@@ -152,25 +152,38 @@ const FindHunts = () => {
                                     backgroundColor:
                                         themeColors.listBackgroundColor,
                                 }}
-                                left={(props) =>
-                                    hunt.completed === 100 ? (
-                                        <Image
-                                            source={completedImage}
-                                            style={{ width: 20, height: 20 }}
-                                        />
-                                    ) : (
-                                        <Icon
-                                            {...props}
-                                            name='circle'
-                                            color={
-                                                hunt.completed !== null
-                                                    ? 'yellow'
-                                                    : 'red'
-                                            }
-                                            size={20}
-                                        />
-                                    )
-                                }
+                                left={(props) => (
+                                    <View
+                                        style={{
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            marginLeft: 8,
+                                        }}>
+                                        {/* Added marginLeft */}
+                                        {hunt.completed === 100 ? (
+                                            <Image
+                                                source={completedImage}
+                                                style={{
+                                                    paddingLeft: 20,
+                                                    marginLeft: 8,
+                                                    width: 40,
+                                                    height: 40,
+                                                }}
+                                            />
+                                        ) : (
+                                            <Icon
+                                                {...props}
+                                                name='circle'
+                                                color={
+                                                    hunt.completed !== null
+                                                        ? 'yellow'
+                                                        : 'red'
+                                                }
+                                                size={20}
+                                            />
+                                        )}
+                                    </View>
+                                )}
                                 right={(props) => (
                                     <Text
                                         style={{

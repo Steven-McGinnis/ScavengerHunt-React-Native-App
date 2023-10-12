@@ -18,7 +18,6 @@ export const themeColors = {
 
     // Cards
     cardTextColor: 'white',
-    
 
     // List Items
     listItemIconColor: '#fff',
@@ -36,4 +35,7 @@ export const themeColors = {
     // Condition Card
     conditionCardBackgroundColor: '#D46A8D',
     conditionCardTextSize: 20,
+
+    // Load Bar
+    loadBarColor: 'white',
 };
