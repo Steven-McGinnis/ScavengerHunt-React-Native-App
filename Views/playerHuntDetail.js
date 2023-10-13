@@ -4,17 +4,7 @@ import geolib, { getDistance, getCompassDirection } from 'geolib';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { View, Alert, Image } from 'react-native';
-import {
-    Button,
-    Card,
-    Text,
-    TextInput,
-    Snackbar,
-    ProgressBar,
-    List,
-    FAB,
-    Switch,
-} from 'react-native-paper';
+import { ProgressBar } from 'react-native-paper';
 
 // React Navigation
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -59,7 +49,7 @@ const PlayerHuntDetail = (route) => {
     const [displayCompass, setDisplayCompass] = React.useState(false);
 
     // Custom Hooks
-    const { locationData, subscription } = useLocationTracking();
+    const { locationData } = useLocationTracking();
 
     useEffect(() => {
         getHunts();

@@ -30,7 +30,7 @@ import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { useNavigation } from '@react-navigation/native';
 import completedImage from '../assets/completionBadge.png';
 
-const ActiveHunts = () => {
+const CompletedHunts = () => {
     // Auth Token
     const authTokenValue = useSelector((state) => state.authSlice.authToken);
     const intl = useIntl();
@@ -45,18 +45,19 @@ const ActiveHunts = () => {
     const [hunts, setHunts] = useState([]);
 
     useEffect(() => {
-        getActiveHunts();
+        getCompletedHunts();
     }, []);
 
-    const getActiveHunts = async () => {
+    const getCompletedHunts = async () => {
         const response = await apiCall({
-            endpointSuffix: 'findActiveHunts.php',
+            endpointSuffix: 'findHunts.php',
             data: { token: authTokenValue },
         });
 
         if (response.success) {
+            // 1. Filter out the hunts that are not completed
             response.data.hunts = response.data.hunts.filter(
-                (hunt) => hunt.completed !== 100
+                (hunt) => hunt.completed === 100
             );
             setHunts(response.data.hunts);
         }
@@ -70,6 +71,30 @@ const ActiveHunts = () => {
 
     return (
         <>
+            <Card
+                style={{
+                    backgroundColor: themeColors.backgroundcolors,
+                }}>
+                <Image
+                    source={require('../assets/completionCollection.png')}
+                    style={{
+                        borderRadius: 10,
+                        width: 200,
+                        height: 200,
+                        alignSelf: 'center',
+                        marginTop: 10,
+                    }}></Image>
+                <Card.Title
+                    titleStyle={{
+                        color: '#FFF',
+                        fontSize: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        alignSelf: 'center',
+                    }}
+                    title={'Completed Hunts'}
+                />
+            </Card>
             <ScrollView
                 style={{
                     backgroundColor: themeColors.backgroundcolors,
@@ -150,4 +175,4 @@ const ActiveHunts = () => {
     );
 };
 
-export default ActiveHunts;
+export default CompletedHunts;

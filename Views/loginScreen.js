@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }) => {
             setSnackbarIconName('check-circle-outline');
             setSnackbarMessage(response.message);
             dispatch(addAuthToken(response.data.token));
-            navigation.replace('PlayerHomeScreen');
+            navigation.replace('HomeScreen');
         }
     };
 

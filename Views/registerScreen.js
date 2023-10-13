@@ -86,7 +86,7 @@ const Register = ({ navigation }) => {
 
         if (response.success) {
             dispatch(addAuthToken(response.data.token));
-            navigation.navigate('ScavengerScreen');
+            navigation.navigate('HomeScreen');
         }
     };
 
