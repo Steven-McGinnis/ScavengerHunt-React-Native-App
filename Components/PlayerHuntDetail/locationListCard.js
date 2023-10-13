@@ -13,9 +13,18 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const LocationListCard = ({ locations, locationData, onPress, giveHint }) => {
     let distance = 4;
     const isNearby = (location) => {
+        if (!locationData.coords) {
+            return false;
+        }
+
         const { longitude, latitude } = locationData.coords;
 
-        if (!longitude || !latitude) {
+        if (
+            longitude == null ||
+            latitude == null ||
+            location.longitude == null ||
+            location.latitude == null
+        ) {
             return false;
         }
 
