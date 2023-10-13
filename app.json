@@ -1,36 +1,36 @@
 {
-  "expo": {
-    "name": "ScavengerHunt",
-    "slug": "ScavengerHunt",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.stevenmcginnis.ScavengerHunt"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
-    "plugins": [
-      "expo-localization"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "a725df7c-3665-483e-8e10-b39cdcf16431"
-      }
+    "expo": {
+        "name": "ScavengerHunt",
+        "slug": "ScavengerHunt",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/logo.png",
+        "userInterfaceStyle": "light",
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/logo.png",
+                "backgroundColor": "#ffffff"
+            },
+            "config": {
+                "googleMaps": {
+                    "apiKey": "AIzaSyD26FnDc1VVkOwuJYeJAmrtrVA5Fo47iv4"
+                }
+            },
+            "package": "com.stevenmcginnis.ScavengerHunt"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png",
+            "bundler": "metro"
+        },
+        "plugins": ["expo-localization"],
+        "extra": {
+            "eas": {
+                "projectId": "a725df7c-3665-483e-8e10-b39cdcf16431"
+            }
+        }
     }
-  }
 }
