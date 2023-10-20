@@ -1,34 +1,23 @@
 // React and React Native core libraries
-import { useState, useEffect } from 'react';
-import {
-    View,
-    Text,
-    ScrollView,
-    ImageProgressEventDataIOS,
-    Image,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, Image } from 'react-native';
 
 // External libraries and components
-import {
-    DataTable,
-    Snackbar,
-    List,
-    Searchbar,
-    Button,
-    Card,
-} from 'react-native-paper';
+import { Snackbar, List, Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 
 // Internal modules and components
 import apiCall from '../Helper/apiCall';
 import CustomSnackbar from '../Components/customSnackBar';
+
+import { useIntl } from 'react-intl';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import completedImage from '../assets/completionBadge.png';
+
+// Styles
 import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
-import { useNavigation } from '@react-navigation/native';
-import completedImage from '../assets/completionBadge.png';
 
 const CompletedHunts = () => {
     // Auth Token
@@ -44,9 +33,11 @@ const CompletedHunts = () => {
 
     const [hunts, setHunts] = useState([]);
 
-    useEffect(() => {
-        getCompletedHunts();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            getCompletedHunts();
+        }, [])
+    );
 
     const getCompletedHunts = async () => {
         const response = await apiCall({

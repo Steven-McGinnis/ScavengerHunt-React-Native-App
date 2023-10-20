@@ -1,93 +1,162 @@
 import React from 'react';
-import {
-    View,
-    TouchableOpacity,
-    Image,
-    StyleSheet,
-    ScrollView,
-} from 'react-native';
-import { Card, List } from 'react-native-paper';
+import { View, Image, StyleSheet, ScrollView } from 'react-native';
+import { List, Paragraph, Button } from 'react-native-paper';
 import { themeColors } from '../../Styles/constants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getDistance } from 'geolib';
+import { Dialog, Portal } from 'react-native-paper';
+import { useState } from 'react';
 
-const LocationListCard = ({ locations, locationData, onPress, giveHint }) => {
-    let distance = 4;
-    const isNearby = (location) => {
-        if (!locationData.coords) {
-            return false;
-        }
+// Utility function to calculate distance between two coordinates
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    return getDistance(
+        { latitude: lat1, longitude: lon1 },
+        { latitude: lat2, longitude: lon2 }
+    );
+};
 
-        const { longitude, latitude } = locationData.coords;
+const LocationListCard = ({ locations, locationData, onPress }) => {
+    const [visible, setVisible] = useState(false);
+    const [dialogContent, setDialogContent] = useState('');
 
-        if (
-            longitude == null ||
-            latitude == null ||
-            location.longitude == null ||
-            location.latitude == null
-        ) {
-            return false;
-        }
+    const showDialog = (title, clue) => {
+        setDialogContent({ title, clue });
+        setVisible(true);
+    };
 
-        return (
-            longitude.toFixed(distance) ===
-                location.longitude.toFixed(distance) &&
-            latitude.toFixed(distance) === location.latitude.toFixed(distance)
-        );
+    const hideDialog = () => setVisible(false);
+
+    const getIconColor = (distance) => {
+        console.log(locations);
+        if (distance === null) return 'gray';
+        if (distance <= 10) return 'green';
+        if (distance <= 20) return 'yellow';
+        if (distance <= 30) return 'orange';
+        if (distance <= 40) return 'purple';
+        if (distance <= 50) return 'red';
+        return 'gray';
     };
 
     return (
-        <ScrollView style={styles.container}>
-            {locations &&
-                Array.isArray(locations) &&
-                locations.length > 0 &&
-                locations.map((location) => (
-                    <View key={location.locationid}>
-                        <List.Item
-                            title={location.name}
-                            titleStyle={{ color: themeColors.listTextColor }}
-                            description={
-                                location.completed ? location.clue : ''
-                            }
-                            descriptionStyle={{ color: 'gray' }}
-                            left={(props) => (
-                                <List.Icon
-                                    {...props}
-                                    icon='map-marker-radius'
-                                    color={themeColors.listItemIconColor}
-                                />
-                            )}
-                            right={(props) => (
-                                <Icon
-                                    {...props}
-                                    name='circle'
-                                    color={
-                                        location.completed === false
-                                            ? 'red'
-                                            : 'green'
-                                    }
-                                    size={20}
-                                />
-                            )}
-                            onPress={() =>
-                                location.completed ? null : giveHint(location)
-                            }
-                            style={styles.listItem}
-                        />
+        <View style={styles.container}>
+            <Portal>
+                <Dialog
+                    visible={visible}
+                    onDismiss={hideDialog}
+                    style={styles.dialog}>
+                    <Dialog.Title style={styles.dialogTitle}>
+                        {dialogContent.title}
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <Paragraph style={styles.dialogContent}>
+                            {dialogContent.clue}
+                        </Paragraph>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={hideDialog}>Done</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
 
-                        {isNearby(location) && !location.completed && (
-                            <TouchableOpacity
-                                onPress={() => onPress(location)}
-                                style={styles.cardTouchable}>
-                                <Image
-                                    source={require('../../assets/checkIn.png')}
-                                    style={styles.cardImage}
-                                    resizeMode='cover'
+            <ScrollView>
+                {locations &&
+                Array.isArray(locations) &&
+                locations.length > 0 ? (
+                    locations.map((location) => {
+                        let distance = null;
+
+                        if (
+                            locationData &&
+                            locationData.coords &&
+                            location &&
+                            location.latitude &&
+                            location.longitude
+                        ) {
+                            distance = calculateDistance(
+                                locationData.coords.latitude,
+                                locationData.coords.longitude,
+                                location.latitude,
+                                location.longitude
+                            );
+                        }
+
+                        return (
+                            <View key={location.locationid}>
+                                <List.Item
+                                    title={
+                                        location.name ||
+                                        'Location name not available'
+                                    }
+                                    titleStyle={{
+                                        color: themeColors.listTextColor,
+                                    }}
+                                    description={
+                                        location.completed
+                                            ? location.description
+                                            : location.clue ||
+                                              'Clue not available'
+                                    }
+                                    descriptionStyle={{ color: 'gray' }}
+                                    left={(props) =>
+                                        location.completed ? (
+                                            <Image
+                                                {...props}
+                                                source={require('../../assets/completionBadge.png')}
+                                                style={{
+                                                    width: 30,
+                                                    height: 30,
+                                                    marginLeft: 12,
+                                                }}
+                                            />
+                                        ) : (
+                                            <List.Icon
+                                                {...props}
+                                                icon='map-marker-radius'
+                                                color={
+                                                    themeColors.listItemIconColor
+                                                }
+                                            />
+                                        )
+                                    }
+                                    right={(props) => {
+                                        const color = getIconColor(distance);
+                                        return location.completed ? null : (
+                                            <Icon
+                                                {...props}
+                                                name='circle'
+                                                color={color}
+                                                size={20}
+                                            />
+                                        );
+                                    }}
+                                    onPress={() => {
+                                        if (
+                                            location.completed ||
+                                            getIconColor(distance) === 'green'
+                                        ) {
+                                            onPress(location);
+                                        } else {
+                                            showDialog(
+                                                location.name,
+                                                location.clue ||
+                                                    'Clue not available'
+                                            );
+                                        }
+                                    }}
+                                    style={styles.listItem}
                                 />
-                            </TouchableOpacity>
-                        )}
+                            </View>
+                        );
+                    })
+                ) : (
+                    <View style={{ padding: 20 }}>
+                        <Paragraph style={{ color: 'gray' }}>
+                            No locations available.
+                        </Paragraph>
                     </View>
-                ))}
-        </ScrollView>
+                )}
+            </ScrollView>
+        </View>
     );
 };
 
@@ -96,17 +165,17 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
     },
+    dialog: {
+        backgroundColor: '#333',
+    },
+    dialogTitle: {
+        color: '#fff',
+    },
+    dialogContent: {
+        color: '#ccc',
+    },
     listItem: {
         backgroundColor: themeColors.listBackgroundColor,
-    },
-    cardTouchable: {
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    cardImage: {
-        width: '100%',
-        height: 200,
     },
 });
 

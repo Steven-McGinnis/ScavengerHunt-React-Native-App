@@ -3,8 +3,9 @@ import React, { useCallback, useEffect } from 'react';
 import geolib, { getDistance, getCompassDirection } from 'geolib';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { View, Alert, Image } from 'react-native';
+import { View, Alert, Image, ScrollView } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
+import { Dialog, Portal, Button, Paragraph } from 'react-native-paper';
 
 // React Navigation
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -12,7 +13,6 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 // Local Components and Helpers
 import HuntDetailCard from '../Components/PlayerHuntDetail/huntDetailCard';
 import HuntNotStarted from '../Components/PlayerHuntDetail/huntNotStarted';
-import AbandonHuntCard from '../Components/PlayerHuntDetail/abandonHuntCard';
 import CustomFABGroup from '../Components/customFABGroup';
 import CustomSnackbar from '../Components/customSnackBar';
 import LocationListCard from '../Components/PlayerHuntDetail/locationListCard';
@@ -47,6 +47,14 @@ const PlayerHuntDetail = (route) => {
     const [snackbarIconName, setSnackbarIconName] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [displayCompass, setDisplayCompass] = React.useState(false);
+    const [confirmDialogVisible, setConfirmDialogVisible] =
+        React.useState(false);
+    const [hintDialogVisible, setHintDialogVisible] = React.useState(false);
+    const [hintDialogContent, setHintDialogContent] = React.useState('');
+    const [locationDialogVisible, setLocationDialogVisible] =
+        React.useState(false);
+    const [locationDialogContent, setLocationDialogContent] =
+        React.useState('');
 
     // Custom Hooks
     const { locationData } = useLocationTracking();
@@ -69,7 +77,22 @@ const PlayerHuntDetail = (route) => {
         }, [])
     );
 
-    console.log(updatedHunt);
+    const showConfirmDialog = () => {
+        setConfirmDialogVisible(true);
+    };
+
+    const hideConfirmDialog = () => {
+        setConfirmDialogVisible(false);
+    };
+
+    const showLocationDialog = (content) => {
+        setLocationDialogContent(content);
+        setLocationDialogVisible(true);
+    };
+
+    const hideLocationDialog = () => {
+        setLocationDialogVisible(false);
+    };
 
     const getHunts = async () => {
         let data = {
@@ -157,31 +180,13 @@ const PlayerHuntDetail = (route) => {
         }
     };
 
-    // Shows the Confirmation Dialog for Abandoning a Hunt
-    const showConfirmDialog = () => {
-        Alert.alert(
-            intl.formatMessage({
-                id: 'abandonHuntCard.abandonConfirmDialog',
-                defaultMessage: 'Are you sure you want to abandon this hunt?',
-            }),
-            `Abandon?`,
-            [
-                // The "Yes" button
-                {
-                    text: 'Yes',
-                    onPress: () => {
-                        abandonHunt();
-                    },
-                },
-                // The "No" button
-                {
-                    text: 'No',
-                },
-            ]
-        );
-    };
-
     const checkIn = async (location) => {
+        if (location.completed) {
+            showLocationDialog(
+                `Name: ${location.name}\n\nDescription: ${location.description}\n\nCheck ins: ${location.checkins}\n\nLatitude: ${location.latitude}\nLongitude: ${location.longitude}`
+            );
+            return;
+        }
         setLoading(true);
 
         const response = await apiCall({
@@ -228,55 +233,6 @@ const PlayerHuntDetail = (route) => {
         setLoading(false);
     };
 
-    const giveHint = async (location) => {
-        try {
-            if (!locationData || !locationData.coords) {
-                Alert.alert(
-                    'Location Error',
-                    "Can't get your current location."
-                );
-                return;
-            }
-
-            // Ensure the location object has the required properties
-            if (!location || !location.latitude || !location.longitude) {
-                Alert.alert('Location Error', 'Invalid location.');
-                return;
-            }
-
-            const distance = getDistance(
-                {
-                    latitude: locationData.coords.latitude,
-                    longitude: locationData.coords.longitude,
-                },
-                { latitude: location.latitude, longitude: location.longitude }
-            );
-
-            if (distance <= 25) {
-                Alert.alert('Hint', "You're very close to the location!");
-            } else {
-                const direction = getCompassDirection(
-                    {
-                        latitude: locationData.coords.latitude,
-                        longitude: locationData.coords.longitude,
-                    },
-                    {
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                    }
-                );
-
-                Alert.alert(
-                    'Hint',
-                    `The location is ${distance} meters to the ${direction}`
-                );
-            }
-        } catch (error) {
-            console.error('An error occurred while giving hint:', error);
-            Alert.alert('Error', 'An error occurred while giving hint.');
-        }
-    };
-
     const actions = usePlayerHuntDetailFabActions({
         showConfirmDialog,
         themeColors,
@@ -285,7 +241,47 @@ const PlayerHuntDetail = (route) => {
 
     return (
         <View style={styles.container2}>
+            <Portal>
+                <Dialog
+                    visible={confirmDialogVisible}
+                    onDismiss={hideConfirmDialog}
+                    style={styles.dialog}>
+                    <Dialog.Title style={styles.dialogTitle}>
+                        Confirmation
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <Paragraph style={styles.dialogContent}>
+                            Are you sure you want to abandon this hunt?
+                        </Paragraph>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={abandonHunt}>Yes</Button>
+                        <Button onPress={hideConfirmDialog}>No</Button>
+                    </Dialog.Actions>
+                </Dialog>
+
+                <Dialog
+                    visible={locationDialogVisible}
+                    onDismiss={hideLocationDialog}
+                    style={styles.dialog}>
+                    <Dialog.Title style={styles.dialogTitle}>
+                        Location Complete
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <ScrollView>
+                            <Paragraph style={styles.dialogContent}>
+                                {locationDialogContent}
+                            </Paragraph>
+                        </ScrollView>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={hideLocationDialog}>OK</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
+
             {displayCompass ? <CompassComponent /> : null}
+
             <HuntDetailCard
                 title={name}
                 huntid={huntid}
@@ -311,11 +307,11 @@ const PlayerHuntDetail = (route) => {
                         locations={locations}
                         locationData={locationData}
                         onPress={checkIn}
-                        giveHint={giveHint}
                     />
                 )}
 
             {completed !== null ? <CustomFABGroup actions={actions} /> : null}
+
             <CustomSnackbar
                 visible={snackbarVisible}
                 onDismiss={() => setSnackbarVisible(false)}

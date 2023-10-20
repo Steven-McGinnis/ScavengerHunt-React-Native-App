@@ -65,4 +65,13 @@ export const styles = StyleSheet.create({
     button: {
         width: '100%',
     },
+    dialog: {
+        backgroundColor: '#333',
+    },
+    dialogTitle: {
+        color: '#fff',
+    },
+    dialogContent: {
+        color: '#ccc',
+    },
 });

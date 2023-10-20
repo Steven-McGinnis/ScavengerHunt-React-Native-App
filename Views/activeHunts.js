@@ -1,5 +1,4 @@
-// React and React Native core libraries
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -29,6 +28,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { useNavigation } from '@react-navigation/native';
 import completedImage from '../assets/completionBadge.png';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ActiveHunts = () => {
     // Auth Token
@@ -44,9 +44,11 @@ const ActiveHunts = () => {
 
     const [hunts, setHunts] = useState([]);
 
-    useEffect(() => {
-        getActiveHunts();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            getActiveHunts();
+        }, [])
+    );
 
     const getActiveHunts = async () => {
         const response = await apiCall({
