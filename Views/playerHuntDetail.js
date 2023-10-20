@@ -135,7 +135,17 @@ const PlayerHuntDetail = (route) => {
         }
 
         if (response.success) {
-            setLocations(response.data.locations);
+            const sortedLocations = response.data.locations.sort((a, b) => {
+                if (a.completed && !b.completed) {
+                    return 1;
+                }
+                if (!a.completed && b.completed) {
+                    return -1;
+                }
+                return 0;
+            });
+
+            setLocations(sortedLocations);
         }
 
         setLoading(false);
