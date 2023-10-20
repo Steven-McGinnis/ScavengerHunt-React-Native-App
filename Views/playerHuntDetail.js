@@ -242,8 +242,9 @@ const PlayerHuntDetail = (route) => {
 
     const showHelp = () => {
         setShowHelpDialogContent(
-            `Tapping on a Completed Hunt Shows all checkins description details and other information about the location in a hunt.\n\n When close to a point a circle will appear on the right side of the location. They go from: \n\n Red: 50 Meters\n Purple: 40 Meters\n Orange: 30 Meters\n Yellow: 20 Meters\n Green: 10 Meters 
-            \nWhen you think your close enough to the locations you can try tapping on it and it will check you in if you are close enough. \n\n`
+            `Tapping on a Completed Hunt Shows all checkins description details and other information about the location in a hunt. \n\nWhen clicking on a location not completed it will show you the clue for the location.
+            \nWhen close to a point a circle will appear on the right side of the location. They go from: \n\n Gray: Your Not Close\n Red: 50 Meters\n Purple: 40 Meters\n Orange: 30 Meters\n Yellow: 20 Meters\n Green: 10 Meters
+            \nWhen you think your close enough to the location you can try tapping on it and it will check you in if you are close enough.`
         );
         setShowHelpDialogVisible(true);
     };
