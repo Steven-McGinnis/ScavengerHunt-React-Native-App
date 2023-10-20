@@ -188,6 +188,7 @@ const HuntDetailScreen = ({ navigation, route }) => {
             setSnackbarIconName('check-circle-outline');
             setSnackbarVisible(true);
             fetchLocations();
+            setNewHuntLocations('');
             setOpenLocationAdd(false);
         }
     };
