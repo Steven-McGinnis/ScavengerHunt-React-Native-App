@@ -12,7 +12,6 @@ const HuntDetailCard = ({ title, huntid, completed }) => {
                         icon='magnify'
                         color='#000'
                         size={20}
-                        onPress={() => console.log('Pressed')}
                     />
                 </View>
                 <View style={styles.rightContent}>

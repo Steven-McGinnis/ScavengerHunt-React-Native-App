@@ -35,7 +35,6 @@ import {
 const HuntDetailScreen = ({ navigation, route }) => {
     // Extracting route parameters
     const { active, huntid, name, completed, isViewing } = route.params;
-    console.log(route.params);
 
     // Redux selectors
     const hunt = useSelector((state) =>

@@ -5,7 +5,7 @@ import { View, Image } from 'react-native';
 // Third-party libraries
 import { useSelector, useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { Text} from 'react-native-paper';
+import { Text } from 'react-native-paper';
 
 // Custom components and utilities
 import { styles } from '../Styles/styles';
@@ -21,7 +21,6 @@ const SplashScreen = ({ navigation }) => {
 
     useEffect(() => {
         setTimeout(async () => {
-            console.log(authTokenValue);
             if (!authTokenValue) {
                 navigation.replace('Login');
             } else {
@@ -32,7 +31,6 @@ const SplashScreen = ({ navigation }) => {
                     intl,
                 });
 
-                console.log(response);
                 if (response.success) {
                     navigation.replace('HomeScreen');
                 } else {
@@ -49,7 +47,7 @@ const SplashScreen = ({ navigation }) => {
                 source={require('../assets/ScavengerLogo.png')}
                 style={{ width: 400, height: 400 }}
             />
-            <Text style={{color: '#fff', fontSize: 40}}>Scavenger Hunts</Text>
+            <Text style={{ color: '#fff', fontSize: 40 }}>Scavenger Hunts</Text>
         </View>
     );
 };

@@ -27,7 +27,6 @@ const LocationListCard = ({ locations, locationData, onPress }) => {
     const hideDialog = () => setVisible(false);
 
     const getIconColor = (distance) => {
-        console.log(locations);
         if (distance === null) return 'gray';
         if (distance <= 10) return 'green';
         if (distance <= 20) return 'yellow';

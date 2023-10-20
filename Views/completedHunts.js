@@ -61,7 +61,7 @@ const CompletedHunts = () => {
     };
 
     return (
-        <>
+        <View style={styles.container2}>
             <Card
                 style={{
                     backgroundColor: themeColors.backgroundcolors,
@@ -69,7 +69,6 @@ const CompletedHunts = () => {
                 <Image
                     source={require('../assets/completionCollection.png')}
                     style={{
-                        borderRadius: 10,
                         width: 200,
                         height: 200,
                         alignSelf: 'center',
@@ -162,7 +161,7 @@ const CompletedHunts = () => {
                 iconName={snackbarIconName}
                 duration={Snackbar.DURATION_SHORT}
             />
-        </>
+        </View>
     );
 };
 

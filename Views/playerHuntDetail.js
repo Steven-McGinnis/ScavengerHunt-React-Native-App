@@ -153,8 +153,6 @@ const PlayerHuntDetail = (route) => {
 
     // Start Hunt
     const startHunt = async () => {
-        console.log('Start Hunt Pressed');
-
         const response = await apiCall({
             endpointSuffix: 'startHunt.php',
             data: {
@@ -164,7 +162,6 @@ const PlayerHuntDetail = (route) => {
         });
 
         if (!response.success) {
-            console.log(response.message);
             return;
         }
 
@@ -176,8 +173,6 @@ const PlayerHuntDetail = (route) => {
 
     // Abandon Hunt
     const abandonHunt = async () => {
-        console.log('Abandon Hunt Pressed');
-
         const response = await apiCall({
             endpointSuffix: 'abandonHunt.php',
             data: {
@@ -187,7 +182,6 @@ const PlayerHuntDetail = (route) => {
         });
 
         if (!response.success) {
-            console.log(response.message);
             return;
         }
 
