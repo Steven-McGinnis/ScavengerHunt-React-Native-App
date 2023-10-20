@@ -13,6 +13,7 @@ import NavMenu from '../Components/navMenu';
 import { styles } from '../Styles/styles';
 import apiCall from '../Helper/apiCall';
 
+// Version 1.0.0
 const HomeScreen = ({ navigation }) => {
     const authTokenValue = useSelector((state) => state.authSlice.authToken);
     const dispatch = useDispatch();
@@ -22,7 +23,6 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.container}>
             <NavMenu />
             <BottomNav />
-            
         </View>
     );
 };

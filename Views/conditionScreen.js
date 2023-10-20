@@ -39,6 +39,7 @@ import CustomSnackbar from '../Components/customSnackBar';
 import CustomFABGroup from '../Components/customFABGroup';
 import { useConditionFabActions } from '../Helper/fabActions';
 
+// Version 1.0.0
 const ConditionEditScreen = ({ navigation, route }) => {
     // Props and External Hooks
     const { condition, locationid, huntid } = route.params;
@@ -204,7 +205,6 @@ const ConditionEditScreen = ({ navigation, route }) => {
         showConfirmDialog: showConfirmDialog,
     });
 
-
     function utcStringToLocalDate(utcTimeString) {
         if (!utcTimeString) return null;
 
@@ -317,7 +317,11 @@ const ConditionEditScreen = ({ navigation, route }) => {
             )}
             <ScrollView style={{ backgroundColor: '#444654' }}>
                 <View style={styles.container}>
-                    <Card style={{backgroundColor: themeColors.conditionCardBackgroundColor}}>
+                    <Card
+                        style={{
+                            backgroundColor:
+                                themeColors.conditionCardBackgroundColor,
+                        }}>
                         <Card.Title
                             title={intl.formatMessage({
                                 id: 'conditionEditScreen.conditionPanel',
@@ -383,7 +387,8 @@ const ConditionEditScreen = ({ navigation, route }) => {
                                             setSelectedLocationId(itemValue)
                                         }
                                         style={{
-                                            backgroundColor: themeColors.conditionCardBackgroundColor,
+                                            backgroundColor:
+                                                themeColors.conditionCardBackgroundColor,
                                             flex: 1,
                                         }} // Here's the correction
                                     >

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FAB } from 'react-native-paper';
 
+// Version 1.0.0
 // Assuming themeColors is imported or defined elsewhere
 import { themeColors } from '../Styles/constants';
 

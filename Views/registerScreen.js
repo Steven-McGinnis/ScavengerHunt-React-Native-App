@@ -23,6 +23,7 @@ import CustomSnackbar from '../Components/customSnackBar';
 // Redux slices
 import { addAuthToken } from '../Model/Slices/authSlice';
 
+// Version 1.0.0
 const Register = ({ navigation }) => {
     const dispatch = useDispatch();
     const intl = useIntl();

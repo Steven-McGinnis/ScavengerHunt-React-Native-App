@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
 
+// Version 1.0.0
 const HuntDetailCard = ({ title, huntid, completed }) => {
     return (
         <Card style={styles.card}>

@@ -30,6 +30,7 @@ import { useNavigation } from '@react-navigation/native';
 import completedImage from '../assets/completionBadge.png';
 import { useFocusEffect } from '@react-navigation/native';
 
+// Version 1.0.0
 const ActiveHunts = () => {
     // Auth Token
     const authTokenValue = useSelector((state) => state.authSlice.authToken);

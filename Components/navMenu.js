@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux'; // Import the useDispatch hook
 import { addAuthToken } from '../Model/Slices/authSlice';
 
+// Version 1.0.0
 const NavMenu = () => {
     const navigation = useNavigation();
     const [visible, setVisible] = useState(false);

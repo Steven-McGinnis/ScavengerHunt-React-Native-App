@@ -14,6 +14,7 @@ import apiCall from '../Helper/apiCall';
 // Redux slices
 import { addAuthToken } from '../Model/Slices/authSlice';
 
+// Version 1.0.0
 const SplashScreen = ({ navigation }) => {
     const authTokenValue = useSelector((state) => state.authSlice.authToken);
     const dispatch = useDispatch();

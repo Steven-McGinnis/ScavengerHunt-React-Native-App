@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+// Version 1.0.0
 const CustomSnackbar = ({
     visible,
     onDismiss,

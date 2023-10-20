@@ -18,6 +18,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import logger from 'redux-logger';
 
+// Version 1.0.0
 const reducers = combineReducers({
     huntSlice: huntSlice,
     authSlice: authSlice,

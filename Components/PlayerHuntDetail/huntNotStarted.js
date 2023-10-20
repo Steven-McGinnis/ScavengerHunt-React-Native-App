@@ -4,6 +4,7 @@ import { Card } from 'react-native-paper';
 import { styles } from '../../Styles/styles';
 import { themeColors } from '../../Styles/constants';
 
+// Version 1.0.0
 const HuntNotStarted = ({ onPress }) => {
     return (
         <View>

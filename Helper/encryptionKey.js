@@ -1,6 +1,7 @@
 // encyptionKey.js
 import { useState, useEffect } from 'react';
 
+// Version 1.0.0
 const generateEncryptionKey = (location) => {
     // Generate encryption key based on location
 

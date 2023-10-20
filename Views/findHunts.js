@@ -24,6 +24,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { useNavigation } from '@react-navigation/native';
 import completedImage from '../assets/completionBadge.png';
 
+// Version 1.0.0
 const FindHunts = () => {
     const navigation = useNavigation();
 

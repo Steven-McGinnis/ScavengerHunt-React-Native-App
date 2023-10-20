@@ -4,6 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { styles } from '../Styles/styles';
 import useLocationTracking from '../Helper/useLocationTracking';
 
+// Version 1.0.0
 const MapLocationScreen = ({ route }) => {
     const {
         location,

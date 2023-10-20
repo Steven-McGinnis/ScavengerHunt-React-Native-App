@@ -32,6 +32,7 @@ import {
     addHuntLocations,
 } from '../Model/Slices/huntSlice';
 
+// Version 1.0.0
 const HuntDetailScreen = ({ navigation, route }) => {
     // Extracting route parameters
     const { active, huntid, name, completed, isViewing } = route.params;

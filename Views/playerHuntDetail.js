@@ -26,6 +26,7 @@ import NavMenu from '../Components/navMenu';
 import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
 
+// Version 1.0.0
 const PlayerHuntDetail = (route) => {
     // Redux State
     const authTokenValue = useSelector((state) => state.authSlice.authToken);

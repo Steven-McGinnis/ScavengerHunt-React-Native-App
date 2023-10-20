@@ -19,6 +19,7 @@ import completedImage from '../assets/completionBadge.png';
 import { styles } from '../Styles/styles';
 import { themeColors } from '../Styles/constants';
 
+// Version 1.0.0
 const CompletedHunts = () => {
     // Auth Token
     const authTokenValue = useSelector((state) => state.authSlice.authToken);

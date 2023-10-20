@@ -7,6 +7,7 @@ import { getDistance } from 'geolib';
 import { Dialog, Portal } from 'react-native-paper';
 import { useState } from 'react';
 
+// Version 1.0.0
 // Utility function to calculate distance between two coordinates
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
     return getDistance(

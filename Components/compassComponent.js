@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
 
+// Version 1.0.0
 const Compass = () => {
     const [heading, setHeading] = useState(0);
     const [direction, setDirection] = useState('');

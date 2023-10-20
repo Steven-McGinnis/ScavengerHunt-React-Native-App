@@ -1,3 +1,4 @@
+// Version 1.0.0
 export const themeColors = {
     // Buttons
     backgroundcolors: '#1c1c1c',

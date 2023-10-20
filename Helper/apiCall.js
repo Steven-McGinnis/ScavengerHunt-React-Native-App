@@ -1,5 +1,6 @@
 import { BASE_API_URL } from '@env';
 
+// Version 1.0.0
 const apiCall = async ({ endpointSuffix, data = {}, debug = false }) => {
     let formData = new FormData();
     for (let key in data) {

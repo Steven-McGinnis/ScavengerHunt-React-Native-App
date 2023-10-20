@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const FindHuntsRoute = () => <FindHunts />;
 const ActiveHuntsRoute = () => <ActiveHunts />;
-
+// Version 1.0.0
 const BottomNav = () => {
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([

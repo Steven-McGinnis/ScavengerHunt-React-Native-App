@@ -39,6 +39,7 @@ import timeHelper from '../Helper/timeHelper';
 import CustomFABGroup from '../Components/customFABGroup';
 import { useLocationDetailFabActions } from '../Helper/fabActions';
 
+// Version 1.0.0
 const LocationDetailScreen = ({ navigation, route }) => {
     // Props and External Hooks
     const { location, currentName, huntid } = route.params;

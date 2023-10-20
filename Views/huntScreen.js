@@ -29,6 +29,7 @@ import { useHuntActions } from '../Helper/fabActions.js';
 // Redux slices
 import { addHunt, clearHunts } from '../Model/Slices/huntSlice';
 
+// Version 1.0.0
 const HuntScreen = ({ navigation }) => {
     // Redux hooks
     const dispatch = useDispatch();
@@ -163,7 +164,6 @@ const HuntScreen = ({ navigation }) => {
 
     // FAB actions
     const actions = useHuntActions({ setOpenCreateNewHunt });
-
 
     return (
         <View style={styles.container}>

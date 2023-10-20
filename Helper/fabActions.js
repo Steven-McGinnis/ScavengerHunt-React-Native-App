@@ -2,6 +2,7 @@
 import { themeColors } from '../Styles/constants';
 import { useIntl } from 'react-intl';
 
+// Version 1.0.0
 export const useHuntDetailFabActions = ({
     publishHunt,
     unpublishHunt,

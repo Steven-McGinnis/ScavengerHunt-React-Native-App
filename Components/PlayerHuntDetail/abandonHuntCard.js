@@ -5,6 +5,7 @@ import { styles } from '../../Styles/styles';
 import { themeColors } from '../../Styles/constants';
 import { useIntl } from 'react-intl';
 
+// Version 1.0.0
 const AbandonHuntCard = ({ onPress }) => {
     const intl = useIntl();
     return (

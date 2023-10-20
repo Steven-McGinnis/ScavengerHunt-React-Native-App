@@ -14,6 +14,7 @@ import { themeColors } from '../../Styles/constants';
 import { styles } from '../../Styles/styles';
 import { customTheme } from '../../Styles/paperTheme';
 
+// Version 1.0.0
 export function LocationDetails({
     location,
     currentLocationName,
