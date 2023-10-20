@@ -9,7 +9,8 @@ const HuntNotStarted = ({ onPress }) => {
         <View>
             <Card
                 style={{
-                    backgroundColor: themeColors.locationSetCardBackgroundColor,
+                    backgroundColor: themeColors.locationCardBackgroundColor,
+                    marginBottom: 10,
                 }}>
                 <Card.Title
                     titleStyle={{ color: '#FFF', fontSize: 20 }}
@@ -22,8 +23,12 @@ const HuntNotStarted = ({ onPress }) => {
                     }}>
                     <TouchableOpacity onPress={onPress}>
                         <Image
-                            source={require('../../assets/startHunt.png')}
-                            style={{ width: 200, height: 200 }}
+                            source={require('../../assets/checkIn.png')}
+                            style={{
+                                width: 200,
+                                height: 200,
+                                borderRadius: 10,
+                            }}
                         />
                     </TouchableOpacity>
                 </Card.Content>

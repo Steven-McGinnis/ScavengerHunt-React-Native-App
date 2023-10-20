@@ -20,6 +20,7 @@ import CompassComponent from '../Components/compassComponent';
 import apiCall from '../Helper/apiCall';
 import useLocationTracking from '../Helper/useLocationTracking';
 import { usePlayerHuntDetailFabActions } from '../Helper/fabActions';
+import NavMenu from '../Components/navMenu';
 
 // Styling
 import { styles } from '../Styles/styles';
@@ -49,8 +50,10 @@ const PlayerHuntDetail = (route) => {
     const [displayCompass, setDisplayCompass] = React.useState(false);
     const [confirmDialogVisible, setConfirmDialogVisible] =
         React.useState(false);
-    const [hintDialogVisible, setHintDialogVisible] = React.useState(false);
-    const [hintDialogContent, setHintDialogContent] = React.useState('');
+    const [showHelpDialogVisible, setShowHelpDialogVisible] =
+        React.useState(false);
+    const [showHelpDialogContent, setShowHelpDialogContent] =
+        React.useState('');
     const [locationDialogVisible, setLocationDialogVisible] =
         React.useState(false);
     const [locationDialogContent, setLocationDialogContent] =
@@ -73,7 +76,11 @@ const PlayerHuntDetail = (route) => {
 
     useFocusEffect(
         useCallback(() => {
-            if (completed !== null) getLocations();
+            if (completed !== null) {
+                getLocations();
+            } else {
+                setLoading(false);
+            }
         }, [])
     );
 
@@ -233,14 +240,24 @@ const PlayerHuntDetail = (route) => {
         setLoading(false);
     };
 
+    const showHelp = () => {
+        setShowHelpDialogContent(
+            `Tapping on a Completed Hunt Shows all checkins description details and other information about the location in a hunt.\n\n When close to a point a circle will appear on the right side of the location. They go from: \n\n Red: 50 Meters\n Purple: 40 Meters\n Orange: 30 Meters\n Yellow: 20 Meters\n Green: 10 Meters 
+            \nWhen you think your close enough to the locations you can try tapping on it and it will check you in if you are close enough. \n\n`
+        );
+        setShowHelpDialogVisible(true);
+    };
+
     const actions = usePlayerHuntDetailFabActions({
         showConfirmDialog,
         themeColors,
         setDisplayCompass,
+        showHelp,
     });
 
     return (
         <View style={styles.container2}>
+            <NavMenu />
             <Portal>
                 <Dialog
                     visible={confirmDialogVisible}
@@ -278,6 +295,25 @@ const PlayerHuntDetail = (route) => {
                         <Button onPress={hideLocationDialog}>OK</Button>
                     </Dialog.Actions>
                 </Dialog>
+
+                <Dialog
+                    visible={showHelpDialogVisible}
+                    onDismiss={() => setShowHelpDialogVisible(false)}
+                    style={styles.dialog}>
+                    <Dialog.Title style={styles.dialogTitle}>Help</Dialog.Title>
+                    <Dialog.Content>
+                        <ScrollView>
+                            <Paragraph style={styles.dialogContent}>
+                                {showHelpDialogContent}
+                            </Paragraph>
+                        </ScrollView>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={() => setShowHelpDialogVisible(false)}>
+                            OK
+                        </Button>
+                    </Dialog.Actions>
+                </Dialog>
             </Portal>
 
             {displayCompass ? <CompassComponent /> : null}
@@ -287,6 +323,7 @@ const PlayerHuntDetail = (route) => {
                 huntid={huntid}
                 completed={completionData}
             />
+
             {completed === null ? (
                 <HuntNotStarted onPress={() => startHunt()} />
             ) : null}

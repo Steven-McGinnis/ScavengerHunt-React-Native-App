@@ -192,6 +192,7 @@ export const usePlayerHuntDetailFabActions = ({
     showConfirmDialog,
     themeColors,
     setDisplayCompass,
+    showHelp,
 }) => {
     return [
         {
@@ -205,6 +206,13 @@ export const usePlayerHuntDetailFabActions = ({
             icon: 'compass',
             label: 'Show Compass',
             onPress: () => setDisplayCompass((prevState) => !prevState),
+            style: { backgroundColor: themeColors.buttonColor },
+            color: themeColors.fabIconColor,
+        },
+        {
+            icon: 'help-circle',
+            label: 'Show Help',
+            onPress: () => showHelp(),
             style: { backgroundColor: themeColors.buttonColor },
             color: themeColors.fabIconColor,
         },
