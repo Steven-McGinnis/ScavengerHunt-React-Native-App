@@ -6,13 +6,7 @@ import useLocationTracking from '../Helper/useLocationTracking';
 
 // Version 1.0.0
 const MapLocationScreen = ({ route }) => {
-    const {
-        location,
-        locationName,
-        huntid,
-        currentLatitude,
-        currentLongitude,
-    } = route.params;
+    const { locationName, currentLatitude, currentLongitude } = route.params;
 
     const [region, setRegion] = useState({
         latitude: currentLatitude,
@@ -21,7 +15,7 @@ const MapLocationScreen = ({ route }) => {
         longitudeDelta: 0.01,
     });
 
-    const { locationData, startTracking, stopTracking } = useLocationTracking();
+    const { locationData } = useLocationTracking();
 
     useEffect(() => {
         if (locationData) {
