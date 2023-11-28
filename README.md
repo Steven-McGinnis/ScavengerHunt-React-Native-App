@@ -11,26 +11,29 @@ This is a Scavenger Hunt app built with React Native and Expo that allows users 
    ```
 
 2. **Install the required dependencies:**
-
    ```bash
    npm install
    ```
 
 ## Usage
 
-To use the Scavenger Hunt app, follow these steps:
+To use the Scavenger Hunt app with Expo, follow these steps:
 
-1. **Run the app:**
-
-   ```bash
-   npm start
-   ```
-
-2. **Open the app in your web browser:**
+1. **Start the Expo app:**
 
    ```bash
-   http://localhost:3000
+   expo start
    ```
+
+   This command will start the Metro Bundler, which is essential for running your Expo app.
+
+2. **Open the app on your device or simulator:**
+
+   - **iOS Simulator (Mac only):** Press `i` in the terminal after starting Expo.
+   - **Android Emulator:** Press `a` in the terminal after starting Expo.
+   - **Physical Device:** Scan the QR code with the Expo Go app available in your device's app store.
+
+   _Ensure you have Expo CLI installed. If not, install it using `npm install -g expo-cli`._
 
 ## Functionality
 
