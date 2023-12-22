@@ -17,7 +17,7 @@
             },
             "config": {
                 "googleMaps": {
-                    "apiKey": "AIzaSyD26FnDc1VVkOwuJYeJAmrtrVA5Fo47iv4"
+                    "apiKey": ""
                 }
             },
             "package": "com.stevenmcginnis.ScavengerHunt"
