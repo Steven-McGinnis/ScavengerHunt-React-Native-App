@@ -30,15 +30,15 @@ To set up the app on your local machine:
 
 2. Navigate to the project directory:
 
-```bash
-cd Scavenger-Hunt-App
-```
+   ```bash
+   cd Scavenger-Hunt-App
+   ```
 
 3. Install the required dependencies:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 ## Usage
 
